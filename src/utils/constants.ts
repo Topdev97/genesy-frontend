@@ -15,6 +15,6 @@ export const Tezos = new TezosToolkit(TEZOS_COLLECT_RPC_URL);
 export const TEZOS_COLLECT_WALLET = new BeaconWallet({
   name: "Genesy",
   preferredNetwork: TEZOS_COLLECT_NETWORK.type,
-  colorMode: ColorMode.DARK,
+  colorMode: ColorMode.LIGHT,
 });
 

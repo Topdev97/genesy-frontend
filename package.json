@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@airgap/beacon-sdk": "^3.3.0",
-    "@taquito/beacon-wallet": "^14.1.0",
-    "@taquito/taquito": "^14.1.0",
+    "@airgap/beacon-sdk": "^3.1.4",
+    "@taquito/beacon-wallet": "^14.0.0",
+    "@taquito/taquito": "^14.0.0",
+    "@taquito/utils": "^14.0.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",

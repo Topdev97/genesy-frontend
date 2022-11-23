@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
-import ConnectWallet from "../components/ConnectWallet";
-
+import CollectCard from "../components/CollectCard";
 const Home = () => {
   return (
-    <div>
-      <ConnectWallet />
+    <div className="flex justify-center">
+      <CollectCard />
     </div>
   );
 };

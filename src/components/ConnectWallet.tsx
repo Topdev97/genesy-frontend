@@ -40,15 +40,18 @@ const ConnectWallet = () => {
 
   return activeAddress.length === 0 ? (
     <button
-      className="bg-black text-white rounded-lg text-xl px-4 py-1"
+      className="bg-black text-white rounded-lg text-xl px-8 py-1 hover:bg-gray-600"
       onClick={onConnectWallet}
     >
       CONNECT
     </button>
   ) : (
-    <button className="" onClick={onDisconnectWallet}>
-      <div>{`${activeAddress.slice(0, -28)}...${activeAddress.substring(
-        30
+    <button
+      className="bg-black text-white rounded-lg text-xl px-4 py-1 hover:bg-gray-600"
+      onClick={onDisconnectWallet}
+    >
+      <div>{`${activeAddress.slice(0, -30)}...${activeAddress.substring(
+        32
       )}`}</div>
     </button>
   );

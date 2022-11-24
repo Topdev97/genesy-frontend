@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-const ProfileSideBar = () => {
+const ProfileBoard = () => {
   return (
-    <div className="flex w-48">
+    <div className="flex">
       <div className="uppercase">
         <div>created</div>
         <div>owned</div>
@@ -11,4 +11,4 @@ const ProfileSideBar = () => {
   );
 };
 
-export default ProfileSideBar;
+export default ProfileBoard;

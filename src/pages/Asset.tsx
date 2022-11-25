@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import CollectCard from "../components/CollectCard";
 import test from "../assets/1.png";
+
 const Asset = () => {
   return (
     <div className="flex px-24">

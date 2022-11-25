@@ -5,9 +5,13 @@ import Home from "./pages/Home";
 import Asset from "./pages/Asset";
 import Navbar from "./components/Navbar";
 import Profile from "./pages/Profile";
+import { useTheme } from "./context";
+
 function App() {
+  const { theme } = useTheme();
+
   return (
-    <>
+    <div className={`${theme}`}>
       <BrowserRouter>
         <Navbar />
         <Routes>
@@ -16,7 +20,7 @@ function App() {
           <Route path="/profile/:address/*" element={<Profile />} />
         </Routes>
       </BrowserRouter>
-    </>
+    </div>
   );
 }
 export default App;

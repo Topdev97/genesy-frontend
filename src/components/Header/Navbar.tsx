@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import ConnectWallet from "../components/ConnectWallet";
+import ConnectWallet from "./ConnectWallet";
 import { CiLight } from "react-icons/ci";
 import { SiMarketo } from "react-icons/si";
-import { useTheme } from "../context";
+import { useTheme } from "../../context";
 import { AiOutlineSetting } from "react-icons/ai";
 import { FaMoon } from "react-icons/fa";
 

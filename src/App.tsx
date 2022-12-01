@@ -3,7 +3,8 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Home from "./pages/Home";
 import Asset from "./pages/Asset";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/Header/Navbar";
+import Footer from "./components/Footer/Footer";
 import Profile from "./pages/Profile";
 import { useTheme } from "./context";
 
@@ -19,6 +20,7 @@ function App() {
           <Route path="/assets/:id" element={<Asset />} />
           <Route path="/profile/:address/*" element={<Profile />} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </div>
   );

@@ -1,15 +1,11 @@
 import { BsImage } from "react-icons/bs";
 import { FiTwitter } from "react-icons/fi";
 
-const SignUp = () => {
+const Edit = () => {
   return (
     <div className="max-w-[1024px] mx-auto py-24">
       <div className="w-96 flex flex-col">
-        <div className="text-3xl">Create a Genesy account</div>
-        <div className="py-6">
-          You are almost there... Enter the information related to your account.
-          You can always edit it later.
-        </div>
+        <div className="text-3xl">Edit profile</div>
         <div className="flex flex-col py-4">
           <div>USERNAME*</div>
           <input
@@ -59,10 +55,11 @@ const SignUp = () => {
             </div>
           </div>
         </div>
-        <button className="py-2 bg-black text-white w-24  my-4">SAVE</button>
+
+        <button className="py-2 bg-black text-white w-24  my-4">UPDATE</button>
       </div>
     </div>
   );
 };
 
-export default SignUp;
+export default Edit;

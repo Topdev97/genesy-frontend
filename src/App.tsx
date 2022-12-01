@@ -7,6 +7,7 @@ import Navbar from "./components/Header/Navbar";
 import Footer from "./components/Footer/Footer";
 import Profile from "./pages/Profile";
 import SignUp from "./pages/SignUp";
+import Edit from "./pages/Edit";
 import { useTheme } from "./context";
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/edit" element={<Edit />} />
           <Route path="/assets/:id" element={<Asset />} />
           <Route path="/profile/:address/*" element={<Profile />} />
         </Routes>

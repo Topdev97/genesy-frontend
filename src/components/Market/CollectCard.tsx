@@ -1,6 +1,6 @@
 import React from "react";
-import artist from "../assets/artist.svg";
-import test from "../assets/1.png";
+import artist from "../../assets/artist.svg";
+import test from "../../assets/1.png";
 const CollectCard = () => {
   return (
     <div className="flex py-4 flex-col ">
@@ -14,7 +14,7 @@ const CollectCard = () => {
             <div>Floating Colors</div>
             <div>1h56 ago</div>
           </div>
-          <img src={test} alt="test" className="w-64 h-64 " />
+          <img src={test} alt="test" />
         </div>
         <div className="nft-price text-end">| 150 TZ</div>
       </div>

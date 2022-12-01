@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import CollectCard from "../components/CollectCard";
+import CollectCard from "../components/Market/CollectCard";
 import test from "../assets/1.png";
 
 const Asset = () => {

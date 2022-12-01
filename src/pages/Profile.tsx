@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from "react";
-import CollectCard from "../components/CollectCard";
+import CollectCard from "../components/Market/CollectCard";
 import ProfileSideBar from "../components/ProfileSideBar";
 import ProfileTabs from "../components/ProfileTabs/ProfileTabs";
 import LinkWithSearchParams from "../components/LinkWithSearchParams";

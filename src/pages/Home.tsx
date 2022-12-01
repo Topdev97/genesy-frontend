@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from "react";
-import CollectCard from "../components/CollectCard";
-
 import { TbMinusVertical, TbMinus } from "react-icons/tb";
-const Home = () => {
-  const [testCollect, setTestCollect] = useState<any>([3, 2, 21, 23, 412]);
-  const [enabled, setEnabled] = useState(false);
-  useEffect(() => {
-    const test = testCollect.reverse();
-    setTestCollect(test);
-  }, [enabled]);
+import { FaSort } from "react-icons/fa";
+import PrimaryFeed from "../components/Market/PrimaryFeed";
+import SeconddaryFeed from "../components/Market/SeconddaryFeed";
+const SortBoard = () => {
   return (
-    <div className="max-w-[1280px] mx-auto py-24">
+    <div className="absolute top-8 bg-white  w-32 right-0 menu-shadow">
+      <div className="px-4 py-2 hover:bg-gray-200">Chronogical</div>
+      <div className="px-4 py-2 hover:bg-gray-200">Curated</div>
+    </div>
+  );
+};
+const Home = () => {
+  const [isControl, setIsControl] = useState<boolean>(false);
+  return (
+    <div className="max-w-[1024px] mx-auto py-24">
       <div className="w-3/5 flex flex-col gap-5">
         <div className="uppercase font-bold text-2xl">sommething rare</div>
         <div>
@@ -20,7 +24,7 @@ const Home = () => {
           aliquip ex ea commodo consequat.
         </div>
       </div>
-      <div className="border-b-2 border-black pb-2 mt-24">
+      <div className=" pb-2 mt-24">
         <div className="flex gap-8">
           <button className="w-6 h-6 bg-black flex justify-center items-center">
             <TbMinus className="text-white text-3xl " />
@@ -29,13 +33,13 @@ const Home = () => {
             <TbMinusVertical className="text-3xl" />
           </button>
         </div>
-      </div>
-      <div className="grid grid-cols-2 gap-4">
-        {testCollect.map((value: any, index: any) => (
-          <div className="flex justify-center" key={index}>
-            <CollectCard />
-          </div>
-        ))}
+        <div className="border-b-2 border-black my-2"></div>
+        <div className="flex justify-end relative">
+          <FaSort onClick={() => setIsControl(!isControl)} />
+          {isControl && <SortBoard />}
+        </div>
+        <SeconddaryFeed />
+        {/* <PrimaryFeed /> */}
       </div>
     </div>
   );

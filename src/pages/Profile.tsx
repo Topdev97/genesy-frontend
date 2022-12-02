@@ -26,7 +26,7 @@ const Profile = () => {
       <div className="flex justify-between">
         <div>
           <div className="text-2xl font-bold">Artist Name</div>
-          <div>Independent Artist of Generative Art</div>
+          <div className="pb-8 pt-4">Independent Artist of Generative Art</div>
         </div>
         <BsBookmark className="font-bold" />
       </div>

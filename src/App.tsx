@@ -8,6 +8,7 @@ import Footer from "./components/Footer/Footer";
 import Profile from "./pages/Profile";
 import SignUp from "./pages/SignUp";
 import Edit from "./pages/Edit";
+import Mint from "./pages/Mint";
 import { useTheme } from "./context";
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/edit" element={<Edit />} />
           <Route path="/assets/:id" element={<Asset />} />
+          <Route path="/mint" element={<Mint />} />
           <Route path="/profile/:address/*" element={<Profile />} />
         </Routes>
         <Footer />

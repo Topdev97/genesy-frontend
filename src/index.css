@@ -10,3 +10,8 @@
   writing-mode: vertical-rl;
   text-orientation: upright;
 }
+.active-dot::after {
+  content: "◾";
+  text-align: center;
+  height: 15px;
+}

@@ -3,7 +3,8 @@ import CollectCard from "../components/Market/CollectCard";
 import ProfileSideBar from "../components/ProfileSideBar";
 import ProfileTabs from "../components/ProfileTabs/ProfileTabs";
 import LinkWithSearchParams from "../components/LinkWithSearchParams";
-import { BsTwitter } from "react-icons/bs";
+import { BsTwitter, BsBookmark } from "react-icons/bs";
+
 import { useParams } from "react-router-dom";
 const Profile = () => {
   const { address } = useParams();
@@ -11,39 +12,32 @@ const Profile = () => {
     () => [
       {
         path: `/profile/${address}/created`,
-        text: "created",
+        text: "CREATED",
       },
       {
         path: `/profile/${address}/owned`,
-        text: "owned",
-      },
-      {
-        path: `/profile/${address}/onsale`,
-        text: "onsale",
+        text: "OWNED",
       },
     ],
     [address]
   );
   return (
-    <div className="flex flex-col px-24 pt-12">
-      <div className="flex">
-        <div className="w-48 h-12"></div>
-        <div className="flex flex-col gap-2">
-          <div className="font-bold">Iskra Velitchkova</div>
-          <div>Indepenedent Artist of Generative Art</div>
-          <BsTwitter />
-        </div>
-      </div>
-      <div className="flex">
+    <div className="max-w-[1024px] mx-auto py-24">
+      <div className="flex justify-between">
         <div>
+          <div className="text-2xl font-bold">Artist Name</div>
+          <div>Independent Artist of Generative Art</div>
+        </div>
+        <BsBookmark className="font-bold" />
+      </div>
+      <div className="flex flex-col">
+        <div className="flex border-b-2 border-black">
           {TAB_LIST.map((link, index) => (
             <LinkWithSearchParams
               key={index}
               className={({ isActive }: { isActive: boolean }) =>
-                `whitespace-nowrap flex-1 font-semibold cursor-pointer hover:text-tezLightGr ${
-                  isActive
-                    ? "border-b-2 border-b-tezGrSt text-tezGr outline-0"
-                    : ""
+                `flex flex-col font-medium ${
+                  isActive ? "active-dot" : "text-gray-700"
                 }`
               }
               to={{
@@ -53,6 +47,12 @@ const Profile = () => {
               <div className="p-2 text-center">{link.text}</div>
             </LinkWithSearchParams>
           ))}
+        </div>
+        <div className="flex justify-end py-2">
+          <div className="flex gap-2 items-center">
+            <label htmlFor="onlySale">On sale only</label>
+            <input type="checkbox" name="onlySale" id="onlySale" />
+          </div>
         </div>
         <ProfileTabs />
       </div>

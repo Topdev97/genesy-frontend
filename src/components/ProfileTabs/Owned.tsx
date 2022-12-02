@@ -1,6 +1,16 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import CollectCard from "../Market/CollectCard";
+import { useState } from "react";
 const Owned = () => {
-  return <div>asdasd</div>;
+  const [testCollect, setTestCollect] = useState<any>([3, 2, 1]);
+  return (
+    <div className="flex gap-12">
+      {testCollect.map((value: any, index: any) => (
+        <div className="" key={index}>
+          <CollectCard />
+        </div>
+      ))}
+    </div>
+  );
 };
 
 export default Owned;

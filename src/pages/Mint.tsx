@@ -53,7 +53,7 @@ const Mint = () => {
     })();
   };
   return (
-    <div className="max-w-[1024px] mx-auto py-24">
+    <div className="max-w-[1024px] mx-auto py-24 sm:px-8 lg:px-0">
       <div className="text-3xl font-medium">Mint a new piece of art</div>
       <div className="flex flex-col py-4 gap-2">
         <div>TITLE*</div>

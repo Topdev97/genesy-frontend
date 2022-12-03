@@ -9,7 +9,7 @@ import { FaMoon } from "react-icons/fa";
 const Navbar = () => {
   const { theme, setTheme } = useTheme();
   return (
-    <div className="flex justify-between items-center py-4 max-w-[1024px] mx-auto">
+    <div className="flex justify-between items-center py-4 max-w-[1024px] mx-auto sm:px-8 lg:px-0">
       <div>
         <div className="text-3xl border-r-8 border-black pr-4 ">GENESY</div>
       </div>

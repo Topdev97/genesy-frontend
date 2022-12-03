@@ -3,7 +3,7 @@ import { FiTwitter } from "react-icons/fi";
 const Footer = () => {
   return (
     <div className=" bg-black">
-      <div className=" text-white flex justify-between py-12 h-60 max-w-[1024px] mx-auto">
+      <div className=" text-white flex justify-between py-12 h-60 max-w-[1024px] mx-auto sm:px-8 lg:px-0">
         <div className="flex flex-col justify-between">
           <div className="text-xl border-r-8 border-white pr-4 ">GENESY</div>
           <div className="text-sm">

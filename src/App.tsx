@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Home from "./pages/Home";
@@ -16,11 +16,10 @@ import { useTezosCollectStore } from "./store";
 
 function App() {
   const { theme } = useTheme();
-  const { activeAddress, contractReady, initializeContracts } =
-    useTezosCollectStore();
+  const { initializeContracts } = useTezosCollectStore();
   useEffect(() => {
     initializeContracts();
-  }, []);
+  }, [initializeContracts]);
   return (
     <div className={`${theme}`}>
       <BrowserRouter>

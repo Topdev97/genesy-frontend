@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Home from "./pages/Home";
@@ -12,10 +12,15 @@ import Mint from "./pages/Mint";
 import Faq from "./pages/Faq";
 import Nft from "./pages/Nft";
 import { useTheme } from "./context";
+import { useTezosCollectStore } from "./store";
 
 function App() {
   const { theme } = useTheme();
-
+  const { activeAddress, contractReady, initializeContracts } =
+    useTezosCollectStore();
+  useEffect(() => {
+    initializeContracts();
+  }, []);
   return (
     <div className={`${theme}`}>
       <BrowserRouter>

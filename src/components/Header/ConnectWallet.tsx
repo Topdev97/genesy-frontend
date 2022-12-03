@@ -49,20 +49,20 @@ const ConnectWallet = () => {
       SIGN IN
     </button>
   ) : (
-    <div className="relative flex items-center">
-      <button onClick={() => setIsMenu(!isMenu)}>
-        <img src={user} alt="test" />
-      </button>
-      {isMenu && <Menu />}
-    </div>
-    // <button
-    //   className="bg-black text-white rounded-lg text-xl px-4 py-1 hover:bg-gray-600"
-    //   onClick={onDisconnectWallet}
-    // >
-    //   <div>{`${activeAddress.slice(0, -30)}...${activeAddress.substring(
-    //     32
-    //   )}`}</div>
-    // </button>
+    // <div className="relative flex items-center">
+    //   <button onClick={() => setIsMenu(!isMenu)}>
+    //     <img src={user} alt="test" />
+    //   </button>
+    //   {isMenu && <Menu />}
+    // </div>
+    <button
+      className="bg-black text-white rounded-lg text-xl px-4 py-1 hover:bg-gray-600"
+      onClick={onDisconnectWallet}
+    >
+      <div>{`${activeAddress.slice(0, -30)}...${activeAddress.substring(
+        32
+      )}`}</div>
+    </button>
   );
 };
 

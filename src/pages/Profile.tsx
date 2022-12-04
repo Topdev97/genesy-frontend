@@ -26,9 +26,29 @@ const Profile = () => {
       <div className="flex justify-between">
         <div>
           <div className="text-2xl font-bold">Artist Name</div>
-          <div className="pb-8 pt-4">Independent Artist of Generative Art</div>
+          <div className="py-4">Independent Artist of Generative Art</div>
         </div>
         <BsBookmark className="font-bold" />
+      </div>
+      <div className="flex gap-4 pb-8">
+        <button className="bg-black text-white px-4 py-1 border border-black  hover:text-black hover:bg-white">
+          <LinkWithSearchParams
+            to={{
+              pathname: "/mint",
+            }}
+          >
+            MINT
+          </LinkWithSearchParams>
+        </button>
+        <button className="bg-black text-white px-4 py-1 border border-black  hover:text-black hover:bg-white">
+          <LinkWithSearchParams
+            to={{
+              pathname: "/edit",
+            }}
+          >
+            EDIT
+          </LinkWithSearchParams>
+        </button>
       </div>
       <div className="flex flex-col">
         <div className="flex border-b-2 border-black">

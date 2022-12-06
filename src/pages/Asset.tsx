@@ -4,7 +4,7 @@ import test from "../assets/1.png";
 
 const Asset = () => {
   return (
-    <div className="flex px-24">
+    <div className="flex px-24 max-w-[1024px] mx-auto py-24 sm:px-8 lg:px-0">
       <div className="flex flex-col">
         <div className="flex gap-10 items-center">
           <CollectCard />

@@ -3,7 +3,7 @@ import { FiTwitter } from "react-icons/fi";
 
 const Edit = () => {
   return (
-    <div className="max-w-[1024px] mx-auto py-24">
+    <div className="max-w-[1024px] mx-auto py-24 sm:px-8 lg:px-0">
       <div className="w-96 flex flex-col">
         <div className="text-3xl">Edit profile</div>
         <div className="flex flex-col py-4">

@@ -4,12 +4,13 @@ import {
   TEZOS_COLLECT_NETWORK,
   TEZOS_COLLECT_WALLET,
 } from "../../utils/constants";
-
+import { useNavigate } from "react-router-dom";
 import { useTezosCollectStore } from "../../store";
 import user from "../../assets/user.svg";
 import artist from "../../assets/artist.svg";
 import Menu from "./Menu";
 const ConnectWallet = () => {
+  const navigate = useNavigate();
   const [isMenu, setIsMenu] = useState<boolean>(false);
   const { activeAddress } = useTezosCollectStore();
   const setActiveAddress = useTezosCollectStore(
@@ -22,6 +23,7 @@ const ConnectWallet = () => {
     });
     const _activeAddress = await TEZOS_COLLECT_WALLET.getPKH();
     setActiveAddress(_activeAddress);
+    navigate("/signup");
   };
 
   const onDisconnectWallet = async () => {

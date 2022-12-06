@@ -22,7 +22,7 @@ const Profile = () => {
     [address]
   );
   return (
-    <div className="max-w-[1024px] mx-auto py-24">
+    <div className="max-w-[1024px] mx-auto py-24 sm:px-8 lg:px-0">
       <div className="flex justify-between">
         <div>
           <div className="text-2xl font-bold">Artist Name</div>

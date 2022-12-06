@@ -9,7 +9,7 @@ import LinkWithSearchParams from "../LinkWithSearchParams";
 const Navbar = () => {
   const { theme, setTheme } = useTheme();
   return (
-    <div className="flex justify-between items-center py-4 max-w-[1024px] mx-auto sm:px-8 lg:px-0">
+    <div className="flex justify-between items-center py-12 max-w-[1024px] mx-auto sm:px-8 lg:px-0">
       <LinkWithSearchParams
         to={{
           pathname: "/",

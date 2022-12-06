@@ -45,10 +45,10 @@ const ConnectWallet = () => {
 
   return activeAddress.length === 0 ? (
     <button
-      className="bg-black text-white rounded text-xl px-8 py-1 hover:bg-gray-600"
+      className="bg-black text-white rounded text-xl px-4 hover:bg-gray-600"
       onClick={onConnectWallet}
     >
-      SIGN IN
+      SYNC
     </button>
   ) : (
     <div className="relative flex items-center">

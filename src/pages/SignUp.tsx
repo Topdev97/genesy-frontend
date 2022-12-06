@@ -1,5 +1,4 @@
-import { BsImage } from "react-icons/bs";
-import { FiTwitter } from "react-icons/fi";
+import spinner from "../assets/spinner.svg";
 import { ChangeEvent, useState, useEffect } from "react";
 import ImageDropZone from "../components/ImageDropZone";
 import { pinToIpfs } from "../utils/utils";
@@ -36,6 +35,7 @@ const SignUp = () => {
   const saveProfile = async () => {
     if (imageObject) {
       try {
+        setIsLoad(true);
         const cid = await pinToIpfs(imageObject);
         setProfile(`https://${cid}.ipfs.nftstorage.link`);
         let payload = {
@@ -51,8 +51,10 @@ const SignUp = () => {
         );
         console.log("res", res);
         navigate("/home/primary");
+        setIsLoad(false);
       } catch (error) {
         console.log(error);
+        setIsLoad(false);
       }
     }
   };
@@ -139,10 +141,21 @@ const SignUp = () => {
           </div>
         </div>
         <button
-          className="py-2 bg-black text-white w-24  my-4"
+          className="py-2 bg-black text-white w-32  my-4 hover:bg-gray-600"
           onClick={() => saveProfile()}
         >
-          SAVE
+          {isLoad ? (
+            <div className="flex items-center justify-center">
+              <img
+                src={spinner}
+                alt="spinner"
+                className="inline mr-3 w-4 h-4 text-white animate-spin"
+              />
+              SAVING...
+            </div>
+          ) : (
+            <div>SAVE</div>
+          )}
         </button>
       </div>
     </div>

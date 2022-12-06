@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Home from "./pages/Home";
-import Asset from "./pages/Asset";
+import Buy from "./pages/Buy";
 import Navbar from "./components/Header/Navbar";
 import Footer from "./components/Footer/Footer";
 import Profile from "./pages/Profile";
@@ -13,6 +13,7 @@ import Faq from "./pages/Faq";
 import Nft from "./pages/Nft";
 import { useTheme } from "./context";
 import { useTezosCollectStore } from "./store";
+import ListforSale from "./pages/ListforSale";
 
 function App() {
   const { theme } = useTheme();
@@ -29,7 +30,8 @@ function App() {
           <Route path="/home/*" element={<Home />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/edit" element={<Edit />} />
-          <Route path="/assets/:id" element={<Asset />} />
+          <Route path="/assets/:id" element={<Buy />} />
+          <Route path="/collection/:id" element={<ListforSale />} />
           <Route path="/faq" element={<Faq />} />
           <Route path="/mint" element={<Mint />} />
           <Route path="/nft" element={<Nft />} />

@@ -1,5 +1,5 @@
 import { BsImage } from "react-icons/bs";
-import { useEffect, useState, ChangeEvent } from "react";
+import { useState, ChangeEvent } from "react";
 import { NFT_STORAGE_KEY } from "../utils/constants";
 import { NFTStorage, File } from "nft.storage";
 import { useTezosCollectStore } from "../store";

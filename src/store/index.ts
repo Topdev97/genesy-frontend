@@ -34,6 +34,11 @@ interface ITezosState {
     (tokenId: number, price: number): Promise<boolean>;
   };
 
+  
+  cancelForSale: {
+    (tokenId: number): Promise<boolean>;
+  };
+
   listForSale: {
     (
       tokenId: number,
@@ -124,6 +129,46 @@ export const useTezosCollectStore = create<ITezosState>((set, get) => ({
 
     return true;
   },
+
+  cancelForSale: async (
+    tokenId: number
+    // durationId: number
+  ) => {
+    if (get().activeAddress === "") {
+      alert("Need to connect wallet first!");
+      return false;
+    }
+    if (get().contractReady === false) return false;
+
+    const _marketPlaceContract = get().marketPlaceContract;
+    const _txOp: any = await _marketPlaceContract?.methods
+      .cancel_for_sale(tokenId)
+      .send();
+
+    // get().setCurrentTransaction({
+    //   txHash: _txOp.opHash,
+    //   txStatus: "TX_SUBMIT",
+    // });
+    // await _txOp.confirmation(1);
+
+    // const _domain = get().findDomainByTokenId(tokenId);
+    // createDomainActivity({
+    //   ...initializeDomainActivity(),
+    //   name: _domain?.name || "",
+    //   type: "DELIST_FOR_SALE",
+    //   txHash: _txOp.opHash,
+    //   amount: _domain?.price || 0,
+    //   from: get().activeAddress,
+    //   to: _domain?.owner || "",
+    // });
+    // get().setCurrentTransaction({
+    //   txHash: _txOp.opHash,
+    //   txStatus: "TX_SUCCESS",
+    // });
+
+    return true;
+  },
+
   listForSale: async (
     tokenId: number,
     includingOperator: boolean,

@@ -14,6 +14,7 @@ import Nft from "./pages/Nft";
 import { useTheme } from "./context";
 import { useTezosCollectStore } from "./store";
 import ListforSale from "./pages/ListforSale";
+import CancelforSale from "./pages/CancelforSale";
 
 function App() {
   const { theme } = useTheme();
@@ -32,6 +33,7 @@ function App() {
           <Route path="/edit" element={<Edit />} />
           <Route path="/assets/:id" element={<Buy />} />
           <Route path="/collection/:id" element={<ListforSale />} />
+          <Route path="/col/:id" element={<CancelforSale />} />
           <Route path="/faq" element={<Faq />} />
           <Route path="/mint" element={<Mint />} />
           <Route path="/nft" element={<Nft />} />

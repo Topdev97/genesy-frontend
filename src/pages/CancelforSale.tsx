@@ -2,18 +2,21 @@ import React, { useEffect, useState } from "react";
 import CollectCard from "../components/Market/CollectCard";
 import test from "../assets/1.png";
 import { useTezosCollectStore } from "../store";
-import { IoLink } from "react-icons/io5";
 import user from "../assets/user.svg";
 
-const Asset = () => {
-  const { buyForSale } = useTezosCollectStore();
-  const [domain, setDomain] = useState<any>(undefined);
-  const onBuyForSale = async () => {
-    // await buyForSale(domain?.tokenId || -1, domain?.price || 0);
-    await buyForSale(2, 12);
+import { IoLink } from "react-icons/io5";
+
+const CancelforSale = () => {
+  const { cancelForSale } = useTezosCollectStore();
+  const [price, setPrice] = useState<string>("");
+  const [isLoad, setIsLoad] = useState<boolean>(false);
+
+  const onCancelForSale = async () => {
+    await cancelForSale(1);
   };
+
   return (
-    <div className="max-w-[1024px] mx-auto py-24 sm:px-8 lg:px-0">
+    <div className="max-w-[1024px] mx-auto py-24  sm:px-8 lg:px-0">
       <div className="flex gap-24">
         <img src={test} alt="test" className="w-1/2" />
         <div className="w-1/2 flex flex-col gap-4">
@@ -40,19 +43,12 @@ const Asset = () => {
               <div className="text-2xl font-bold">Owner name</div>
             </div>
           </div>
-          <div>
-            <div>__ PRICE</div>
-            <div className="flex gap-2 items-center  my-4">
-              <div className="">
-                <span className="text-2xl font-bold">770 XTZ</span> USD 765,38
-              </div>
-            </div>
-          </div>
+
           <button
-            className="w-32 bg-black text-white py-2 hover:bg-gray-500"
-            onClick={() => onBuyForSale()}
+            className="w-40 bg-black text-white py-2 hover:bg-gray-500"
+            onClick={() => onCancelForSale()}
           >
-            BUY NOW
+            CANCEL SALE
           </button>
         </div>
       </div>
@@ -123,4 +119,4 @@ const Asset = () => {
   );
 };
 
-export default Asset;
+export default CancelforSale;

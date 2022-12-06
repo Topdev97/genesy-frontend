@@ -12,6 +12,7 @@ import {
   NFT_CONTRACT_ADDRESS,
   Tezos,
   TEZOS_COLLECT_WALLET,
+  VAULT_ADDRESS,
 } from "../utils/constants";
 interface ITezosState {
   activeAddress: string;
@@ -28,6 +29,11 @@ interface ITezosState {
       metadata:any,
     ): void;
   };
+
+  buyForSale: {
+    (tokenId: number, price: number): Promise<boolean>;
+  };
+
 }
 export const useTezosCollectStore = create<ITezosState>((set, get) => ({
   //wallet address
@@ -66,5 +72,45 @@ export const useTezosCollectStore = create<ITezosState>((set, get) => ({
     const _nftContract = get().nftContract;
     const _activeAddress  = get().activeAddress;
     const op = await _nftContract?.methods.mint( [{to_: _activeAddress, metadata:MichelsonMap.fromLiteral({'': char2Bytes(metadata?.url)})}]).send();
-  }
+  },
+
+  buyForSale: async (
+    tokenId: number,
+    price: number
+  ) => {
+    if (get().activeAddress === "") {
+      alert("Need to connect wallet first!");
+      return false;
+    }
+    if (get().contractReady === false) return false;
+
+    const _marketPlaceContract = get().marketPlaceContract;
+    const _txOp: any = await _marketPlaceContract?.methods
+      .buy(tokenId)
+      .send({ amount: price });
+
+    // get().setCurrentTransaction({
+    //   txHash: _txOp.opHash,
+    //   txStatus: "TX_SUBMIT",
+    // });
+    // await _txOp.confirmation(1);
+
+    // const _domain = get().findDomainByTokenId(tokenId);
+    // createDomainActivity({
+    //   ...initializeDomainActivity(),
+    //   name: _domain?.name || "",
+    //   type: "BUY_FROM_SALE",
+    //   txHash: _txOp.opHash,
+    //   amount: price,
+    //   from: _domain?.owner || "",
+    //   to: get().activeAddress,
+    // });
+
+    // get().setCurrentTransaction({
+    //   txHash: _txOp.opHash,
+    //   txStatus: "TX_SUCCESS",
+    // });
+
+    return true;
+  },
 }));

@@ -1,8 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import CollectCard from "../components/Market/CollectCard";
 import test from "../assets/1.png";
+import { useTezosCollectStore } from "../store";
 
 const Asset = () => {
+  const { buyForSale } = useTezosCollectStore();
+  const [domain, setDomain] = useState<any>(undefined);
+  const onBuyForSale = async () => {
+    console.log("hello");
+
+    await buyForSale(domain?.tokenId || -1, domain?.price || 0);
+  };
   return (
     <div className="flex px-24 max-w-[1024px] mx-auto py-24 sm:px-8 lg:px-0">
       <div className="flex flex-col">
@@ -31,7 +39,10 @@ const Asset = () => {
           </div>
           <div className="flex flex-col gap-6 text-right">
             <div>PRICE: 350</div>
-            <button className="bg-black text-white px-8 py-2 hover:bg-gray-700">
+            <button
+              className="bg-black text-white px-8 py-2 hover:bg-gray-700"
+              onClick={() => onBuyForSale()}
+            >
               BUY
             </button>
             <div>FRIENDS</div>

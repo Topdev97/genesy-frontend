@@ -5,6 +5,7 @@ import { NFTStorage, File } from "nft.storage";
 import { useTezosCollectStore } from "../store";
 import spinner from "../assets/spinner.svg";
 import axios from "axios";
+import { API_ENDPOINT } from "../utils/constants";
 
 const Mint = () => {
   const { nftMint } = useTezosCollectStore();
@@ -61,10 +62,7 @@ const Mint = () => {
           mintedAt: new Date(),
           curated: false,
         };
-        let res = await axios.post(
-          "https://genesy-backend.vercel.app/profiles/nfts/1",
-          payload
-        );
+        let res = await axios.post(`${API_ENDPOINT}/nfts/1`, payload);
         setIsLoad(false);
       } catch (error) {
         console.log(error);

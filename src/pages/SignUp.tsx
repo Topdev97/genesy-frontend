@@ -1,10 +1,12 @@
 import { BsImage } from "react-icons/bs";
 import { FiTwitter } from "react-icons/fi";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, useEffect } from "react";
 import ImageDropZone from "../components/ImageDropZone";
 import { pinToIpfs } from "../utils/utils";
 import axios from "axios";
+import { API_ENDPOINT } from "../utils/constants";
 import { useNavigate } from "react-router-dom";
+import { useTezosCollectStore } from "../store";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -20,6 +22,7 @@ const SignUp = () => {
     console.log("e.target.value", e.target.value);
     setFeed(e.target.value);
   };
+  const { activeAddress } = useTezosCollectStore();
   async function onChange(e: ChangeEvent<HTMLInputElement>) {
     const file = e.target.files![0];
     console.log("file", file);
@@ -42,10 +45,11 @@ const SignUp = () => {
           avatarLink: `https://${cid}.ipfs.nftstorage.link`,
           twitter: twitter,
         };
-        // let res = await axios.post(
-        //   "https://genesy-backend.vercel.app/profiles/tz1VL5AfvZ3Cz6Bd2c2agcUQe7HKxje7ojNu",
-        //   payload
-        // );
+        let res = await axios.put(
+          `${API_ENDPOINT}/profiles/${activeAddress}`,
+          payload
+        );
+        console.log("res", res);
         navigate("/home/primary");
       } catch (error) {
         console.log(error);

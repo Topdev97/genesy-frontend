@@ -9,6 +9,9 @@ import { useTezosCollectStore } from "../../store";
 import user from "../../assets/user.svg";
 import artist from "../../assets/artist.svg";
 import Menu from "./Menu";
+import axios from "axios";
+import { API_ENDPOINT } from "../../utils/constants";
+
 const ConnectWallet = () => {
   const navigate = useNavigate();
   const [isMenu, setIsMenu] = useState<boolean>(false);
@@ -23,7 +26,18 @@ const ConnectWallet = () => {
     });
     const _activeAddress = await TEZOS_COLLECT_WALLET.getPKH();
     setActiveAddress(_activeAddress);
-    navigate("/signup");
+
+    try {
+      let res = await axios.get(`${API_ENDPOINT}/profiles/${activeAddress}`);
+      console.log("reasdfasdfsds", res);
+      if (res.data?.wallet) {
+        navigate("/home/primary");
+      } else {
+        navigate("/signup");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const onDisconnectWallet = async () => {

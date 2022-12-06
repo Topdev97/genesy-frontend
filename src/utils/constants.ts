@@ -61,3 +61,8 @@ export const VAULT_ADDRESS = "tz1VL5AfvZ3Cz6Bd2c2agcUQe7HKxje7ojNu";
 export const MARKETPLACE_CONTRACT_ADDRESS = MARKETPLACE_ADDRESSES[TEZOS_COLLECT_NETWORK.type];
 
 export const NFT_CONTRACT_ADDRESS = NFT_ADDRESSES[TEZOS_COLLECT_NETWORK.type];
+
+export const API_ENDPOINT =
+  process.env.NODE_ENV === "development"
+    ? "http://192.168.113.102:80"
+    : "https://api.genesy.io";

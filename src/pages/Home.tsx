@@ -5,6 +5,7 @@ import PrimaryFeed from "../components/Market/PrimaryFeed";
 import SeconddaryFeed from "../components/Market/SeconddaryFeed";
 import LinkWithSearchParams from "../components/LinkWithSearchParams";
 import LandTabs from "../components/Market/LandTabs";
+import axios from "axios";
 const SortBoard = () => {
   return (
     <div className="absolute top-8 bg-white  w-32 right-0 menu-shadow">
@@ -33,7 +34,6 @@ const Home = () => {
       ),
     },
   ];
-
   return (
     <div className="max-w-[1024px] mx-auto py-24 sm:px-8 lg:px-0">
       <div className="w-3/5 flex flex-col gap-5">

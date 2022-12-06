@@ -64,5 +64,5 @@ export const NFT_CONTRACT_ADDRESS = NFT_ADDRESSES[TEZOS_COLLECT_NETWORK.type];
 
 export const API_ENDPOINT =
   process.env.NODE_ENV === "development"
-    ? "http://192.168.113.102:80"
+    ? "http://192.168.113.103:80"
     : "https://api.genesy.io";

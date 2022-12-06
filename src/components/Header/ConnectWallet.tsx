@@ -11,9 +11,20 @@ import artist from "../../assets/artist.svg";
 import Menu from "./Menu";
 import axios from "axios";
 import { API_ENDPOINT } from "../../utils/constants";
-
+interface profileType {
+  artist: boolean;
+  avatarLink: string;
+  description: string;
+  feedOrder: number;
+  twitter: string;
+  username: string;
+  verified: boolean;
+  volumeWeek: number;
+  wallet: string;
+}
 const ConnectWallet = () => {
   const navigate = useNavigate();
+  const [profile, setProfile] = useState<profileType | null>(null);
   const [isMenu, setIsMenu] = useState<boolean>(false);
   const { activeAddress } = useTezosCollectStore();
   const setActiveAddress = useTezosCollectStore(
@@ -28,8 +39,8 @@ const ConnectWallet = () => {
     setActiveAddress(_activeAddress);
 
     try {
-      let res = await axios.get(`${API_ENDPOINT}/profiles/${activeAddress}`);
-      console.log("reasdfasdfsds", res);
+      let res = await axios.get(`${API_ENDPOINT}/profiles/${_activeAddress}`);
+      setProfile(res.data);
       if (res.data?.wallet) {
         navigate("/home/primary");
       } else {
@@ -66,8 +77,12 @@ const ConnectWallet = () => {
     </button>
   ) : (
     <div className="relative flex items-center">
-      <button onClick={() => setIsMenu(!isMenu)}>
-        <img src={user} alt="test" />
+      <button onClick={() => setIsMenu(!isMenu)} className="hover:">
+        <img
+          src={profile?.avatarLink ? profile?.avatarLink : user}
+          alt="test"
+          className="w-12 h-12"
+        />
       </button>
       {isMenu && (
         <Menu onDisconnectWallet={onDisconnectWallet} setIsMenu={setIsMenu} />

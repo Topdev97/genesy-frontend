@@ -1,9 +1,7 @@
 import create from "zustand";
-import { RequestSignPayloadInput, SigningType } from "@airgap/beacon-sdk";
 import {
   ContractAbstraction,
   ContractProvider,
-  OpKind,
   MichelsonMap,
 } from "@taquito/taquito";
 import { char2Bytes } from "@taquito/utils";

@@ -9,8 +9,6 @@ import {
   MARKETPLACE_CONTRACT_ADDRESS,
   NFT_CONTRACT_ADDRESS,
   Tezos,
-  TEZOS_COLLECT_WALLET,
-  VAULT_ADDRESS,
 } from "../utils/constants";
 interface ITezosState {
   activeAddress: string;
@@ -20,19 +18,17 @@ interface ITezosState {
   contractReady: boolean;
   nftContract: ContractAbstraction<ContractProvider> | null;
   marketPlaceContract: ContractAbstraction<ContractProvider> | null;
+  lastTokenId: number;
+  updateLastTokenId: { (): void };
   // nft mint function for artis
   nftMint: {
-    (
-      amount: string, 
-      metadata:any,
-    ): void;
+    (metadata: any): void;
   };
 
   buyForSale: {
     (tokenId: number, price: number): Promise<boolean>;
   };
 
-  
   cancelForSale: {
     (tokenId: number): Promise<boolean>;
   };
@@ -41,10 +37,9 @@ interface ITezosState {
     (
       tokenId: number,
       includingOperator: boolean,
-      defaultAmount: number,
+      defaultAmount: number
     ): Promise<boolean>;
   };
-
 }
 export const useTezosCollectStore = create<ITezosState>((set, get) => ({
   //wallet address
@@ -60,35 +55,55 @@ export const useTezosCollectStore = create<ITezosState>((set, get) => ({
   contractReady: false,
   nftContract: null,
   marketPlaceContract: null,
-  initializeContracts:async () => {
-    const [ _nftContract, _marketPlaceContract ] = await Promise.all([
+  lastTokenId: 0,
+  initializeContracts: async () => {
+    const [_nftContract, _marketPlaceContract] = await Promise.all([
       Tezos.wallet.at(NFT_CONTRACT_ADDRESS),
-      Tezos.wallet.at(MARKETPLACE_CONTRACT_ADDRESS)
-    ])
-    set((state:any) => ({
+      Tezos.wallet.at(MARKETPLACE_CONTRACT_ADDRESS),
+    ]);
+
+    const _nftContractStorage: any = await _nftContract.storage();
+
+    set((state: any) => ({
       ...state,
+      lastTokenId: _nftContractStorage.last_token_id.toNumber(),
       contractReady: true,
       nftContract: _nftContract,
       marketPlaceContract: _marketPlaceContract,
-    }))
+    }));
+  },
+
+  updateLastTokenId: async () => {
+    const _nftContractStorage: any = await get().nftContract?.storage();
+
+    set((state: any) => ({
+      ...state,
+      lastTokenId: _nftContractStorage.last_token_id.toNumber(),
+    }));
   },
 
   // mint function for artist
-  nftMint:async (amount: string, metadata:any) => {
+  nftMint: async (metadata: any) => {
     if (get().activeAddress === "") {
       alert("Need to connect wallet first!");
       return false;
     }
     if (get().contractReady === false) return false;
     const _nftContract = get().nftContract;
-    const _activeAddress  = get().activeAddress;
-    const op = await _nftContract?.methods.mint( [{to_: _activeAddress, metadata:MichelsonMap.fromLiteral({'': char2Bytes(metadata?.url)})}]).send();
+    const _activeAddress = get().activeAddress;
+    const op = await _nftContract?.methods
+      .mint([
+        {
+          to_: _activeAddress,
+          metadata: MichelsonMap.fromLiteral({ "": char2Bytes(metadata?.url) }),
+        },
+      ])
+      .send();
+
+    await op?.confirmation(2);
   },
 
-  buyForSale: async (
-    tokenId: number,
-    price: number
-  ) => {
+  buyForSale: async (tokenId: number, price: number) => {
     if (get().activeAddress === "") {
       alert("Need to connect wallet first!");
       return false;
@@ -99,10 +114,8 @@ export const useTezosCollectStore = create<ITezosState>((set, get) => ({
     const _txOp: any = await _marketPlaceContract?.methods
       .buy(tokenId)
       .send({ amount: price });
-    console.log('_txOp', _txOp)
+    console.log("_txOp", _txOp);
 
-
-    
     // get().setCurrentTransaction({
     //   txHash: _txOp.opHash,
     //   txStatus: "TX_SUBMIT",
@@ -142,6 +155,7 @@ export const useTezosCollectStore = create<ITezosState>((set, get) => ({
     const _txOp: any = await _marketPlaceContract?.methods
       .cancel_for_sale(tokenId)
       .send();
+    await _txOp.confirmation(2);
 
     // get().setCurrentTransaction({
     //   txHash: _txOp.opHash,
@@ -170,7 +184,7 @@ export const useTezosCollectStore = create<ITezosState>((set, get) => ({
   listForSale: async (
     tokenId: number,
     includingOperator: boolean,
-    defaultAmount: number,
+    defaultAmount: number
   ) => {
     if (get().activeAddress === "") {
       alert("Need to connect wallet first!");
@@ -180,46 +194,38 @@ export const useTezosCollectStore = create<ITezosState>((set, get) => ({
 
     const _marketPlaceContract = get().marketPlaceContract;
     const _nftContract = get().nftContract;
-    let _txOp: any;
-    _txOp = await _marketPlaceContract?.methods
-      .list_for_sale(
-        defaultAmount * 10 ** 6,
-        tokenId
-      )
+    // let _txOp: any;
+    await _marketPlaceContract?.methods
+      .list_for_sale(defaultAmount * 10 ** 6, tokenId)
       .send();
 
-      if (!includingOperator) {
-        _txOp = await Tezos.wallet
-          .batch()
-          .withContractCall(
-            // @ts-ignore
-            _nftContract.methods.update_operators([
-              {
-                add_operator: {
-                  owner: get().activeAddress,
-                  operator: MARKETPLACE_CONTRACT_ADDRESS,
-                  token_id: tokenId,
-                },
+    if (!includingOperator) {
+      await Tezos.wallet
+        .batch()
+        .withContractCall(
+          // @ts-ignore
+          _nftContract.methods.update_operators([
+            {
+              add_operator: {
+                owner: get().activeAddress,
+                operator: MARKETPLACE_CONTRACT_ADDRESS,
+                token_id: tokenId,
               },
-            ])
-          )
-          .withContractCall(
-            // @ts-ignore
-            _marketPlaceContract?.methods.list_for_sale(
-              defaultAmount * 10 ** 6,
-              tokenId
-            )
-          )
-          .send();
-      } else
-        _txOp = await _marketPlaceContract?.methods
-          .list_for_sale(
+            },
+          ])
+        )
+        .withContractCall(
+          // @ts-ignore
+          _marketPlaceContract?.methods.list_for_sale(
             defaultAmount * 10 ** 6,
             tokenId
           )
-          .send();
-
-
+        )
+        .send();
+    } else
+      await _marketPlaceContract?.methods
+        .list_for_sale(defaultAmount * 10 ** 6, tokenId)
+        .send();
 
     // get().setListForSaleModalVisible(false);
     // get().setCurrentTransaction({

@@ -31,7 +31,7 @@ function App() {
           <Route path="/home/*" element={<Home />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/edit" element={<Edit />} />
-          <Route path="/assets/:id" element={<Buy />} />
+          <Route path="/assets/:tokenId" element={<Buy />} />
           <Route path="/collection/:id" element={<ListforSale />} />
           <Route path="/col/:id" element={<CancelforSale />} />
           <Route path="/faq" element={<Faq />} />

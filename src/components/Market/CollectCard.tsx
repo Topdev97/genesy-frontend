@@ -1,22 +1,22 @@
-import React from "react";
 import artist from "../../assets/artist.svg";
-import test from "../../assets/1.png";
-const CollectCard = () => {
+import { I_NFT } from "../../utils/interface";
+import { dateDifFromNow } from "../../utils/utils";
+const CollectCard = ({ nft }: { nft?: I_NFT }) => {
   return (
     <div className="flex flex-col py-4 cursor-pointer">
       <div className="flex gap-4 items-center pt-2">
         <img src={artist} alt="avatar" className="w-6 h-6" />
-        <div className="dark:text-red-500 font-bold">Zach Lieberman</div>
+        <div className="dark:text-red-500 font-bold">{nft?.name}</div>
       </div>
       <div className="flex text-sm">
         <div>
           <div className="flex justify-between  my-3">
-            <div>Floating Colors</div>
-            <div>1h56 ago</div>
+            <div>{nft?.description}</div>
+            <div>{dateDifFromNow(nft?.mintedAt || new Date())}</div>
           </div>
-          <img src={test} alt="test" />
+          <img src={nft?.imageLink} alt="test" />
         </div>
-        <div className="nft-price text-end">| 150 TZ</div>
+        <div className="nft-price text-end">| {nft?.price} TZ</div>
       </div>
     </div>
   );

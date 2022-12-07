@@ -1,11 +1,13 @@
-import React, { useEffect, Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTezosCollectStore } from "../../store";
 import LinkWithSearchParams from "../LinkWithSearchParams";
 type AppProps = {
   onDisconnectWallet: () => Promise<void>;
   setIsMenu: Dispatch<SetStateAction<boolean>>;
 };
 const Menu = (props: AppProps) => {
+  const { activeAddress } = useTezosCollectStore();
   const navigate = useNavigate();
   const SignOut = () => {
     props.onDisconnectWallet();
@@ -29,7 +31,7 @@ const Menu = (props: AppProps) => {
 
       <LinkWithSearchParams
         to={{
-          pathname: "/profile/:address/*",
+          pathname: `/profile/${activeAddress}`,
         }}
       >
         <div

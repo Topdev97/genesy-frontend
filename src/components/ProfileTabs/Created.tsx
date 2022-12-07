@@ -1,18 +1,32 @@
 import CollectCard from "../Market/CollectCard";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LinkWithSearchParams from "../LinkWithSearchParams";
+import { I_NFT } from "../../utils/interface";
+import { useTezosCollectStore } from "../../store";
+import axios from "axios";
+import { API_ENDPOINT } from "../../utils/constants";
 const Created = () => {
-  const [testCollect, setTestCollect] = useState<any>([3, 2, 21]);
+  const { activeAddress } = useTezosCollectStore();
+  const [nftItems, setNftItems] = useState<I_NFT[]>([]);
+  useEffect(() => {
+    const loadItems = async () => {
+      const { data: _nftItems }: { data: I_NFT[] } = await axios.get(
+        `${API_ENDPOINT}/nfts/artist/${activeAddress}`
+      );
+      setNftItems(_nftItems);
+    };
+    loadItems();
+  }, [activeAddress]);
   return (
-    <div className="flex gap-12">
-      {testCollect.map((value: any, index: any) => (
+    <div className="gap-12 grid grid-cols-2">
+      {nftItems.map((item, index: any) => (
         <div className="" key={index}>
           <LinkWithSearchParams
             to={{
               pathname: "/col/1",
             }}
           >
-            <CollectCard />
+            <CollectCard nft={item} />
           </LinkWithSearchParams>
         </div>
       ))}

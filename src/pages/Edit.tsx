@@ -30,6 +30,7 @@ const Edit = () => {
         setDescription(res.data?.description);
         setTwitter(res.data?.twitter);
         setName(res.data?.username);
+        setFeed("0");
       } catch (error) {
         console.log(error);
       }

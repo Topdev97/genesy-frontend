@@ -10,7 +10,7 @@ export const TEZOS_COLLECT_NETWORK: Network = {
 };
 
 const MAINNET_RPC_URL: string = "https://mainnet.api.tez.ie";
-const GHOSTNET_RPC_URL: string = "https://ghostnet.tezos.marigold.dev";
+const GHOSTNET_RPC_URL: string = "https://rpc.tzkt.io/ghostnet";
 
 const TEZOS_COLLECT_RPC_URL =
   TEZOS_COLLECT_NETWORK.type === NetworkType.GHOSTNET

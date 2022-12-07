@@ -6,15 +6,18 @@ import { useTezosCollectStore } from "../store";
 import spinner from "../assets/spinner.svg";
 import axios from "axios";
 import { API_ENDPOINT } from "../utils/constants";
+import { I_NFT } from "../utils/interface";
+import { replaceIpfsLink } from "../utils/utils";
 
 const Mint = () => {
-  const { nftMint } = useTezosCollectStore();
+  const { activeAddress, nftMint, lastTokenId, updateLastTokenId } =
+    useTezosCollectStore();
   const client = new NFTStorage({ token: NFT_STORAGE_KEY });
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [file, setFile] = useState<File | null>(null);
   const [royalties, setRoyalties] = useState<string>("");
-  const [amount, setAmount] = useState<string>("0");
+  const [amount, setAmount] = useState<number>(0);
   const [error, setError] = useState<string>("");
   const [base64image, setBase64image] = useState("");
   const [isLoad, setIsLoad] = useState<boolean>(false);
@@ -25,8 +28,8 @@ const Mint = () => {
       name === "" ||
       description === "" ||
       royalties === "" ||
-      amount === "" ||
-      !/^-?\d+$/.test(amount) ||
+      // amount === "" ||
+      // !/^-?\d+$/.test(amount) ||
       file === null
     ) {
       setError("Some Error Occurred. Please check entered details.");
@@ -48,21 +51,21 @@ const Mint = () => {
           thumbnailUri: new File([file!], file!.name, { type: file!.type }),
           creators: ["genesy"],
         });
-        console.log("metadata", metadata);
-        await nftMint(amount, metadata);
-        let payload = {
+        let payload: I_NFT = {
           name: name,
           description: description,
-          imageLink: "asdfs",
-          artist: "asdf",
-          owner: "sdf",
-          price: 12,
-          lastSoldAmount: 12,
-          lastSoldAt: new Date(),
+          imageLink: replaceIpfsLink(metadata.data.image.href),
+          artist: activeAddress,
+          owner: activeAddress,
+          price: amount,
           mintedAt: new Date(),
-          curated: false,
         };
-        let res = await axios.post(`${API_ENDPOINT}/nfts/1`, payload);
+        await nftMint(metadata);
+        await Promise.all([
+          axios.put(`${API_ENDPOINT}/nfts/${lastTokenId}`, payload),
+          updateLastTokenId(),
+        ]);
+
         setIsLoad(false);
       } catch (error) {
         console.log(error);
@@ -73,7 +76,7 @@ const Mint = () => {
 
   async function onChange(e: ChangeEvent<HTMLInputElement>) {
     const file = e.target.files![0];
-    console.log("file", file);
+    // console.log("file", file);
     setFile(file);
     const reader = new FileReader();
     reader.onload = function (event) {
@@ -136,7 +139,7 @@ const Mint = () => {
           name="name"
           value={amount}
           disabled={isLoad}
-          onChange={(e) => setAmount(e.target.value)}
+          onChange={(e) => setAmount(parseFloat(e.target.value || "0"))}
           className="outline-none border-b border-black"
           placeholder="Define the selling amount for this item(XTZ)"
         />
@@ -146,7 +149,12 @@ const Mint = () => {
         <div className="flex">
           <label htmlFor="asset" className="">
             {base64image ? (
-              <img className="rounded mt-4" width="350" src={base64image} />
+              <img
+                className="rounded mt-4"
+                width="350"
+                src={base64image}
+                alt="preview"
+              />
             ) : (
               <div className="border border-black text-3xl flex items-center justify-center p-8">
                 <BsImage />

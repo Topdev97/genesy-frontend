@@ -1,21 +1,12 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { TbMinusVertical, TbMinus } from "react-icons/tb";
-import { FaSort } from "react-icons/fa";
 import PrimaryFeed from "../components/Market/PrimaryFeed";
 import SeconddaryFeed from "../components/Market/SeconddaryFeed";
 import LinkWithSearchParams from "../components/LinkWithSearchParams";
 import LandTabs from "../components/Market/LandTabs";
 import axios from "axios";
-const SortBoard = () => {
-  return (
-    <div className="absolute top-8 bg-white  w-32 right-0 menu-shadow">
-      <div className="px-4 py-2 hover:bg-gray-200">Chronogical</div>
-      <div className="px-4 py-2 hover:bg-gray-200">Curated</div>
-    </div>
-  );
-};
+
 const Home = () => {
-  const [isControl, setIsControl] = useState<boolean>(false);
   const TAB_LIST = [
     {
       path: `/home/primary`,
@@ -57,10 +48,6 @@ const Home = () => {
               <div className="text-center m-2">{link.text}</div>
             </LinkWithSearchParams>
           ))}
-        </div>
-        <div className="flex justify-end relative">
-          <FaSort onClick={() => setIsControl(!isControl)} />
-          {isControl && <SortBoard />}
         </div>
         <LandTabs />
       </div>

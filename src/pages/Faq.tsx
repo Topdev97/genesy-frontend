@@ -1,6 +1,6 @@
 const Faq = () => {
   return (
-    <div className="max-w-[1024px] mx-auto py-24">
+    <div className="max-w-[1024px] mx-auto py-24 sm:px-8 lg:px-0">
       <div className="text-3xl text-center">FAQ</div>
       <div className="flex flex-col gap-4">
         <div className="text-2xl">Question</div>

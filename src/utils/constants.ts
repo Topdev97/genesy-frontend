@@ -5,8 +5,8 @@ import { TezosToolkit } from "@taquito/taquito";
 export const TEZOS_COLLECT_NETWORK: Network = {
   type:
     process.env.NODE_ENV === "development"
-    ? NetworkType.GHOSTNET:
-    NetworkType.MAINNET,
+      ? NetworkType.GHOSTNET
+      : NetworkType.MAINNET,
 };
 
 const MAINNET_RPC_URL: string = "https://mainnet.api.tez.ie";
@@ -14,9 +14,11 @@ const GHOSTNET_RPC_URL: string = "https://rpc.tzkt.io/ghostnet";
 
 const TEZOS_COLLECT_RPC_URL =
   TEZOS_COLLECT_NETWORK.type === NetworkType.GHOSTNET
-    ? GHOSTNET_RPC_URL : MAINNET_RPC_URL;
+    ? GHOSTNET_RPC_URL
+    : MAINNET_RPC_URL;
 export const Tezos = new TezosToolkit(TEZOS_COLLECT_RPC_URL);
-export const NFT_STORAGE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweEZmZjc1OWVjMDk5YUM1YTVEQTkxOGUzQjVDNzg0N0EwZUEyNjYyQ0QiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY2Nzg5OTI5MDM2NiwibmFtZSI6IkRldlBvcnRhbCJ9.-MRWyPn63qxGaYfZtU1P8Rzt74Q8t5VqMy0BiWh1vy4"
+export const NFT_STORAGE_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDIxM2MwOGZEQjVCMDNGQWRkYzVEYWE1ODk5ZkY4NjY5YWE2ZGZBRDAiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY3MDUwODU3OTgwNCwibmFtZSI6IkdlbmVzeSJ9.ZTjxdK3K9Rr14USOXMCcrOkvBCuyVi6MKlI7Uhv4ufg";
 // Create a new DAppClient instance
 export const TEZOS_COLLECT_WALLET = new BeaconWallet({
   name: "Genesy",
@@ -58,7 +60,8 @@ const NFT_ADDRESSES = {
 
 export const VAULT_ADDRESS = "tz1VL5AfvZ3Cz6Bd2c2agcUQe7HKxje7ojNu";
 
-export const MARKETPLACE_CONTRACT_ADDRESS = MARKETPLACE_ADDRESSES[TEZOS_COLLECT_NETWORK.type];
+export const MARKETPLACE_CONTRACT_ADDRESS =
+  MARKETPLACE_ADDRESSES[TEZOS_COLLECT_NETWORK.type];
 
 export const NFT_CONTRACT_ADDRESS = NFT_ADDRESSES[TEZOS_COLLECT_NETWORK.type];
 

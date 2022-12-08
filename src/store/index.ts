@@ -1,4 +1,6 @@
 import create from "zustand";
+import axios from "axios";
+import { API_ENDPOINT } from "../utils/constants";
 import {
   ContractAbstraction,
   ContractProvider,
@@ -10,6 +12,12 @@ import {
   NFT_CONTRACT_ADDRESS,
   Tezos,
 } from "../utils/constants";
+import { I_PROFILE } from "../utils/interface";
+interface IProfileStore {
+  loading: boolean;
+  profile: I_PROFILE[];
+}
+
 interface ITezosState {
   activeAddress: string;
   setActiveAddress: { (_activeAddress: string): void };
@@ -24,15 +32,12 @@ interface ITezosState {
   nftMint: {
     (metadata: any): void;
   };
-
   buyForSale: {
     (tokenId: number, price: number): Promise<boolean>;
   };
-
   cancelForSale: {
     (tokenId: number): Promise<boolean>;
   };
-
   listForSale: {
     (
       tokenId: number,
@@ -40,7 +45,11 @@ interface ITezosState {
       defaultAmount: number
     ): Promise<boolean>;
   };
+  profileStore: IProfileStore;
+  fetchProfiles: { (): void };
+  findProfileById: { (_address: string): I_PROFILE | undefined };
 }
+
 export const useTezosCollectStore = create<ITezosState>((set, get) => ({
   //wallet address
   activeAddress: "",
@@ -251,5 +260,30 @@ export const useTezosCollectStore = create<ITezosState>((set, get) => ({
     // });
 
     return true;
+  },
+
+  profileStore: {
+    loading: true,
+    profile: JSON.parse(localStorage.getItem("profiles") || "[]") || [],
+  },
+
+  fetchProfiles: async () => {
+    set((state: any) => ({
+      ...state,
+      profileStore: {
+        loading: true,
+        profile: get().profileStore.profile,
+      },
+    }));
+    const profiles = await axios.get(`${API_ENDPOINT}/profiles`);
+
+    localStorage.setItem("profiles", JSON.stringify(profiles.data));
+    set((state: any) => ({
+      ...state,
+      profileStore: { loading: false, profile: profiles.data },
+    }));
+  },
+  findProfileById: (_address: string) => {
+    return get().profileStore.profile.find((item) => item.wallet === _address);
   },
 }));

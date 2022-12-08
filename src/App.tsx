@@ -18,10 +18,11 @@ import CancelforSale from "./pages/CancelforSale";
 
 function App() {
   const { theme } = useTheme();
-  const { initializeContracts } = useTezosCollectStore();
+  const { initializeContracts, fetchProfiles } = useTezosCollectStore();
   useEffect(() => {
     initializeContracts();
-  }, [initializeContracts]);
+    fetchProfiles();
+  }, []);
   return (
     <div className={`${theme}`}>
       <BrowserRouter>

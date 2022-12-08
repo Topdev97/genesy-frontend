@@ -20,4 +20,16 @@ interface I_NFT {
   mintedAt?: Date;
   curated?: boolean;
 }
-export type { I_NFT };
+
+interface I_PROFILE {
+  wallet: string;
+  artist: string;
+  avatarLink: string;
+  description: string;
+  feedOrder: number;
+  twitter: string;
+  username: string;
+  verified: boolean;
+  volumeWeek: number;
+}
+export type { I_NFT, I_PROFILE };

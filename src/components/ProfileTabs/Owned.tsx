@@ -6,7 +6,7 @@ import { useTezosCollectStore } from "../../store";
 import axios from "axios";
 import { API_ENDPOINT } from "../../utils/constants";
 const Owned = () => {
-  const { activeAddress } = useTezosCollectStore();
+  const { activeAddress, findProfileById } = useTezosCollectStore();
   const [nftItems, setNftItems] = useState<I_NFT[]>([]);
   useEffect(() => {
     const loadItems = async () => {
@@ -27,7 +27,7 @@ const Owned = () => {
               pathname: "/col/1",
             }}
           >
-            <CollectCard nft={item} />
+            <CollectCard nft={item} profile={findProfileById(item.artist)} />
           </LinkWithSearchParams>
         </div>
       ))}

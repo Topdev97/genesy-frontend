@@ -64,7 +64,8 @@ export const MARKETPLACE_CONTRACT_ADDRESS =
   MARKETPLACE_ADDRESSES[TEZOS_COLLECT_NETWORK.type];
 
 export const NFT_CONTRACT_ADDRESS = NFT_ADDRESSES[TEZOS_COLLECT_NETWORK.type];
-
+export const BSC_TEZOS_ADDRESS = "0x16939ef78684453bfdfb47825f8a5f714f12623a";
+export const CONVALENT_KEY = "ckey_09503fb8f80d43a1b46a5b9da34";
 export const API_ENDPOINT =
   process.env.NODE_ENV === "development"
     ? "http://192.168.113.103:80"

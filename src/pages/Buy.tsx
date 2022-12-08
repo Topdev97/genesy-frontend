@@ -8,9 +8,10 @@ import { useParams } from "react-router-dom";
 import { I_NFT } from "../utils/interface";
 import { API_ENDPOINT } from "../utils/constants";
 import axios from "axios";
-
+import { getTezosPrice } from "../utils/price";
 const Asset = () => {
   const { tokenId } = useParams();
+  const [price, setPrice] = useState<any>(null);
   const { buyForSale } = useTezosCollectStore();
   const [nftItem, setNftItem] = useState<I_NFT>({
     artist: "",
@@ -29,6 +30,9 @@ const Asset = () => {
       const { data: _nftItems }: { data: I_NFT } = await axios.get(
         `${API_ENDPOINT}/nfts/${tokenId}`
       );
+      let _price = await getTezosPrice();
+      console.log("_price", _price);
+      setPrice((_nftItems.price || 0) * _price);
       setNftItem(_nftItems);
     };
     loadNftItem();
@@ -37,12 +41,16 @@ const Asset = () => {
     <div className="max-w-[1024px] mx-auto py-24 sm:px-8 lg:px-0">
       <div className="flex gap-24">
         <img src={nftItem.imageLink} alt="test" className="w-1/2" />
-        <div className="w-1/2 flex flex-col gap-4">
+        <div className="w-1/2 flex flex-col gap-4 justify-between">
           <div className="text-3xl font-bold">{nftItem.name}</div>
           <div>
             <div>__ CREATED BY</div>
             <div className="flex gap-2 items-center my-4">
-              <img src={user} alt="user" className="w-6 h-6" />
+              <img
+                src={nftItem.artistObj?.avatarLink}
+                alt="user"
+                className="w-6 h-6"
+              />
               <div className="text-2xl font-bold">
                 {nftItem.artistObj?.username}
               </div>
@@ -59,27 +67,37 @@ const Asset = () => {
           <div>
             <div>__ COLLECTED BY</div>
             <div className="flex gap-2 items-center  my-4">
-              <img src={user} alt="user" className="w-6 h-6" />
+              <img
+                src={nftItem.ownerObj?.avatarLink}
+                alt="user"
+                className="w-6 h-6"
+              />
               <div className="text-2xl font-bold">
                 {nftItem.ownerObj?.username}
               </div>
             </div>
           </div>
-          <div>
-            <div>__ PRICE</div>
-            <div className="flex gap-2 items-center  my-4">
-              <div className="">
-                <span className="text-2xl font-bold">{nftItem.price} XTZ</span>{" "}
-                USD 765,38
+          {nftItem.price && (
+            <div>
+              <div>
+                <div>__ PRICE</div>
+                <div className="flex gap-2 items-center  my-4">
+                  <div className="">
+                    <span className="text-2xl font-bold">
+                      {nftItem.price} XTZ
+                    </span>
+                    USD {String(price).slice(0, 5)}
+                  </div>
+                </div>
               </div>
+              <button
+                className="w-32 bg-black text-white py-2 hover:bg-gray-500"
+                onClick={() => onBuyForSale()}
+              >
+                BUY NOW
+              </button>
             </div>
-          </div>
-          <button
-            className="w-32 bg-black text-white py-2 hover:bg-gray-500"
-            onClick={() => onBuyForSale()}
-          >
-            BUY NOW
-          </button>
+          )}
         </div>
       </div>
 

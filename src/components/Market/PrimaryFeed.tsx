@@ -45,7 +45,6 @@ const PrimaryFeed = () => {
       const { data: _nftItems }: { data: I_NFT[] } = await axios.get(
         `${API_ENDPOINT}/nfts/primary/${orderBy}`
       );
-      console.log("findProfileById", findProfileById(_nftItems[0].artist));
       setNftItems(_nftItems);
     };
     loadItems();

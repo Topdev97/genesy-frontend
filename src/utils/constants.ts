@@ -69,4 +69,4 @@ export const CONVALENT_KEY = "ckey_09503fb8f80d43a1b46a5b9da34";
 export const API_ENDPOINT =
   process.env.NODE_ENV === "development"
     ? "http://192.168.113.103:80"
-    : "https://api.genesy.io";
+    : "https://api.genesy.xyz";

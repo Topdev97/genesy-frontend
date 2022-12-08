@@ -169,16 +169,28 @@ const Asset = () => {
         </div>
         <div className="flex gap-4 py-2">
           <div>ADDRESS</div>
-          <div>0x1234tyr1HJQYG12378712319282732312312</div>
+          <div>KT1VLxr4LNMvwHs5TeEc2LzGapKFz5yuy1PW</div>
         </div>
         <div className="flex gap-4 font-bold py-4">
           <div className="flex items-center gap-4">
             <IoLink />
-            <div>Etherscan</div>
+            <a
+              href="https://ghostnet.tzkt.io/KT1VLxr4LNMvwHs5TeEc2LzGapKFz5yuy1PW/operations/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              TzKT
+            </a>
           </div>
           <div className="flex items-center gap-4">
             <IoLink />
-            <div>IPFS</div>
+            <a
+              href={nftItem.imageLink}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              TzKT
+            </a>
           </div>
         </div>
       </div>

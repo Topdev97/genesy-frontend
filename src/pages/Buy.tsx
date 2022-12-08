@@ -12,7 +12,8 @@ import { getTezosPrice } from "../utils/price";
 const Asset = () => {
   const { tokenId } = useParams();
   const [price, setPrice] = useState<any>(null);
-  const { buyForSale } = useTezosCollectStore();
+  const { buyForSale, cancelForSale, listForSale, activeAddress } =
+    useTezosCollectStore();
   const [nftItem, setNftItem] = useState<I_NFT>({
     artist: "",
     description: "",
@@ -23,6 +24,15 @@ const Asset = () => {
   const onBuyForSale = async () => {
     // await buyForSale(domain?.tokenId || -1, domain?.price || 0);
     await buyForSale(2, 12);
+  };
+
+  const onCancelForSale = async () => {
+    await cancelForSale(1);
+  };
+
+  const onListForSale = async () => {
+    let includingOperator = false;
+    await listForSale(2, includingOperator, parseFloat(price));
   };
 
   useEffect(() => {
@@ -77,26 +87,75 @@ const Asset = () => {
               </div>
             </div>
           </div>
-          {nftItem.price && (
-            <div>
+
+          {activeAddress == nftItem.owner ? (
+            nftItem.price == 0 || nftItem.price == null ? (
               <div>
-                <div>__ PRICE</div>
-                <div className="flex gap-2 items-center  my-4">
-                  <div className="">
-                    <span className="text-2xl font-bold">
-                      {nftItem.price} XTZ
-                    </span>
-                    USD {String(price).slice(0, 5)}
+                <div>
+                  <div>
+                    <div>__ PRICE</div>
+                    <div className="flex gap-2 items-center  my-4">
+                      <div className="">
+                        <span className="text-2xl font-bold">
+                          {nftItem.price} XTZ
+                        </span>
+                        USD {String(price).slice(0, 5)}
+                      </div>
+                    </div>
                   </div>
+                  <button
+                    className="w-32 bg-black text-white py-2 hover:bg-gray-500"
+                    onClick={() => onListForSale()}
+                  >
+                    LIST FOR SALE
+                  </button>
                 </div>
               </div>
-              <button
-                className="w-32 bg-black text-white py-2 hover:bg-gray-500"
-                onClick={() => onBuyForSale()}
-              >
-                BUY NOW
-              </button>
-            </div>
+            ) : (
+              <div>
+                <div>
+                  <div>
+                    <div>__ PRICE</div>
+                    <div className="flex gap-2 items-center  my-4">
+                      <div className="">
+                        <span className="text-2xl font-bold">
+                          {nftItem.price} XTZ
+                        </span>
+                        USD {String(price).slice(0, 5)}
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    className="w-32 bg-black text-white py-2 hover:bg-gray-500"
+                    onClick={() => onCancelForSale()}
+                  >
+                    CANCEL SALE
+                  </button>
+                </div>
+              </div>
+            )
+          ) : (
+            nftItem.price && (
+              <div>
+                <div>
+                  <div>__ PRICE</div>
+                  <div className="flex gap-2 items-center  my-4">
+                    <div className="">
+                      <span className="text-2xl font-bold">
+                        {nftItem.price} XTZ
+                      </span>
+                      USD {String(price).slice(0, 5)}
+                    </div>
+                  </div>
+                </div>
+                <button
+                  className="w-32 bg-black text-white py-2 hover:bg-gray-500"
+                  onClick={() => onBuyForSale()}
+                >
+                  BUY NOW
+                </button>
+              </div>
+            )
           )}
         </div>
       </div>

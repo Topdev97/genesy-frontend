@@ -19,12 +19,12 @@ const Created = () => {
     loadItems();
   }, [activeAddress]);
   return (
-    <div className="gap-12 grid grid-cols-2">
+    <div className="gap-24 grid grid-cols-3">
       {nftItems.map((item, index: any) => (
         <div className="" key={index}>
           <LinkWithSearchParams
             to={{
-              pathname: "/col/1",
+              pathname: `/assets/${item.tokenId}`,
             }}
           >
             <CollectCard nft={item} profile={findProfileById(item.artist)} />

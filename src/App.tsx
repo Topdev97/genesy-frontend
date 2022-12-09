@@ -15,22 +15,11 @@ import { useTezosCollectStore } from "./store";
 
 function App() {
   const { theme } = useTheme();
-  const {
-    activeAddress,
-    initializeContracts,
-    fetchProfiles,
-    fetchProfile,
-    contractReady,
-  } = useTezosCollectStore();
+  const { initializeContracts, fetchProfiles } = useTezosCollectStore();
   useEffect(() => {
     initializeContracts();
-    fetchProfiles();
   }, []);
-  useEffect(() => {
-    if (activeAddress && contractReady) {
-      fetchProfile(activeAddress);
-    }
-  }, [activeAddress, contractReady]);
+
   return (
     <div className={`${theme}`}>
       <BrowserRouter>

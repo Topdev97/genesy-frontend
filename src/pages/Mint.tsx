@@ -134,7 +134,7 @@ const Mint = () => {
           placeholder="You can set a value between 0 and 10%"
         />
       </div>
-      <div className="flex flex-col py-4 gap-2">
+      {/* <div className="flex flex-col py-4 gap-2">
         <div>SELLING AMOUNT*</div>
         <input
           type="text"
@@ -145,7 +145,7 @@ const Mint = () => {
           className="outline-none border-b border-black"
           placeholder="Define the selling amount for this item(XTZ)"
         />
-      </div>
+      </div> */}
       <div className="flex flex-col py-4 gap-2">
         <div>UPLOAD ART</div>
         <div className="flex">

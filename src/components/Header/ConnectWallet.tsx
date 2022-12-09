@@ -75,14 +75,14 @@ const ConnectWallet = () => {
 
   return activeAddress.length === 0 ? (
     <button
-      className="bg-black text-white rounded text-xl px-4 hover:bg-gray-600"
+      className="bg-black text-white rounded text-xl px-4 hover:bg-gray-600 py-1"
       onClick={onConnectWallet}
     >
       Sync
     </button>
   ) : (
     <div className="relative flex items-center">
-      <button onClick={() => setIsMenu(!isMenu)} className="hover:">
+      <button onClick={() => setIsMenu(!isMenu)} className="">
         <img
           src={profile?.avatarLink ? profile?.avatarLink : user}
           alt="test"

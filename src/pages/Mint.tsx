@@ -60,7 +60,9 @@ const Mint = () => {
           price: amount,
           mintedAt: new Date(),
         };
-        await nftMint(metadata);
+        console.log("metadata", metadata);
+        let test = await nftMint(metadata);
+        console.log("test", test);
         await Promise.all([
           axios.put(`${API_ENDPOINT}/nfts/${lastTokenId}`, payload),
           updateLastTokenId(),

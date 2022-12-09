@@ -84,6 +84,7 @@ export const useTezosCollectStore = create<ITezosState>((set, get) => ({
 
   updateLastTokenId: async () => {
     const _nftContractStorage: any = await get().nftContract?.storage();
+    console.log("_nftContractStorage", _nftContractStorage);
 
     set((state: any) => ({
       ...state,

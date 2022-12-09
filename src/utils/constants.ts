@@ -2,11 +2,15 @@ import { ColorMode, Network, NetworkType } from "@airgap/beacon-sdk";
 import { BeaconWallet } from "@taquito/beacon-wallet";
 import { TezosToolkit } from "@taquito/taquito";
 // Set the network (Mainnet is default)
+// export const TEZOS_COLLECT_NETWORK: Network = {
+//   type:
+//     process.env.NODE_ENV === "development"
+//       ? NetworkType.GHOSTNET
+//       : NetworkType.MAINNET,
+// };
+
 export const TEZOS_COLLECT_NETWORK: Network = {
-  type:
-    process.env.NODE_ENV === "development"
-      ? NetworkType.GHOSTNET
-      : NetworkType.MAINNET,
+  type: NetworkType.GHOSTNET,
 };
 
 const MAINNET_RPC_URL: string = "https://mainnet.api.tez.ie";
@@ -60,14 +64,10 @@ const NFT_ADDRESSES = {
 
 export const VAULT_ADDRESS = "tz1VL5AfvZ3Cz6Bd2c2agcUQe7HKxje7ojNu";
 
-// export const MARKETPLACE_CONTRACT_ADDRESS =
-//   MARKETPLACE_ADDRESSES[TEZOS_COLLECT_NETWORK.type];
-
-// export const NFT_CONTRACT_ADDRESS = NFT_ADDRESSES[TEZOS_COLLECT_NETWORK.type];
 export const MARKETPLACE_CONTRACT_ADDRESS =
-  "KT1NYiNGxNLN46HAsfBXebFziDWbKKuy2T5c";
+  MARKETPLACE_ADDRESSES[TEZOS_COLLECT_NETWORK.type];
 
-export const NFT_CONTRACT_ADDRESS = "KT1VLxr4LNMvwHs5TeEc2LzGapKFz5yuy1PW";
+export const NFT_CONTRACT_ADDRESS = NFT_ADDRESSES[TEZOS_COLLECT_NETWORK.type];
 
 // export const API_ENDPOINT =
 //   process.env.NODE_ENV === "development"

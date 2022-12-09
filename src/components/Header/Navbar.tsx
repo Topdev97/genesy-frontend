@@ -17,7 +17,7 @@ const Navbar = () => {
       >
         <div className="text-3xl border-r-8 border-black pr-4 ">GENESY</div>
       </LinkWithSearchParams>
-      <div className="flex  gap-4 h-12">
+      <div className="">
         {/* <button className="rounded-full text-3xl h-12 w-12 hover:bg-gray-200 flex justify-center items-center">
           <SiMarketo />
         </button> */}

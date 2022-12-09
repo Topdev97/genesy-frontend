@@ -2,7 +2,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300&family=Poppins:wght@300&display=swap');
 
+
+body {
+  font-family: 'Poppins';
+}
 .menu-shadow {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }

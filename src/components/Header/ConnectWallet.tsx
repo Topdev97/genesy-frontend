@@ -64,6 +64,11 @@ const ConnectWallet = () => {
         setActiveAddress(_activeAddress?.address);
       }
       Tezos.setWalletProvider(TEZOS_COLLECT_WALLET);
+      let res = await axios.get(
+        `${API_ENDPOINT}/profiles/${_activeAddress?.address}`
+      );
+      console.log("res", res);
+      setProfile(res.data);
     };
     getActiveAccounts();
   }, []);
@@ -73,7 +78,7 @@ const ConnectWallet = () => {
       className="bg-black text-white rounded text-xl px-4 hover:bg-gray-600"
       onClick={onConnectWallet}
     >
-      SYNC
+      Sync
     </button>
   ) : (
     <div className="relative flex items-center">

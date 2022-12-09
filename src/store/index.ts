@@ -100,7 +100,9 @@ export const useTezosCollectStore = create<ITezosState>((set, get) => ({
     }
     if (get().contractReady === false) return false;
     const _nftContract = get().nftContract;
+    console.log("_nftContract", _nftContract);
     const _activeAddress = get().activeAddress;
+    console.log("_activeAddress", _activeAddress);
     const op = await _nftContract?.methods
       .mint([
         {

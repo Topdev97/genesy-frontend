@@ -48,6 +48,10 @@ interface ITezosState {
   profileStore: IProfileStore;
   fetchProfiles: { (): void };
   findProfileById: { (_address: string): I_PROFILE | undefined };
+  profile: I_PROFILE;
+  fetchProfile: {
+    (address: string): Promise<I_PROFILE>;
+  };
 }
 
 export const useTezosCollectStore = create<ITezosState>((set, get) => ({
@@ -70,6 +74,8 @@ export const useTezosCollectStore = create<ITezosState>((set, get) => ({
       Tezos.wallet.at(NFT_CONTRACT_ADDRESS),
       Tezos.wallet.at(MARKETPLACE_CONTRACT_ADDRESS),
     ]);
+    console.log("_nftContract", _nftContract);
+    console.log("_marketPlaceContract", _marketPlaceContract);
 
     const _nftContractStorage: any = await _nftContract.storage();
 
@@ -288,5 +294,35 @@ export const useTezosCollectStore = create<ITezosState>((set, get) => ({
   },
   findProfileById: (_address: string) => {
     return get().profileStore.profile.find((item) => item.wallet === _address);
+  },
+
+  profile: {
+    wallet: "",
+    artist: "",
+    avatarLink: "",
+    description: "",
+    feedOrder: 0,
+    twitter: "",
+    username: "",
+    verified: false,
+    volumeWeek: 0,
+  },
+
+  fetchProfile: async (_address: string) => {
+    let profile: I_PROFILE;
+    let res = await axios.get(`${API_ENDPOINT}/profiles/${_address}`);
+
+    profile = {
+      ...res.data,
+    };
+
+    if (profile.wallet === get().activeAddress) {
+      set((state: any) => ({
+        ...state,
+        profile,
+      }));
+    }
+
+    return profile;
   },
 }));

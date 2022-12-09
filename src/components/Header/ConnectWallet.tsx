@@ -11,20 +11,11 @@ import artist from "../../assets/artist.svg";
 import Menu from "./Menu";
 import axios from "axios";
 import { API_ENDPOINT } from "../../utils/constants";
-interface profileType {
-  artist: boolean;
-  avatarLink: string;
-  description: string;
-  feedOrder: number;
-  twitter: string;
-  username: string;
-  verified: boolean;
-  volumeWeek: number;
-  wallet: string;
-}
+import { I_PROFILE } from "../../utils/interface";
+
 const ConnectWallet = () => {
   const navigate = useNavigate();
-  const [profile, setProfile] = useState<profileType | null>(null);
+  const [profile, setProfile] = useState<I_PROFILE | null>(null);
   const [isMenu, setIsMenu] = useState<boolean>(false);
   const { activeAddress } = useTezosCollectStore();
   const setActiveAddress = useTezosCollectStore(

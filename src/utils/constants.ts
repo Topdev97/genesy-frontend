@@ -31,7 +31,7 @@ export const TEZOS_COLLECT_WALLET = new BeaconWallet({
 });
 
 const MARKETPLACE_ADDRESSES = {
-  ghostnet: "KT1NYiNGxNLN46HAsfBXebFziDWbKKuy2T5c",
+  ghostnet: "KT1CG8km5z2PTvdV6Y1CtCPsBPDtZA4nZm2v",
   kathmandunet: "",
   mainnet: "",
   mondaynet: "",
@@ -47,7 +47,7 @@ const MARKETPLACE_ADDRESSES = {
 };
 
 const NFT_ADDRESSES = {
-  ghostnet: "KT1VLxr4LNMvwHs5TeEc2LzGapKFz5yuy1PW",
+  ghostnet: "KT1UYJAZza3YPzs9VxsjfoUeWywfoB6STu9T",
   kathmandunet: "",
   mainnet: "",
   mondaynet: "",

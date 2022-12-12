@@ -4,6 +4,8 @@ interface I_USER {
   feedOrder?: 0 | 1;
   avatarLink?: string;
   twitter?: string;
+  wallet?: string;
+  artist?: boolean;
 }
 interface I_NFT {
   tokenId?: number;

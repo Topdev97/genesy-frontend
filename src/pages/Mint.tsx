@@ -74,7 +74,6 @@ const Mint = () => {
           text: `${profile?.username} minted`,
         };
         let test = await nftMint(parseInt(royalties), metadata);
-        console.log("test", test);
         await Promise.all([
           axios.put(`${API_ENDPOINT}/nfts/${lastTokenId}`, payload),
           axios.post(`${API_ENDPOINT}/nfts/log/${lastTokenId}`, logs),
@@ -103,7 +102,6 @@ const Mint = () => {
     const fetchData = async () => {
       let res = await fetchProfile(activeAddress);
       setProfile(res);
-      console.log("res", res);
     };
     fetchData();
   }, []);

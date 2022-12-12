@@ -74,8 +74,6 @@ export const useTezosCollectStore = create<ITezosState>((set, get) => ({
       Tezos.wallet.at(NFT_CONTRACT_ADDRESS),
       Tezos.wallet.at(MARKETPLACE_CONTRACT_ADDRESS),
     ]);
-    console.log("_nftContract", _nftContract);
-    console.log("_marketPlaceContract", _marketPlaceContract);
 
     const _nftContractStorage: any = await _nftContract.storage();
 
@@ -90,7 +88,6 @@ export const useTezosCollectStore = create<ITezosState>((set, get) => ({
 
   updateLastTokenId: async () => {
     const _nftContractStorage: any = await get().nftContract?.storage();
-    console.log("_nftContractStorage", _nftContractStorage);
 
     set((state: any) => ({
       ...state,
@@ -106,9 +103,7 @@ export const useTezosCollectStore = create<ITezosState>((set, get) => ({
     }
     if (get().contractReady === false) return false;
     const _nftContract = get().nftContract;
-    console.log("_nftContract", _nftContract);
     const _activeAddress = get().activeAddress;
-    console.log("_activeAddress", _activeAddress);
     const op = await _nftContract?.methods
       .mint([
         {
@@ -133,7 +128,6 @@ export const useTezosCollectStore = create<ITezosState>((set, get) => ({
     const _txOp: any = await _marketPlaceContract?.methods
       .buy(tokenId)
       .send({ amount: price });
-    console.log("_txOp", _txOp);
 
     // get().setCurrentTransaction({
     //   txHash: _txOp.opHash,

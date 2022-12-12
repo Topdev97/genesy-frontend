@@ -99,10 +99,9 @@ const Asset = () => {
   useState(() => {
     const fetchUser = async () => {
       let res = await fetchProfile(activeAddress);
-      console.log("res", res);
+      setProfile(res);
     };
     fetchUser();
-    console.log("helo");
   });
 
   useEffect(() => {
@@ -111,7 +110,6 @@ const Asset = () => {
         `${API_ENDPOINT}/nfts/${tokenId}`
       );
       let res = await axios.get(`${API_ENDPOINT}/nfts/log/${tokenId}`);
-      console.log("res", res.data);
       setLogs(res.data);
       let _price = await getTezosPrice();
       // setPrice((_nftItems.price || 0) * _price);
@@ -134,7 +132,13 @@ const Asset = () => {
                 className="w-6 h-6"
               />
               <div className="text-2xl font-bold">
-                {nftItem.artistObj?.username}
+                <a
+                  href={`http://localhost:3000/profile/${nftItem?.artistObj?.wallet}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {nftItem.artistObj?.username}
+                </a>
               </div>
             </div>
           </div>
@@ -155,7 +159,13 @@ const Asset = () => {
                 className="w-6 h-6"
               />
               <div className="text-2xl font-bold">
-                {nftItem.ownerObj?.username}
+                <a
+                  href={`http://localhost:3000/profile/${nftItem?.ownerObj?.wallet}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {nftItem.ownerObj?.username}
+                </a>
               </div>
             </div>
           </div>

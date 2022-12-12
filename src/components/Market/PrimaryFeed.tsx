@@ -62,7 +62,7 @@ const PrimaryFeed = () => {
         )}
       </div>
       <div className="flex gap-36">
-        <div className="flex flex-col gap-10">
+        <div className="flex flex-col w-1/2 gap-10">
           {nftItems
             ?.slice(0, (nftItems?.length + 1) / 2)
             ?.map((item, index) => (
@@ -80,7 +80,7 @@ const PrimaryFeed = () => {
               </div>
             ))}
         </div>
-        <div className="flex flex-col items-end justify-center gap-10">
+        <div className="flex flex-col w-1/2 items-end justify-center gap-10">
           {nftItems?.slice((nftItems?.length + 1) / 2)?.map((item, index) => (
             <div className="flex" key={index}>
               <LinkWithSearchParams

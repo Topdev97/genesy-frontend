@@ -4,7 +4,7 @@ import { API_ENDPOINT } from "../../utils/constants";
 import { I_NFT } from "../../utils/interface";
 import CollectCard from "./CollectCard";
 import { useTezosCollectStore } from "../../store";
-
+import LinkWithSearchParams from "../LinkWithSearchParams";
 const Nftboard = () => {
   const { findProfileById } = useTezosCollectStore();
   const [nftItems, setNftItems] = useState<I_NFT[]>([]);
@@ -23,7 +23,13 @@ const Nftboard = () => {
       <div className="grid grid-cols-4 gap-8">
         {nftItems.map((item, index) => (
           <div key={index}>
-            <CollectCard nft={item} profile={findProfileById(item.artist)} />
+            <LinkWithSearchParams
+              to={{
+                pathname: `/assets/${item.tokenId}`,
+              }}
+            >
+              <CollectCard nft={item} profile={findProfileById(item.artist)} />
+            </LinkWithSearchParams>
           </div>
         ))}
       </div>

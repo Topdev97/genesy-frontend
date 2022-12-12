@@ -18,7 +18,6 @@ const Edit = () => {
   const [isLoad, setIsLoad] = useState<boolean>(false);
   const [imageObject, setImageObject] = useState<File | null>(null);
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log("e.target.value", e.target.value);
     setFeed(e.target.value);
   };
   const { activeAddress } = useTezosCollectStore();
@@ -26,7 +25,6 @@ const Edit = () => {
     (async () => {
       try {
         let res = await axios.get(`${API_ENDPOINT}/profiles/${activeAddress}`);
-        console.log("reasdfasdfsds", res);
         setDescription(res.data?.description);
         setTwitter(res.data?.twitter);
         setName(res.data?.username);
@@ -54,7 +52,6 @@ const Edit = () => {
           `${API_ENDPOINT}/profiles/${activeAddress}`,
           payload
         );
-        console.log("res", res);
         navigate("/home/primary");
         setIsLoad(false);
       } catch (error) {

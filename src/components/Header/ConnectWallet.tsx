@@ -33,7 +33,7 @@ const ConnectWallet = () => {
       let res = await axios.get(`${API_ENDPOINT}/profiles/${_activeAddress}`);
       setProfile(res.data);
       if (res.data?.wallet) {
-        navigate("/home/primary");
+        navigate(`/profile/${_activeAddress}/created`);
       } else {
         navigate("/signup");
       }
@@ -58,7 +58,6 @@ const ConnectWallet = () => {
       let res = await axios.get(
         `${API_ENDPOINT}/profiles/${_activeAddress?.address}`
       );
-      console.log("res", res);
       setProfile(res.data);
     };
     getActiveAccounts();
@@ -66,7 +65,7 @@ const ConnectWallet = () => {
 
   return activeAddress.length === 0 ? (
     <button
-      className="bg-black text-white rounded text-xl px-4 hover:bg-gray-600 py-1"
+      className="bg-black text-white text-xl px-4 hover:bg-gray-600 py-1"
       onClick={onConnectWallet}
     >
       Sync

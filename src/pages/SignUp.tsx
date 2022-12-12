@@ -18,13 +18,11 @@ const SignUp = () => {
   const [isLoad, setIsLoad] = useState<boolean>(false);
   const [imageObject, setImageObject] = useState<File | null>(null);
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log("e.target.value", e.target.value);
     setFeed(e.target.value);
   };
   const { activeAddress } = useTezosCollectStore();
   async function onChange(e: ChangeEvent<HTMLInputElement>) {
     const file = e.target.files![0];
-    console.log("file", file);
     const reader = new FileReader();
     reader.onload = function (event) {
       setBase64image(event.target!.result!.toString());
@@ -49,7 +47,6 @@ const SignUp = () => {
           `${API_ENDPOINT}/profiles/${activeAddress}`,
           payload
         );
-        console.log("res", res);
         navigate("/home/primary");
         setIsLoad(false);
       } catch (error) {

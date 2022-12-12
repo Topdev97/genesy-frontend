@@ -69,9 +69,9 @@ export const MARKETPLACE_CONTRACT_ADDRESS =
 
 export const NFT_CONTRACT_ADDRESS = NFT_ADDRESSES[TEZOS_COLLECT_NETWORK.type];
 
-export const API_ENDPOINT =
-  process.env.NODE_ENV === "development"
-    ? "http://192.168.113.103:80"
-    : "https://api.genesy.xyz";
+// export const API_ENDPOINT =
+//   process.env.NODE_ENV === "development"
+//     ? "http://192.168.113.103:80"
+//     : "https://api.genesy.xyz";
 
-// export const API_ENDPOINT = "https://api.genesy.xyz";
+export const API_ENDPOINT = "https://api.genesy.xyz";

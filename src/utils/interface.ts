@@ -15,6 +15,7 @@ interface I_NFT {
   owner: string;
   ownerObj?: I_USER;
   price?: number;
+  royalty?: number;
   lastSoldAmount?: number;
   lastSoldAt?: Date;
   mintedAt?: Date;
@@ -32,4 +33,9 @@ interface I_PROFILE {
   verified: boolean;
   volumeWeek: number;
 }
-export type { I_NFT, I_PROFILE };
+interface I_Log {
+  timestamp: Date;
+  text: string;
+}
+
+export type { I_NFT, I_PROFILE, I_Log };

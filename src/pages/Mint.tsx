@@ -1,18 +1,26 @@
 import { BsImage } from "react-icons/bs";
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, useEffect } from "react";
 import { NFT_STORAGE_KEY } from "../utils/constants";
 import { NFTStorage, File } from "nft.storage";
 import { useTezosCollectStore } from "../store";
 import spinner from "../assets/spinner.svg";
 import axios from "axios";
 import { API_ENDPOINT } from "../utils/constants";
-import { I_NFT } from "../utils/interface";
+import { I_NFT, I_Log, I_PROFILE } from "../utils/interface";
 import { replaceIpfsLink } from "../utils/utils";
+import { useNavigate } from "react-router-dom";
 
 const Mint = () => {
-  const { activeAddress, nftMint, lastTokenId, updateLastTokenId } =
-    useTezosCollectStore();
+  const navigate = useNavigate();
+  const {
+    activeAddress,
+    nftMint,
+    lastTokenId,
+    updateLastTokenId,
+    fetchProfile,
+  } = useTezosCollectStore();
   const client = new NFTStorage({ token: NFT_STORAGE_KEY });
+  const [profile, setProfile] = useState<I_PROFILE | null>(null);
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [file, setFile] = useState<File | null>(null);
@@ -58,17 +66,22 @@ const Mint = () => {
           artist: activeAddress,
           owner: activeAddress,
           price: amount,
+          royalty: parseFloat(royalties),
           mintedAt: new Date(),
         };
-        console.log("metadata", metadata);
+        let logs: I_Log = {
+          timestamp: new Date(),
+          text: `${profile?.username} minted`,
+        };
         let test = await nftMint(parseInt(royalties), metadata);
         console.log("test", test);
         await Promise.all([
           axios.put(`${API_ENDPOINT}/nfts/${lastTokenId}`, payload),
+          axios.post(`${API_ENDPOINT}/nfts/log/${lastTokenId}`, logs),
           updateLastTokenId(),
         ]);
-
         setIsLoad(false);
+        navigate(`/profile/${activeAddress}/owned`);
       } catch (error) {
         console.log(error);
         setIsLoad(false);
@@ -86,6 +99,14 @@ const Mint = () => {
     };
     reader.readAsDataURL(file);
   }
+  useEffect(() => {
+    const fetchData = async () => {
+      let res = await fetchProfile(activeAddress);
+      setProfile(res);
+      console.log("res", res);
+    };
+    fetchData();
+  }, []);
   return (
     <div className="max-w-[1024px] mx-auto py-24 sm:px-8 lg:px-0">
       <div className="text-3xl font-medium">Mint a new piece of art</div>

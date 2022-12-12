@@ -5,8 +5,8 @@ import { useTezosCollectStore } from "../store";
 import { IoLink } from "react-icons/io5";
 import user from "../assets/user.svg";
 import { useParams } from "react-router-dom";
-import { I_NFT } from "../utils/interface";
-import { API_ENDPOINT } from "../utils/constants";
+import { I_NFT, I_Log, I_PROFILE } from "../utils/interface";
+import { API_ENDPOINT, NFT_CONTRACT_ADDRESS } from "../utils/constants";
 import axios from "axios";
 import { getTezosPrice } from "../utils/price";
 import spinner from "../assets/spinner.svg";
@@ -14,6 +14,8 @@ const Asset = () => {
   const { tokenId } = useParams();
   const { buyForSale, cancelForSale, listForSale, activeAddress } =
     useTezosCollectStore();
+  const [profile, setProfile] = useState<I_PROFILE | null>(null);
+  const [logs, setLogs] = useState<I_Log[]>([]);
   const [marketState, setMarketState] = useState<boolean>(false);
   const [salePrice, setSalePrice] = useState<string>("");
   const [nftItem, setNftItem] = useState<I_NFT>({
@@ -24,7 +26,10 @@ const Asset = () => {
     owner: "",
   });
   const onBuyForSale = async () => {
-    // await buyForSale(domain?.tokenId || -1, domain?.price || 0);
+    let log: I_Log = {
+      timestamp: new Date(),
+      text: `${nftItem.owner} listed ${nftItem.name} for 200XTZ`,
+    };
     try {
       setMarketState(true);
       await buyForSale(parseFloat(tokenId!), nftItem?.price!);
@@ -32,7 +37,8 @@ const Asset = () => {
         owner: activeAddress,
         price: 0,
       });
-      setMarketState(false);
+      axios.post(`${API_ENDPOINT}/nfts/log/${tokenId}`, log),
+        setMarketState(false);
     } catch (error) {
       console.log(error);
       setMarketState(false);
@@ -81,9 +87,10 @@ const Asset = () => {
       const { data: _nftItems }: { data: I_NFT } = await axios.get(
         `${API_ENDPOINT}/nfts/${tokenId}`
       );
+      let res = await axios.get(`${API_ENDPOINT}/nfts/log/${tokenId}`);
+      console.log("res", res.data);
+      setLogs(res.data);
       let _price = await getTezosPrice();
-      console.log("_nftItems", _nftItems);
-      console.log("_price", _price);
       // setPrice((_nftItems.price || 0) * _price);
       setNftItem(_nftItems);
     };
@@ -237,17 +244,17 @@ const Asset = () => {
         <div className="py-4">{nftItem.description}</div>
         <div className="flex gap-4 py-2">
           <div>ROYALTIES</div>
-          <div>8%</div>
+          <div>{nftItem?.royalty}%</div>
         </div>
         <div className="flex gap-4 py-2">
           <div>ADDRESS</div>
-          <div>KT1VLxr4LNMvwHs5TeEc2LzGapKFz5yuy1PW</div>
+          <div>{NFT_CONTRACT_ADDRESS}</div>
         </div>
         <div className="flex gap-4 font-bold py-4">
           <div className="flex items-center gap-4">
             <IoLink />
             <a
-              href="https://ghostnet.tzkt.io/KT1VLxr4LNMvwHs5TeEc2LzGapKFz5yuy1PW/operations/"
+              href={`https://ghostnet.tzkt.io/${NFT_CONTRACT_ADDRESS}/operations/`}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -269,36 +276,12 @@ const Asset = () => {
       <div>
         <div className="text-2xl font-bold py-8">__ History</div>
         <div className="flex flex-col gap-4">
-          <div className="flex gap-8">
-            <div>OCTOBER 21, 2022 7:47 PM</div>
-            <div>
-              <span className="font-bold">HACK </span>
-              bought from
-              <span className="font-bold"> ISKRA </span>
-              for
-              <span className="font-bold"> 700 XYZ</span>
+          {logs?.map((item, index) => (
+            <div key={index} className="flex gap-8">
+              <div>{item?.timestamp?.toString()}</div>
+              <div>{item?.text}</div>
             </div>
-          </div>
-          <div className="flex gap-8">
-            <div>OCTOBER 21, 2022 7:47 PM</div>
-            <div>
-              <span className="font-bold">HACK </span>
-              bought from
-              <span className="font-bold"> ISKRA </span>
-              for
-              <span className="font-bold"> 700 XYZ</span>
-            </div>
-          </div>
-          <div className="flex gap-8">
-            <div>OCTOBER 21, 2022 7:47 PM</div>
-            <div>
-              <span className="font-bold">HACK </span>
-              bought from
-              <span className="font-bold"> ISKRA </span>
-              for
-              <span className="font-bold"> 700 XYZ</span>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>

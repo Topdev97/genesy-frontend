@@ -9,11 +9,13 @@ import { I_NFT } from "../utils/interface";
 import { API_ENDPOINT } from "../utils/constants";
 import axios from "axios";
 import { getTezosPrice } from "../utils/price";
+import spinner from "../assets/spinner.svg";
 const Asset = () => {
   const { tokenId } = useParams();
-  const [price, setPrice] = useState<any>(null);
   const { buyForSale, cancelForSale, listForSale, activeAddress } =
     useTezosCollectStore();
+  const [marketState, setMarketState] = useState<boolean>(false);
+  const [salePrice, setSalePrice] = useState<string>("");
   const [nftItem, setNftItem] = useState<I_NFT>({
     artist: "",
     description: "",
@@ -23,16 +25,55 @@ const Asset = () => {
   });
   const onBuyForSale = async () => {
     // await buyForSale(domain?.tokenId || -1, domain?.price || 0);
-    await buyForSale(2, 12);
+    try {
+      setMarketState(true);
+      await buyForSale(parseFloat(tokenId!), nftItem?.price!);
+      await axios.put(`${API_ENDPOINT}/nfts/${tokenId}`, {
+        owner: activeAddress,
+        price: 0,
+      });
+      setMarketState(false);
+    } catch (error) {
+      console.log(error);
+      setMarketState(false);
+    }
   };
 
   const onCancelForSale = async () => {
-    await cancelForSale(1);
+    try {
+      setMarketState(true);
+      await cancelForSale(parseFloat(tokenId!));
+      await axios.put(`${API_ENDPOINT}/nfts/${tokenId}`, {
+        price: 0,
+      });
+      setMarketState(false);
+    } catch (error) {
+      setMarketState(false);
+      console.log(error);
+    }
   };
 
   const onListForSale = async () => {
     let includingOperator = false;
-    await listForSale(2, includingOperator, parseFloat(price));
+    if (parseFloat(salePrice) > 0) {
+      try {
+        setMarketState(true);
+        await listForSale(
+          parseFloat(tokenId!),
+          includingOperator,
+          parseFloat(salePrice)
+        );
+        await axios.put(`${API_ENDPOINT}/nfts/${tokenId}`, {
+          price: salePrice,
+        });
+        setMarketState(false);
+      } catch (error) {
+        setMarketState(false);
+        console.log(error);
+      }
+    } else {
+      console.log("Error");
+    }
   };
 
   useEffect(() => {
@@ -41,12 +82,13 @@ const Asset = () => {
         `${API_ENDPOINT}/nfts/${tokenId}`
       );
       let _price = await getTezosPrice();
+      console.log("_nftItems", _nftItems);
       console.log("_price", _price);
-      setPrice((_nftItems.price || 0) * _price);
+      // setPrice((_nftItems.price || 0) * _price);
       setNftItem(_nftItems);
     };
     loadNftItem();
-  }, [tokenId]);
+  }, [tokenId, marketState]);
   return (
     <div className="max-w-[1024px] mx-auto py-24 sm:px-8 lg:px-0">
       <div className="flex gap-24">
@@ -87,13 +129,20 @@ const Asset = () => {
               </div>
             </div>
           </div>
-
           {activeAddress == nftItem.owner ? (
             nftItem.price == 0 || nftItem.price == null ? (
               <div>
                 <div>
                   <div>
-                    <div>__ PRICE</div>
+                    <input
+                      type="text"
+                      name="price"
+                      value={salePrice}
+                      onChange={(e) => setSalePrice(e.target.value)}
+                      className="outline-none border-b border-black text-center my-4"
+                      placeholder="Enter Price(XTZ)"
+                    />
+                    {/* <div>__ PRICE</div>
                     <div className="flex gap-2 items-center  my-4">
                       <div className="">
                         <span className="text-2xl font-bold">
@@ -101,13 +150,25 @@ const Asset = () => {
                         </span>
                         USD {String(price).slice(0, 5)}
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                   <button
-                    className="w-32 bg-black text-white py-2 hover:bg-gray-500"
+                    className="w-48 bg-black text-white py-2 hover:bg-gray-500"
                     onClick={() => onListForSale()}
+                    disabled={marketState}
                   >
-                    LIST FOR SALE
+                    {marketState ? (
+                      <div className="flex items-center justify-center">
+                        <img
+                          src={spinner}
+                          alt="spinner"
+                          className="inline mr-3 w-4 h-4 text-white animate-spin"
+                        />
+                        LIST FOR SALE...
+                      </div>
+                    ) : (
+                      <div>LIST FOR SALE</div>
+                    )}
                   </button>
                 </div>
               </div>
@@ -121,45 +182,56 @@ const Asset = () => {
                         <span className="text-2xl font-bold">
                           {nftItem.price} XTZ
                         </span>
-                        USD {String(price).slice(0, 5)}
+                        {/* USD {String(price).slice(0, 5)} */}
                       </div>
                     </div>
                   </div>
                   <button
-                    className="w-32 bg-black text-white py-2 hover:bg-gray-500"
+                    className="w-48 bg-black text-white py-2 hover:bg-gray-500"
                     onClick={() => onCancelForSale()}
+                    disabled={marketState}
                   >
-                    CANCEL SALE
+                    {marketState ? (
+                      <div className="flex items-center justify-center">
+                        <img
+                          src={spinner}
+                          alt="spinner"
+                          className="inline mr-3 w-4 h-4 text-white animate-spin"
+                        />
+                        CANCEL SALE...
+                      </div>
+                    ) : (
+                      <div>CANCEL SALE</div>
+                    )}
                   </button>
                 </div>
               </div>
             )
+          ) : nftItem.price == 0 ? (
+            <></>
           ) : (
-            nftItem.price && (
+            <div>
               <div>
-                <div>
-                  <div>__ PRICE</div>
-                  <div className="flex gap-2 items-center  my-4">
-                    <div className="">
-                      <span className="text-2xl font-bold">
-                        {nftItem.price} XTZ
-                      </span>
-                      USD {String(price).slice(0, 5)}
-                    </div>
+                <div>__ PRICE</div>
+                <div className="flex gap-2 items-center  my-4">
+                  <div className="">
+                    <span className="text-2xl font-bold">
+                      {nftItem.price} XTZ
+                    </span>
+                    {/* USD {String(price).slice(0, 5)} */}
                   </div>
                 </div>
-                <button
-                  className="w-32 bg-black text-white py-2 hover:bg-gray-500"
-                  onClick={() => onBuyForSale()}
-                >
-                  BUY NOW
-                </button>
               </div>
-            )
+              <button
+                className="w-32 bg-black text-white py-2 hover:bg-gray-500"
+                onClick={() => onBuyForSale()}
+              >
+                BUY NOW
+              </button>
+            </div>
           )}
         </div>
       </div>
-
       <div>
         <div className="text-2xl font-bold py-8">__ Description</div>
         <div className="py-4">{nftItem.description}</div>
@@ -189,12 +261,11 @@ const Asset = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              TzKT
+              IPFS
             </a>
           </div>
         </div>
       </div>
-
       <div>
         <div className="text-2xl font-bold py-8">__ History</div>
         <div className="flex flex-col gap-4">

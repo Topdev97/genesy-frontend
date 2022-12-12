@@ -30,7 +30,7 @@ interface ITezosState {
   updateLastTokenId: { (): void };
   // nft mint function for artis
   nftMint: {
-    (metadata: any): void;
+    (royalties: number, metadata: any): void;
   };
   buyForSale: {
     (tokenId: number, price: number): Promise<boolean>;
@@ -99,7 +99,7 @@ export const useTezosCollectStore = create<ITezosState>((set, get) => ({
   },
 
   // mint function for artist
-  nftMint: async (metadata: any) => {
+  nftMint: async (royalties: number, metadata: any) => {
     if (get().activeAddress === "") {
       alert("Need to connect wallet first!");
       return false;
@@ -112,6 +112,7 @@ export const useTezosCollectStore = create<ITezosState>((set, get) => ({
     const op = await _nftContract?.methods
       .mint([
         {
+          royalty: royalties,
           to_: _activeAddress,
           metadata: MichelsonMap.fromLiteral({ "": char2Bytes(metadata?.url) }),
         },

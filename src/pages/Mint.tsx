@@ -16,7 +16,7 @@ const Mint = () => {
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [file, setFile] = useState<File | null>(null);
-  const [royalties, setRoyalties] = useState<string>("");
+  const [royalties, setRoyalties] = useState<string>("0");
   const [amount, setAmount] = useState<number>(0);
   const [error, setError] = useState<string>("");
   const [base64image, setBase64image] = useState("");
@@ -27,9 +27,9 @@ const Mint = () => {
     if (
       name === "" ||
       description === "" ||
-      royalties === "" ||
-      // amount === "" ||
-      // !/^-?\d+$/.test(amount) ||
+      parseInt(royalties) > 15 ||
+      parseInt(royalties) < 0 ||
+      !/^-?\d+$/.test(royalties) ||
       file === null
     ) {
       setError("Some Error Occurred. Please check entered details.");
@@ -61,7 +61,7 @@ const Mint = () => {
           mintedAt: new Date(),
         };
         console.log("metadata", metadata);
-        let test = await nftMint(metadata);
+        let test = await nftMint(parseInt(royalties), metadata);
         console.log("test", test);
         await Promise.all([
           axios.put(`${API_ENDPOINT}/nfts/${lastTokenId}`, payload),
@@ -131,21 +131,9 @@ const Mint = () => {
           disabled={isLoad}
           onChange={(e) => setRoyalties(e.target.value)}
           className="outline-none border-b border-black"
-          placeholder="You can set a value between 0 and 10%"
+          placeholder="You can set a value between 0 and 15%"
         />
       </div>
-      {/* <div className="flex flex-col py-4 gap-2">
-        <div>SELLING AMOUNT*</div>
-        <input
-          type="text"
-          name="name"
-          value={amount}
-          disabled={isLoad}
-          onChange={(e) => setAmount(parseFloat(e.target.value || "0"))}
-          className="outline-none border-b border-black"
-          placeholder="Define the selling amount for this item(XTZ)"
-        />
-      </div> */}
       <div className="flex flex-col py-4 gap-2">
         <div>UPLOAD ART</div>
         <div className="flex">

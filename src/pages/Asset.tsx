@@ -12,8 +12,13 @@ import { getTezosPrice } from "../utils/price";
 import spinner from "../assets/spinner.svg";
 const Asset = () => {
   const { tokenId } = useParams();
-  const { buyForSale, cancelForSale, listForSale, activeAddress } =
-    useTezosCollectStore();
+  const {
+    buyForSale,
+    cancelForSale,
+    listForSale,
+    activeAddress,
+    fetchProfile,
+  } = useTezosCollectStore();
   const [profile, setProfile] = useState<I_PROFILE | null>(null);
   const [logs, setLogs] = useState<I_Log[]>([]);
   const [marketState, setMarketState] = useState<boolean>(false);
@@ -28,7 +33,7 @@ const Asset = () => {
   const onBuyForSale = async () => {
     let log: I_Log = {
       timestamp: new Date(),
-      text: `${nftItem.owner} listed ${nftItem.name} for 200XTZ`,
+      text: `${profile?.username} bought ${nftItem.ownerObj?.username} for ${salePrice}XTZ`,
     };
     try {
       setMarketState(true);
@@ -37,8 +42,8 @@ const Asset = () => {
         owner: activeAddress,
         price: 0,
       });
-      axios.post(`${API_ENDPOINT}/nfts/log/${tokenId}`, log),
-        setMarketState(false);
+      await axios.post(`${API_ENDPOINT}/nfts/log/${tokenId}`, log);
+      setMarketState(false);
     } catch (error) {
       console.log(error);
       setMarketState(false);
@@ -46,12 +51,17 @@ const Asset = () => {
   };
 
   const onCancelForSale = async () => {
+    let log: I_Log = {
+      timestamp: new Date(),
+      text: `${nftItem.ownerObj?.username} canceled ${nftItem.name}`,
+    };
     try {
       setMarketState(true);
       await cancelForSale(parseFloat(tokenId!));
       await axios.put(`${API_ENDPOINT}/nfts/${tokenId}`, {
         price: 0,
       });
+      await axios.post(`${API_ENDPOINT}/nfts/log/${tokenId}`, log);
       setMarketState(false);
     } catch (error) {
       setMarketState(false);
@@ -60,6 +70,10 @@ const Asset = () => {
   };
 
   const onListForSale = async () => {
+    let log: I_Log = {
+      timestamp: new Date(),
+      text: `${nftItem.ownerObj?.username} listed ${nftItem.name} for ${salePrice}XTZ`,
+    };
     let includingOperator = false;
     if (parseFloat(salePrice) > 0) {
       try {
@@ -72,6 +86,7 @@ const Asset = () => {
         await axios.put(`${API_ENDPOINT}/nfts/${tokenId}`, {
           price: salePrice,
         });
+        await axios.post(`${API_ENDPOINT}/nfts/log/${tokenId}`, log);
         setMarketState(false);
       } catch (error) {
         setMarketState(false);
@@ -81,6 +96,14 @@ const Asset = () => {
       console.log("Error");
     }
   };
+  useState(() => {
+    const fetchUser = async () => {
+      let res = await fetchProfile(activeAddress);
+      console.log("res", res);
+    };
+    fetchUser();
+    console.log("helo");
+  });
 
   useEffect(() => {
     const loadNftItem = async () => {

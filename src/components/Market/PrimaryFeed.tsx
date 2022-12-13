@@ -64,7 +64,26 @@ const PrimaryFeed = () => {
       <div className="flex gap-36">
         <div className="flex flex-col w-1/2 gap-10">
           {nftItems
-            ?.slice(0, (nftItems?.length + 1) / 2)
+            ?.filter((word, index) => index % 2 == 0)
+            ?.map((item, index) => (
+              <div className="flex w-full" key={index}>
+                <LinkWithSearchParams
+                  to={{
+                    pathname: `/assets/${item.tokenId}`,
+                  }}
+                  className="w-full"
+                >
+                  <CollectCard
+                    nft={item}
+                    profile={findProfileById(item.artist)}
+                  />
+                </LinkWithSearchParams>
+              </div>
+            ))}
+        </div>
+        <div className="flex flex-col w-1/2 items-end justify-center gap-10">
+          {nftItems
+            ?.filter((word, index) => index % 2 == 1)
             ?.map((item, index) => (
               <div className="flex" key={index}>
                 <LinkWithSearchParams
@@ -79,22 +98,6 @@ const PrimaryFeed = () => {
                 </LinkWithSearchParams>
               </div>
             ))}
-        </div>
-        <div className="flex flex-col w-1/2 items-end justify-center gap-10">
-          {nftItems?.slice((nftItems?.length + 1) / 2)?.map((item, index) => (
-            <div className="flex" key={index}>
-              <LinkWithSearchParams
-                to={{
-                  pathname: `/assets/${item.tokenId}`,
-                }}
-              >
-                <CollectCard
-                  nft={item}
-                  profile={findProfileById(item.artist)}
-                />
-              </LinkWithSearchParams>
-            </div>
-          ))}
         </div>
       </div>
     </div>

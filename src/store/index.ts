@@ -52,6 +52,8 @@ interface ITezosState {
   fetchProfile: {
     (address: string): Promise<I_PROFILE>;
   };
+  bookmarkedNames: string[];
+  toggleBookmark: { (_name: string): void };
 }
 
 export const useTezosCollectStore = create<ITezosState>((set, get) => ({
@@ -319,5 +321,22 @@ export const useTezosCollectStore = create<ITezosState>((set, get) => ({
     }
 
     return profile;
+  },
+  bookmarkedNames: JSON.parse(localStorage.getItem("bookmarkedNames") || "[]"),
+  toggleBookmark: (_name: string) => {
+    const indexOf = get().bookmarkedNames.indexOf(_name);
+    if (indexOf >= 0) {
+      get().bookmarkedNames.splice(indexOf, 1);
+    } else get().bookmarkedNames.push(_name);
+
+    set((state: any) => ({
+      ...state,
+      bookmarkedNames: get().bookmarkedNames,
+    }));
+    localStorage.setItem(
+      "bookmarkedNames",
+      JSON.stringify(get().bookmarkedNames)
+    );
+    // updateBookmarkedNamesByAddress(get().activeAddress, get().bookmarkedNames);
   },
 }));

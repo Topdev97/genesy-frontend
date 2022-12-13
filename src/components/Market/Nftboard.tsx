@@ -21,7 +21,7 @@ const Nftboard = () => {
   return (
     <div>
       <div className="grid grid-cols-4 gap-8">
-        {nftItems.map((item, index) => (
+        {nftItems?.slice(0, 8)?.map((item, index) => (
           <div key={index}>
             <LinkWithSearchParams
               to={{

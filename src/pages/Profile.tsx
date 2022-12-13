@@ -11,7 +11,8 @@ const Profile = () => {
   const [profile, setProfile] = useState<I_PROFILE | null>(null);
   const [tabLength, setTabLength] = useState<number>(0);
   const { address } = useParams();
-  const { fetchProfile, activeAddress } = useTezosCollectStore();
+  const { fetchProfile, activeAddress, toggleBookmark } =
+    useTezosCollectStore();
   const TAB_LIST = useMemo(
     () => [
       {
@@ -25,6 +26,9 @@ const Profile = () => {
     ],
     [address]
   );
+  // const toggleBookmark = () => {
+  //   setIsBookmark(!isBookmark);
+  // };
   useState(() => {
     const fetchUser = async () => {
       let user = await fetchProfile(activeAddress);
@@ -45,7 +49,7 @@ const Profile = () => {
           <div className="py-4">Independent Artist of Generative Art</div>
         </div>
         <div
-          onClick={() => setIsBookmark(!isBookmark)}
+          onClick={() => toggleBookmark("asdfs")}
           className=" w-10 h-10 rounded-full hover:bg-gray-100 flex justify-center items-center"
         >
           {isBookmark ? (
@@ -97,12 +101,7 @@ const Profile = () => {
             </LinkWithSearchParams>
           ))}
         </div>
-        <div className="flex justify-end py-2">
-          <div className="flex gap-2 items-center">
-            <label htmlFor="onlySale">On sale only</label>
-            <input type="checkbox" name="onlySale" id="onlySale" />
-          </div>
-        </div>
+
         <ProfileTabs />
       </div>
     </div>

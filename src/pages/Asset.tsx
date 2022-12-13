@@ -134,7 +134,7 @@ const Asset = () => {
               />
               <div className="text-2xl font-bold">
                 <a
-                  href={`http://localhost:3000/profile/${nftItem?.artistObj?.wallet}`}
+                  href={`https://beta.genesy.xyz/profile/${nftItem?.artistObj?.wallet}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -163,7 +163,7 @@ const Asset = () => {
               />
               <div className="text-2xl font-bold">
                 <a
-                  href={`http://localhost:3000/profile/${nftItem?.ownerObj?.wallet}`}
+                  href={`https://beta.genesy.xyz/profile/${nftItem?.ownerObj?.wallet}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >

@@ -15,8 +15,8 @@ const Created = () => {
   const [isSaled, setIsSaled] = useState<boolean>(false);
 
   const toggleSale = () => {
+    localStorage.setItem("createdSale", JSON.stringify({ isSaled: !isSaled }));
     setIsSaled(!isSaled);
-    localStorage.setItem("createdSale", JSON.stringify({ isSaled: isSaled }));
   };
   useEffect(() => {
     const loadItems = async () => {

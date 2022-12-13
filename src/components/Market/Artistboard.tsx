@@ -2,10 +2,10 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { API_ENDPOINT } from "../../utils/constants";
 import { I_NFT } from "../../utils/interface";
-import CollectCard from "./CollectCard";
+import ArtistCard from "./ArtistCard";
 import { useTezosCollectStore } from "../../store";
 import LinkWithSearchParams from "../LinkWithSearchParams";
-const Nftboard = ({ items }: any) => {
+const Artistboard = ({ items }: any) => {
   const { findProfileById } = useTezosCollectStore();
   const [nftItems, setNftItems] = useState<I_NFT[]>([]);
   const [orderBy] = useState(0);
@@ -15,13 +15,7 @@ const Nftboard = ({ items }: any) => {
       <div className="grid grid-cols-4 gap-8">
         {items?.slice(0, 8)?.map((item: any, index: number) => (
           <div key={index}>
-            <LinkWithSearchParams
-              to={{
-                pathname: `/assets/${item.tokenId}`,
-              }}
-            >
-              <CollectCard nft={item} profile={findProfileById(item.artist)} />
-            </LinkWithSearchParams>
+            <ArtistCard profile={item} index={index} />
           </div>
         ))}
       </div>
@@ -29,4 +23,4 @@ const Nftboard = ({ items }: any) => {
   );
 };
 
-export default Nftboard;
+export default Artistboard;

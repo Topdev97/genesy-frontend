@@ -5,24 +5,26 @@ import { I_NFT } from "../../utils/interface";
 import { useTezosCollectStore } from "../../store";
 import axios from "axios";
 import { API_ENDPOINT } from "../../utils/constants";
+import { useParams } from "react-router-dom";
+
 const Owned = () => {
-  const { activeAddress, findProfileById } = useTezosCollectStore();
+  const { address } = useParams();
+  const { findProfileById } = useTezosCollectStore();
   const [nftItems, setNftItems] = useState<I_NFT[]>([]);
   const checked = JSON.parse(
     localStorage.getItem("ownedSale") || '{"isSaled": false}'
   );
-  console.log("checked", checked);
   const [isSaled, setIsSaled] = useState<boolean>(false);
 
   const toggleSale = () => {
+    localStorage.setItem("ownedSale", JSON.stringify({ isSaled: !isSaled }));
     setIsSaled(!isSaled);
-    localStorage.setItem("ownedSale", JSON.stringify({ isSaled: isSaled }));
   };
   useEffect(() => {
     const loadItems = async () => {
-      if (activeAddress.length === 0) return;
+      if (address?.length === 0) return;
       const { data: _nftItems }: { data: I_NFT[] } = await axios.get(
-        `${API_ENDPOINT}/nfts/user/${activeAddress}`
+        `${API_ENDPOINT}/nfts/user/${address}`
       );
       setNftItems(_nftItems);
       if (checked?.isSaled) {
@@ -31,7 +33,7 @@ const Owned = () => {
       }
     };
     loadItems();
-  }, [activeAddress, checked?.isSaled]);
+  }, [address, checked?.isSaled]);
   return (
     <div>
       <div className="flex justify-end py-2">

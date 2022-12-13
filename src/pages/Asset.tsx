@@ -113,6 +113,7 @@ const Asset = () => {
       setLogs(res.data);
       let _price = await getTezosPrice();
       // setPrice((_nftItems.price || 0) * _price);
+      console.log("_nftItems", _nftItems);
       setNftItem(_nftItems);
     };
     loadNftItem();
@@ -142,14 +143,16 @@ const Asset = () => {
               </div>
             </div>
           </div>
-          <div>
-            <div>Collector's Circle</div>
-            <div className="flex gap-4  my-4">
-              <img src={user} alt="user" className="w-6 h-6" />
-              <img src={user} alt="user" className="w-6 h-6" />
-              <img src={user} alt="user" className="w-6 h-6" />
+          {nftItem?.artistObj?.friends?.length! > 0 && (
+            <div>
+              <div>Collector's Circle</div>
+              <div className="flex gap-4  my-4">
+                {nftItem?.artistObj?.friends?.map((item, index) => (
+                  <div key={index}>{item}</div>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
           <div>
             <div>__ COLLECTED BY</div>
             <div className="flex gap-2 items-center  my-4">

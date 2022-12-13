@@ -30,9 +30,10 @@ const Profile = () => {
     ],
     [address]
   );
-  // const toggleBookmark = () => {
-  //   setIsBookmark(!isBookmark);
-  // };
+  const toggleMark = (wallet: string, friend: string) => {
+    setIsBookmark(!isBookmark);
+    toggleBookmark(wallet, friend);
+  };
   useEffect(() => {
     if (_activeAddress?.address! !== address) {
       console.log("guest");
@@ -45,11 +46,17 @@ const Profile = () => {
   useState(() => {
     const fetchUser = async () => {
       let user = await fetchProfile(address!);
+      console.log("user", user);
       setProfile(user);
       if (user?.artist) {
         setTabLength(0);
       } else {
         setTabLength(1);
+      }
+      if (user?.friends?.length! > 0) {
+        setIsBookmark(true);
+      } else {
+        setIsBookmark(false);
       }
     };
     fetchUser();
@@ -62,7 +69,7 @@ const Profile = () => {
           <div className="py-4">Independent Artist of Generative Art</div>
         </div>
         <div
-          onClick={() => toggleBookmark("asdfs")}
+          onClick={() => toggleMark(_activeAddress?.address!, address!)}
           className=" w-10 h-10 rounded-full hover:bg-gray-100 flex justify-center items-center"
         >
           {isBookmark ? (

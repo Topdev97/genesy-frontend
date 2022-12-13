@@ -6,6 +6,7 @@ interface I_USER {
   twitter?: string;
   wallet?: string;
   artist?: boolean;
+  friends?: string[];
 }
 interface I_NFT {
   tokenId?: number;
@@ -34,6 +35,7 @@ interface I_PROFILE {
   username: string;
   verified: boolean;
   volumeWeek: number;
+  friends?: string[];
 }
 interface I_Log {
   timestamp: Date;

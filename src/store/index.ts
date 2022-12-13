@@ -53,7 +53,7 @@ interface ITezosState {
     (address: string): Promise<I_PROFILE>;
   };
   bookmarkedNames: string[];
-  toggleBookmark: { (_name: string): void };
+  toggleBookmark: { (_wallet: string, _friend: string): void };
 }
 
 export const useTezosCollectStore = create<ITezosState>((set, get) => ({
@@ -323,20 +323,11 @@ export const useTezosCollectStore = create<ITezosState>((set, get) => ({
     return profile;
   },
   bookmarkedNames: JSON.parse(localStorage.getItem("bookmarkedNames") || "[]"),
-  toggleBookmark: (_name: string) => {
-    const indexOf = get().bookmarkedNames.indexOf(_name);
-    if (indexOf >= 0) {
-      get().bookmarkedNames.splice(indexOf, 1);
-    } else get().bookmarkedNames.push(_name);
-
-    set((state: any) => ({
-      ...state,
-      bookmarkedNames: get().bookmarkedNames,
-    }));
-    localStorage.setItem(
-      "bookmarkedNames",
-      JSON.stringify(get().bookmarkedNames)
+  toggleBookmark: async (_wallet: string, _friend: string) => {
+    console.log("_wallet", _wallet, "_friend", _friend);
+    const res = await axios.put(
+      `${API_ENDPOINT}/profiles/toggleFriend/${_wallet}/${_friend}`
     );
-    // updateBookmarkedNamesByAddress(get().activeAddress, get().bookmarkedNames);
+    console.log("res", res);
   },
 }));

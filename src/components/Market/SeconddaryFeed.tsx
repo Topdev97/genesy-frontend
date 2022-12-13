@@ -2,22 +2,34 @@ import React, { useEffect, useState } from "react";
 import { FiTwitter } from "react-icons/fi";
 import CollectCard from "./CollectCard";
 import Nftboard from "./Nftboard";
+import Artistboard from "./Artistboard";
+import axios from "axios";
+import { API_ENDPOINT } from "../../utils/constants";
 const SeconddaryFeed = () => {
+  const [nftItems, setNftItems] = useState<any>(null);
+  useEffect(() => {
+    const loadItems = async () => {
+      const res = await axios.get(`${API_ENDPOINT}/nfts/market`);
+      console.log("res", res);
+      setNftItems(res.data);
+    };
+    loadItems();
+  }, []);
   return (
     <div className="">
       <div className="">
         <div className="text-2xl font-bold py-8">__ Recent sales</div>
-        <Nftboard />
+        <Nftboard items={nftItems?.recentSales!} />
       </div>
 
       <div className="">
         <div className="text-2xl font-bold py-8">__ Top prices (7days)</div>
-        <Nftboard />
+        <Nftboard items={nftItems?.topPrice!} />
       </div>
 
       <div className="">
         <div className="text-2xl font-bold py-8">__ Best artists</div>
-        <Nftboard />
+        <Artistboard items={nftItems?.bestArtists!} />
       </div>
     </div>
   );

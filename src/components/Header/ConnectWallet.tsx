@@ -53,6 +53,10 @@ const ConnectWallet = () => {
         await TEZOS_COLLECT_WALLET.client.getActiveAccount();
       if (_activeAddress?.address) {
         setActiveAddress(_activeAddress?.address);
+        localStorage.setItem(
+          "activeAddress",
+          JSON.stringify({ address: _activeAddress?.address })
+        );
       }
       Tezos.setWalletProvider(TEZOS_COLLECT_WALLET);
       let res = await axios.get(

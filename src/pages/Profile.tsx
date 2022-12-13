@@ -14,6 +14,9 @@ const Profile = () => {
   const [guest, setGuest] = useState<boolean>(true);
   const { fetchProfile, activeAddress, toggleBookmark } =
     useTezosCollectStore();
+  const _activeAddress = JSON.parse(
+    localStorage.getItem("activeAddress") || '{"address": ""}'
+  );
   const TAB_LIST = useMemo(
     () => [
       {
@@ -31,9 +34,12 @@ const Profile = () => {
   //   setIsBookmark(!isBookmark);
   // };
   useEffect(() => {
-    if (activeAddress !== address) {
+    if (_activeAddress?.address! !== address) {
       console.log("guest");
       setGuest(false);
+    } else {
+      console.log("you");
+      setGuest(true);
     }
   }, []);
   useState(() => {

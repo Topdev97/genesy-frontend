@@ -18,6 +18,7 @@ function App() {
   const { initializeContracts, fetchProfiles } = useTezosCollectStore();
   useEffect(() => {
     initializeContracts();
+    fetchProfiles();
   }, []);
 
   return (

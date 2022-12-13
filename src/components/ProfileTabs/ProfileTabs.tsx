@@ -6,7 +6,7 @@ const ProfileTabs = () => {
   return (
     <div>
       <Routes>
-        <Route path="*" element={<Navigate to="created" replace />} />
+        <Route path="*" element={<Navigate to="owned" replace />} />
         <Route path="created" element={<Created />} />
         <Route path="owned" element={<Owned />} />
       </Routes>

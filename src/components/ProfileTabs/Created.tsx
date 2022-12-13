@@ -9,20 +9,28 @@ import { API_ENDPOINT } from "../../utils/constants";
 const Created = () => {
   const { activeAddress, findProfileById } = useTezosCollectStore();
   const [nftItems, setNftItems] = useState<I_NFT[]>([]);
-  const [checked, setChecked] = useState<boolean>(false);
+  const checked = JSON.parse(
+    localStorage.getItem("createdSale") || '{"isSaled": false}'
+  );
+  const [isSaled, setIsSaled] = useState<boolean>(false);
+
+  const toggleSale = () => {
+    setIsSaled(!isSaled);
+    localStorage.setItem("createdSale", JSON.stringify({ isSaled: isSaled }));
+  };
   useEffect(() => {
     const loadItems = async () => {
       const { data: _nftItems }: { data: I_NFT[] } = await axios.get(
         `${API_ENDPOINT}/nfts/artist/${activeAddress}`
       );
       setNftItems(_nftItems);
-      if (checked) {
+      if (checked?.isSaled) {
         let nftItems_ = _nftItems?.filter((item) => item?.price! > 0);
         setNftItems(nftItems_);
       }
     };
     loadItems();
-  }, [activeAddress, checked]);
+  }, [activeAddress, checked?.isSaled]);
   return (
     <div>
       <div className="flex justify-end py-2">
@@ -32,8 +40,8 @@ const Created = () => {
             type="checkbox"
             name="onlySale"
             id="onlySale"
-            checked={checked}
-            onChange={() => setChecked(!checked)}
+            checked={checked?.isSaled}
+            onChange={() => toggleSale()}
           />
         </div>
       </div>

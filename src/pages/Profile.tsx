@@ -11,6 +11,7 @@ const Profile = () => {
   const [profile, setProfile] = useState<I_PROFILE | null>(null);
   const [tabLength, setTabLength] = useState<number>(0);
   const { address } = useParams();
+  const [guest, setGuest] = useState<boolean>(true);
   const { fetchProfile, activeAddress, toggleBookmark } =
     useTezosCollectStore();
   const TAB_LIST = useMemo(
@@ -29,9 +30,15 @@ const Profile = () => {
   // const toggleBookmark = () => {
   //   setIsBookmark(!isBookmark);
   // };
+  useEffect(() => {
+    if (activeAddress !== address) {
+      console.log("guest");
+      setGuest(false);
+    }
+  }, []);
   useState(() => {
     const fetchUser = async () => {
-      let user = await fetchProfile(activeAddress);
+      let user = await fetchProfile(address!);
       setProfile(user);
       if (user?.artist) {
         setTabLength(0);
@@ -59,30 +66,32 @@ const Profile = () => {
           )}
         </div>
       </div>
-      <div className="flex gap-4 pb-8">
-        {profile?.artist ? (
+      {guest && (
+        <div className="flex gap-4 pb-8">
+          {profile?.artist ? (
+            <button className="bg-black text-white px-4 py-1 border border-black  hover:text-black hover:bg-white">
+              <LinkWithSearchParams
+                to={{
+                  pathname: "/mint",
+                }}
+              >
+                MINT
+              </LinkWithSearchParams>
+            </button>
+          ) : (
+            <></>
+          )}
           <button className="bg-black text-white px-4 py-1 border border-black  hover:text-black hover:bg-white">
             <LinkWithSearchParams
               to={{
-                pathname: "/mint",
+                pathname: "/edit",
               }}
             >
-              MINT
+              EDIT
             </LinkWithSearchParams>
           </button>
-        ) : (
-          <></>
-        )}
-        <button className="bg-black text-white px-4 py-1 border border-black  hover:text-black hover:bg-white">
-          <LinkWithSearchParams
-            to={{
-              pathname: "/edit",
-            }}
-          >
-            EDIT
-          </LinkWithSearchParams>
-        </button>
-      </div>
+        </div>
+      )}
       <div className="flex flex-col">
         <div className="flex border-b-2 border-black">
           {TAB_LIST?.slice(tabLength)?.map((link, index) => (

@@ -18,7 +18,11 @@ const CollectCard = ({ nft, profile }: ICollectProps) => {
             <div>{nft?.name}</div>
             <div>{dateDifFromNow(nft?.mintedAt || new Date())}</div>
           </div>
-          <img src={nft?.imageLink} alt="test" />
+          <img
+            src={nft?.imageLink}
+            alt="test"
+            className="aspect-square w-full"
+          />
         </div>
         <div className="nft-price text-end">| {nft?.price} TZ</div>
       </div>

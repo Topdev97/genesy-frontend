@@ -41,11 +41,8 @@ const Profile = () => {
   };
   useEffect(() => {
     if (_activeAddress?.address! !== address) {
-      console.log("_activeAddress?.address", _activeAddress?.address);
-      console.log("address", address);
       setGuest(false);
     } else {
-      console.log("true");
       setGuest(true);
     }
   }, []);
@@ -66,7 +63,6 @@ const Profile = () => {
     const fetchUser = async () => {
       let user = await fetchProfile(address!);
       let walletData = await fetchProfile(_activeAddress?.address!);
-      console.log("walletData", walletData);
       setProfile(user);
       setWallet(walletData);
       if (user?.artist) {

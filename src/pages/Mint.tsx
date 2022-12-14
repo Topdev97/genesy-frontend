@@ -90,7 +90,6 @@ const Mint = () => {
 
   async function onChange(e: ChangeEvent<HTMLInputElement>) {
     const file = e.target.files![0];
-    // console.log("file", file);
     setFile(file);
     const reader = new FileReader();
     reader.onload = function (event) {

@@ -324,10 +324,8 @@ export const useTezosCollectStore = create<ITezosState>((set, get) => ({
   },
   bookmarkedNames: JSON.parse(localStorage.getItem("bookmarkedNames") || "[]"),
   toggleBookmark: async (_wallet: string, _friend: string) => {
-    console.log("_wallet", _wallet, "_friend", _friend);
     const res = await axios.put(
       `${API_ENDPOINT}/profiles/toggleFriend/${_wallet}/${_friend}`
     );
-    console.log("res", res);
   },
 }));

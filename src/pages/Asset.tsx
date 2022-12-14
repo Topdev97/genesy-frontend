@@ -12,7 +12,6 @@ import { getTezosPrice } from "../utils/price";
 import spinner from "../assets/spinner.svg";
 import LinkWithSearchParams from "../components/LinkWithSearchParams";
 const PeersBoard = ({ peers }: any) => {
-  console.log("peers", peers);
   return (
     <div className="absolute top-20 bg-white  w-60 left-0 menu-shadow py-6 px-10 ">
       <div className="overflow-y-auto max-h-52">
@@ -131,13 +130,11 @@ const Asset = () => {
       let peer = await axios.get(
         `${API_ENDPOINT}/nfts/peers/${_nftItems?.artist}/${_nftItems?.artist}`
       );
-      console.log("peer.data", peer.data);
       setPeers(peer.data);
       let res = await axios.get(`${API_ENDPOINT}/nfts/log/${tokenId}`);
       setLogs(res.data);
       let _price = await getTezosPrice();
       // setPrice((_nftItems.price || 0) * _price);
-      console.log("_nftItems", _nftItems);
       setNftItem(_nftItems);
     };
     loadNftItem();

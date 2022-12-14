@@ -1,5 +1,5 @@
 import spinner from "../assets/spinner.svg";
-import { ChangeEvent, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import ImageDropZone from "../components/ImageDropZone";
 import { pinToIpfs } from "../utils/utils";
 import axios from "axios";
@@ -9,18 +9,19 @@ import { useTezosCollectStore } from "../store";
 
 const Edit = () => {
   const navigate = useNavigate();
+  const orderType = ["Chronological", "Curated"];
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [twitter, setTwitter] = useState<string>("");
   const [profile, setProfile] = useState<string>("");
-  const [feed, setFeed] = useState<string>("0");
+  const [feed, setFeed] = useState<number>(0);
   const [base64image, setBase64image] = useState("");
   const [isLoad, setIsLoad] = useState<boolean>(false);
   const [imageObject, setImageObject] = useState<File | null>(null);
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFeed(e.target.value);
+  const handleChange = (i: number) => {
+    setFeed(i);
   };
-  const { activeAddress } = useTezosCollectStore();
+  const { activeAddress, fetchProfile, fetchProfiles } = useTezosCollectStore();
   useEffect(() => {
     (async () => {
       try {
@@ -28,14 +29,14 @@ const Edit = () => {
         setDescription(res.data?.description);
         setTwitter(res.data?.twitter);
         setName(res.data?.username);
-        setFeed("0");
+        setFeed(res.data?.feedOrder);
       } catch (error) {
         console.log(error);
       }
     })();
   }, []);
 
-  const saveProfile = async () => {
+  const updateProfile = async () => {
     if (imageObject) {
       try {
         setIsLoad(true);
@@ -52,6 +53,8 @@ const Edit = () => {
           `${API_ENDPOINT}/profiles/${activeAddress}`,
           payload
         );
+        await fetchProfile(activeAddress);
+        fetchProfiles();
         navigate("/home/primary");
         setIsLoad(false);
       } catch (error) {
@@ -102,31 +105,21 @@ const Edit = () => {
         <div className="py-4">
           <div>FEED ORDER*</div>
           <div>
-            <div>
-              <input
-                type="radio"
-                name="feed"
-                defaultChecked
-                id="chronological"
-                value="0"
-                onChange={(e) => handleChange(e)}
-              />
-              <label htmlFor="chronological" className="pl-1">
-                Chronological
-              </label>
-            </div>
-            <div>
-              <input
-                type="radio"
-                name="feed"
-                id="curated"
-                value="1"
-                onChange={(e) => handleChange(e)}
-              />
-              <label htmlFor="curated" className="pl-1">
-                Curated
-              </label>
-            </div>
+            {orderType.map((item, i) => (
+              <div key={i}>
+                <input
+                  type="radio"
+                  name="feed"
+                  id={item}
+                  value={feed}
+                  checked={feed === i}
+                  onChange={() => handleChange(i)}
+                />
+                <label htmlFor={item} className="pl-1">
+                  {item}
+                </label>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -141,7 +134,7 @@ const Edit = () => {
         </div>
         <button
           className="py-2 bg-black text-white w-32  my-4 hover:bg-gray-600"
-          onClick={() => saveProfile()}
+          onClick={() => updateProfile()}
         >
           {isLoad ? (
             <div className="flex items-center justify-center">

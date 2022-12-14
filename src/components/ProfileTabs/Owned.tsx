@@ -43,6 +43,7 @@ const Owned = () => {
             type="checkbox"
             name="onlySale"
             id="onlySale"
+            className="w-4 h-4"
             checked={checked?.isSaled}
             onChange={() => toggleSale()}
           />

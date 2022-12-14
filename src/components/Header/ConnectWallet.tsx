@@ -4,20 +4,17 @@ import {
   TEZOS_COLLECT_NETWORK,
   TEZOS_COLLECT_WALLET,
 } from "../../utils/constants";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useTezosCollectStore } from "../../store";
 import user from "../../assets/user.svg";
 import artist from "../../assets/artist.svg";
 import Menu from "./Menu";
-import axios from "axios";
-import { API_ENDPOINT } from "../../utils/constants";
-import { I_PROFILE } from "../../utils/interface";
 
 const ConnectWallet = () => {
   const navigate = useNavigate();
-  const [profile, setProfile] = useState<I_PROFILE | null>(null);
+  const test = useParams();
   const [isMenu, setIsMenu] = useState<boolean>(false);
-  const { activeAddress } = useTezosCollectStore();
+  const { activeAddress, fetchProfile, profile } = useTezosCollectStore();
   const setActiveAddress = useTezosCollectStore(
     (store: { setActiveAddress: any }) => store.setActiveAddress
   );
@@ -30,9 +27,8 @@ const ConnectWallet = () => {
     setActiveAddress(_activeAddress);
 
     try {
-      let res = await axios.get(`${API_ENDPOINT}/profiles/${_activeAddress}`);
-      setProfile(res.data);
-      if (res.data?.wallet) {
+      await fetchProfile(_activeAddress);
+      if (profile?.wallet) {
         navigate(`/profile/${_activeAddress}/created`);
       } else {
         navigate("/signup");
@@ -59,10 +55,7 @@ const ConnectWallet = () => {
         );
       }
       Tezos.setWalletProvider(TEZOS_COLLECT_WALLET);
-      let res = await axios.get(
-        `${API_ENDPOINT}/profiles/${_activeAddress?.address}`
-      );
-      setProfile(res.data);
+      await fetchProfile(_activeAddress?.address!);
     };
     getActiveAccounts();
   }, []);

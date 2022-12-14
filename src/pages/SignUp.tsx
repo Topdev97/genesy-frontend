@@ -20,7 +20,7 @@ const SignUp = () => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFeed(e.target.value);
   };
-  const { activeAddress } = useTezosCollectStore();
+  const { activeAddress, fetchProfile } = useTezosCollectStore();
   async function onChange(e: ChangeEvent<HTMLInputElement>) {
     const file = e.target.files![0];
     const reader = new FileReader();
@@ -43,10 +43,8 @@ const SignUp = () => {
           avatarLink: `https://${cid}.ipfs.nftstorage.link`,
           twitter: twitter,
         };
-        let res = await axios.put(
-          `${API_ENDPOINT}/profiles/${activeAddress}`,
-          payload
-        );
+        await axios.put(`${API_ENDPOINT}/profiles/${activeAddress}`, payload);
+        await fetchProfile(activeAddress);
         navigate("/home/primary");
         setIsLoad(false);
       } catch (error) {

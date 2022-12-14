@@ -36,17 +36,14 @@ const Profile = () => {
   };
   useEffect(() => {
     if (_activeAddress?.address! !== address) {
-      console.log("guest");
       setGuest(false);
     } else {
-      console.log("you");
       setGuest(true);
     }
   }, []);
   useState(() => {
     const fetchUser = async () => {
       let user = await fetchProfile(address!);
-      console.log("user", user);
       setProfile(user);
       if (user?.artist) {
         setTabLength(0);
@@ -65,7 +62,7 @@ const Profile = () => {
     <div className="max-w-[1024px] mx-auto py-24 sm:px-8 lg:px-0">
       <div className="flex justify-between">
         <div>
-          <div className="text-2xl font-bold">Artist Name</div>
+          <div className="text-2xl font-bold">{profile?.username}</div>
           <div className="py-4">Independent Artist of Generative Art</div>
         </div>
         <div

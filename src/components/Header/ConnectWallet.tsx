@@ -27,8 +27,8 @@ const ConnectWallet = () => {
     setActiveAddress(_activeAddress);
 
     try {
-      await fetchProfile(_activeAddress);
-      if (profile?.wallet) {
+      let res = await fetchProfile(_activeAddress);
+      if (res?.wallet) {
         navigate(`/profile/${_activeAddress}/created`);
       } else {
         navigate("/signup");

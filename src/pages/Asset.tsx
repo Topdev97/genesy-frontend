@@ -10,6 +10,22 @@ import { API_ENDPOINT, NFT_CONTRACT_ADDRESS } from "../utils/constants";
 import axios from "axios";
 import { getTezosPrice } from "../utils/price";
 import spinner from "../assets/spinner.svg";
+
+const PeersBoard = ({ peers }: any) => {
+  return (
+    <div className="absolute top-12 bg-white  w-60 left-0 menu-shadow py-6 px-10 ">
+      <div className="overflow-y-auto h-52">
+        {peers?.map((item: any, index: any) => (
+          <div key={index} className="flex items-center gap-4 my-2">
+            <img src={item?.avatarLink} alt="avatar" className="w-8 h-8" />
+            <div className="text-ellipsis">{item?.name}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 const Asset = () => {
   const { tokenId } = useParams();
   const {
@@ -21,6 +37,8 @@ const Asset = () => {
   } = useTezosCollectStore();
   const [profile, setProfile] = useState<I_PROFILE | null>(null);
   const [logs, setLogs] = useState<I_Log[]>([]);
+  const [isPeers, setIsPeers] = useState<boolean>(false);
+  const [peers, setPeers] = useState<any>(null);
   const [marketState, setMarketState] = useState<boolean>(false);
   const [salePrice, setSalePrice] = useState<string>("");
   const [nftItem, setNftItem] = useState<I_NFT>({
@@ -109,6 +127,11 @@ const Asset = () => {
       const { data: _nftItems }: { data: I_NFT } = await axios.get(
         `${API_ENDPOINT}/nfts/${tokenId}`
       );
+      let peer = await axios.get(
+        `${API_ENDPOINT}/nfts/peers/${_nftItems?.artist}/${_nftItems?.artist}`
+      );
+      console.log("peer.data", peer.data);
+      setPeers(peer.data);
       let res = await axios.get(`${API_ENDPOINT}/nfts/log/${tokenId}`);
       setLogs(res.data);
       let _price = await getTezosPrice();
@@ -143,13 +166,28 @@ const Asset = () => {
               </div>
             </div>
           </div>
-          {nftItem?.artistObj?.friends?.length! > 0 && (
+          {peers?.length! > 0 && (
             <div>
               <div>Collector's Circle</div>
-              <div className="flex gap-4  my-4">
-                {nftItem?.artistObj?.friends?.map((item, index) => (
-                  <div key={index}>{item}</div>
+              <div className="flex gap-2  my-4 items-center relative">
+                {peers?.slice(0, 3)?.map((item: any, index: any) => (
+                  <div key={index}>
+                    <img
+                      src={item?.avatarLink}
+                      alt="avartar"
+                      className="w-8 h-8"
+                    />
+                  </div>
                 ))}
+                {peers?.length! > 3 && (
+                  <div
+                    className="font-bold text-2xl hover:cursor-pointer"
+                    onClick={() => setIsPeers(!isPeers)}
+                  >
+                    + {peers?.length! - 3} others
+                  </div>
+                )}
+                {isPeers && <PeersBoard peers={peers} />}
               </div>
             </div>
           )}

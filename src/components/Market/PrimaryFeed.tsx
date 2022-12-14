@@ -85,11 +85,12 @@ const PrimaryFeed = () => {
           {nftItems
             ?.filter((word, index) => index % 2 == 1)
             ?.map((item, index) => (
-              <div className="flex" key={index}>
+              <div className="flex w-full" key={index}>
                 <LinkWithSearchParams
                   to={{
                     pathname: `/assets/${item.tokenId}`,
                   }}
+                  className="w-full"
                 >
                   <CollectCard
                     nft={item}

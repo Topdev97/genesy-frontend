@@ -10,15 +10,16 @@ import { API_ENDPOINT, NFT_CONTRACT_ADDRESS } from "../utils/constants";
 import axios from "axios";
 import { getTezosPrice } from "../utils/price";
 import spinner from "../assets/spinner.svg";
-
+import LinkWithSearchParams from "../components/LinkWithSearchParams";
 const PeersBoard = ({ peers }: any) => {
+  console.log("peers", peers);
   return (
-    <div className="absolute top-12 bg-white  w-60 left-0 menu-shadow py-6 px-10 ">
-      <div className="overflow-y-auto h-52">
+    <div className="absolute top-20 bg-white  w-60 left-0 menu-shadow py-6 px-10 ">
+      <div className="overflow-y-auto max-h-52">
         {peers?.map((item: any, index: any) => (
           <div key={index} className="flex items-center gap-4 my-2">
             <img src={item?.avatarLink} alt="avatar" className="w-8 h-8" />
-            <div className="text-ellipsis">{item?.name}</div>
+            <div className="text-ellipsis">{item?.username}</div>
           </div>
         ))}
       </div>
@@ -156,20 +157,23 @@ const Asset = () => {
                 className="w-6 h-6"
               />
               <div className="text-2xl font-bold">
-                <a
-                  href={`http://192.168.113.103/profile/${nftItem?.artistObj?.wallet}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <LinkWithSearchParams
+                  to={{
+                    pathname: `/profile/${nftItem?.artistObj?.wallet}`,
+                  }}
                 >
                   {nftItem.artistObj?.username}
-                </a>
+                </LinkWithSearchParams>
               </div>
             </div>
           </div>
           {peers?.length! > 0 && (
-            <div>
+            <div className="relative">
               <div>Collector's Circle</div>
-              <div className="flex gap-2  my-4 items-center relative">
+              <div
+                className="flex gap-2  my-4 items-center  hover:cursor-pointer"
+                onClick={() => setIsPeers(!isPeers)}
+              >
                 {peers?.slice(0, 3)?.map((item: any, index: any) => (
                   <div key={index}>
                     <img
@@ -180,15 +184,12 @@ const Asset = () => {
                   </div>
                 ))}
                 {peers?.length! > 3 && (
-                  <div
-                    className="font-bold text-2xl hover:cursor-pointer"
-                    onClick={() => setIsPeers(!isPeers)}
-                  >
+                  <div className="font-bold text-2xl ">
                     + {peers?.length! - 3} others
                   </div>
                 )}
-                {isPeers && <PeersBoard peers={peers} />}
               </div>
+              {isPeers && <PeersBoard peers={peers} />}
             </div>
           )}
           <div>
@@ -200,13 +201,13 @@ const Asset = () => {
                 className="w-6 h-6"
               />
               <div className="text-2xl font-bold">
-                <a
-                  href={`http://192.168.113.103/profile/${nftItem?.ownerObj?.wallet}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <LinkWithSearchParams
+                  to={{
+                    pathname: `/profile/${nftItem?.ownerObj?.wallet}`,
+                  }}
                 >
                   {nftItem.ownerObj?.username}
-                </a>
+                </LinkWithSearchParams>
               </div>
             </div>
           </div>

@@ -1,13 +1,8 @@
-import React, { useEffect } from "react";
 import ConnectWallet from "./ConnectWallet";
-import { CiLight } from "react-icons/ci";
-import { SiMarketo } from "react-icons/si";
-import { useTheme } from "../../context";
-import { AiOutlineSetting } from "react-icons/ai";
-import { FaMoon } from "react-icons/fa";
+// import { useTheme } from "../../context";
 import LinkWithSearchParams from "../LinkWithSearchParams";
 const Navbar = () => {
-  const { theme, setTheme } = useTheme();
+  // const { theme, setTheme } = useTheme();
   return (
     <div className="flex justify-between items-center py-12 max-w-[1024px] mx-auto sm:px-8 lg:px-0">
       <LinkWithSearchParams

@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom";
 const Profile = () => {
   const [isBookmark, setIsBookmark] = useState<boolean>(false);
   const [profile, setProfile] = useState<I_PROFILE | null>(null);
+  const [wallet, setWallet] = useState<I_PROFILE | null>(null);
   const [tabLength, setTabLength] = useState<number>(0);
   const { address } = useParams();
   const [guest, setGuest] = useState<boolean>(true);
@@ -30,27 +31,50 @@ const Profile = () => {
     ],
     [address]
   );
-  const toggleMark = (wallet: string, friend: string) => {
+  const toggleMark = async (wallet: string, friend: string) => {
     setIsBookmark(!isBookmark);
-    toggleBookmark(wallet, friend);
+    // const indexOf = profile.friends.indexOf(friend);
+    // if (indexOf >= 0) profile.friends.splice(indexOf, 1);
+    // else profile.friends.push(friend);
+
+    await toggleBookmark(wallet, friend);
   };
   useEffect(() => {
     if (_activeAddress?.address! !== address) {
+      console.log("_activeAddress?.address", _activeAddress?.address);
+      console.log("address", address);
       setGuest(false);
     } else {
+      console.log("true");
       setGuest(true);
     }
   }, []);
+
+  useEffect(() => {
+    const fetchBookmark = async () => {
+      let walletData = await fetchProfile(_activeAddress?.address!);
+      setWallet(walletData);
+      if (walletData?.friends?.includes(address!)) {
+        setIsBookmark(true);
+      } else {
+        setIsBookmark(false);
+      }
+    };
+    fetchBookmark();
+  }, [isBookmark]);
   useState(() => {
     const fetchUser = async () => {
       let user = await fetchProfile(address!);
+      let walletData = await fetchProfile(_activeAddress?.address!);
+      console.log("walletData", walletData);
       setProfile(user);
+      setWallet(walletData);
       if (user?.artist) {
         setTabLength(0);
       } else {
         setTabLength(1);
       }
-      if (user?.friends?.length! > 0) {
+      if (walletData?.friends?.includes(address!)) {
         setIsBookmark(true);
       } else {
         setIsBookmark(false);
@@ -65,16 +89,18 @@ const Profile = () => {
           <div className="text-2xl font-bold">{profile?.username}</div>
           <div className="py-4">Independent Artist of Generative Art</div>
         </div>
-        <div
-          onClick={() => toggleMark(_activeAddress?.address!, address!)}
-          className=" w-10 h-10 rounded-full hover:bg-gray-100 flex justify-center items-center"
-        >
-          {isBookmark ? (
-            <BsBookmarkFill className="font-bold" />
-          ) : (
-            <BsBookmark className="font-bold" />
-          )}
-        </div>
+        {_activeAddress?.address !== address && (
+          <div
+            onClick={() => toggleMark(_activeAddress?.address!, address!)}
+            className=" w-10 h-10 rounded-full hover:bg-gray-100 flex justify-center items-center"
+          >
+            {isBookmark ? (
+              <BsBookmarkFill className="font-bold" />
+            ) : (
+              <BsBookmark className="font-bold" />
+            )}
+          </div>
+        )}
       </div>
       {guest && (
         <div className="flex gap-4 pb-8">

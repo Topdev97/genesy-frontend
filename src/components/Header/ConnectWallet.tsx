@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Tezos,
   TEZOS_COLLECT_NETWORK,
@@ -7,7 +7,6 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import { useTezosCollectStore } from "../../store";
 import user from "../../assets/user.svg";
-import artist from "../../assets/artist.svg";
 import Menu from "./Menu";
 
 const ConnectWallet = () => {

@@ -1,6 +1,4 @@
-import artist from "../../assets/artist.svg";
-import { I_NFT, I_PROFILE } from "../../utils/interface";
-import { dateDifFromNow } from "../../utils/utils";
+import { I_PROFILE } from "../../utils/interface";
 type ICollectProps = {
   profile?: I_PROFILE;
   index?: number;

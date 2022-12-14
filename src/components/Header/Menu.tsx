@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTezosCollectStore } from "../../store";
 import LinkWithSearchParams from "../LinkWithSearchParams";

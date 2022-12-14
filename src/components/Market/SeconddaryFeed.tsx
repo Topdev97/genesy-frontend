@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { FiTwitter } from "react-icons/fi";
-import CollectCard from "./CollectCard";
+import { useEffect, useState } from "react";
 import Nftboard from "./Nftboard";
 import Artistboard from "./Artistboard";
 import axios from "axios";

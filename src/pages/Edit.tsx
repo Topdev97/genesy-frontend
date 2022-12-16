@@ -15,6 +15,7 @@ const Edit = () => {
   const [twitter, setTwitter] = useState<string>("");
   const [profile, setProfile] = useState<string>("");
   const [feed, setFeed] = useState<number>(0);
+  const [avatar, setAvatar] = useState<string>("");
   const [base64image, setBase64image] = useState("");
   const [isLoad, setIsLoad] = useState<boolean>(false);
   const [imageObject, setImageObject] = useState<File | null>(null);
@@ -30,6 +31,7 @@ const Edit = () => {
         setTwitter(res.data?.twitter);
         setName(res.data?.username);
         setFeed(res.data?.feedOrder);
+        setProfile(res.data?.avatarLink);
       } catch (error) {
         console.log(error);
       }
@@ -55,7 +57,29 @@ const Edit = () => {
         );
         await fetchProfile(activeAddress);
         fetchProfiles();
-        navigate("/home/primary");
+        navigate(`/profile/${activeAddress}/owned`);
+        setIsLoad(false);
+      } catch (error) {
+        console.log(error);
+        setIsLoad(false);
+      }
+    } else {
+      try {
+        setIsLoad(true);
+        let payload = {
+          username: name,
+          description: description,
+          feedOrder: feed,
+          avatarLink: profile,
+          twitter: twitter,
+        };
+        let res = await axios.put(
+          `${API_ENDPOINT}/profiles/${activeAddress}`,
+          payload
+        );
+        await fetchProfile(activeAddress);
+        fetchProfiles();
+        navigate(`/profile/${activeAddress}/owned`);
         setIsLoad(false);
       } catch (error) {
         console.log(error);

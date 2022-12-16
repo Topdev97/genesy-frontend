@@ -59,6 +59,8 @@ const Asset = () => {
       await axios.put(`${API_ENDPOINT}/nfts/${tokenId}`, {
         owner: activeAddress,
         price: 0,
+        lastSoldAt: new Date(),
+        lastSoldAmount: nftItem?.price!,
       });
       await axios.post(`${API_ENDPOINT}/nfts/log/${tokenId}`, log);
       setMarketState(false);
@@ -127,6 +129,7 @@ const Asset = () => {
       const { data: _nftItems }: { data: I_NFT } = await axios.get(
         `${API_ENDPOINT}/nfts/${tokenId}`
       );
+      console.log("_nftItems", _nftItems);
       let peer = await axios.get(
         `${API_ENDPOINT}/nfts/peers/${_nftItems?.artist}/${_nftItems?.artist}`
       );

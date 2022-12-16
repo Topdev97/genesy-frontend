@@ -7,7 +7,7 @@ type AppProps = {
   setIsMenu: Dispatch<SetStateAction<boolean>>;
 };
 const Menu = (props: AppProps) => {
-  const { activeAddress } = useTezosCollectStore();
+  const { activeAddress, profile } = useTezosCollectStore();
   const navigate = useNavigate();
   const SignOut = () => {
     props.onDisconnectWallet();
@@ -17,18 +17,20 @@ const Menu = (props: AppProps) => {
   };
   return (
     <div className="absolute top-12 bg-white  w-32 right-0 menu-shadow">
-      <LinkWithSearchParams
-        to={{
-          pathname: "/mint",
-        }}
-      >
-        <div
-          className="px-4 py-2 hover:bg-gray-200"
-          onClick={() => props.setIsMenu(false)}
+      {profile?.artist && (
+        <LinkWithSearchParams
+          to={{
+            pathname: "/mint",
+          }}
         >
-          Create
-        </div>
-      </LinkWithSearchParams>
+          <div
+            className="px-4 py-2 hover:bg-gray-200"
+            onClick={() => props.setIsMenu(false)}
+          >
+            Create
+          </div>
+        </LinkWithSearchParams>
+      )}
 
       <LinkWithSearchParams
         to={{

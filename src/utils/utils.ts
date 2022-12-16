@@ -1,4 +1,5 @@
 import { NFTStorage } from "nft.storage";
+import { type } from "os";
 import { NFT_STORAGE_KEY } from "./constants";
 export const pinToIpfs = async (file: File): Promise<string> => {
   // create a new NFTStorage client using our API key
@@ -35,4 +36,29 @@ export const dateDifFromNow = (_date: Date | string): string => {
   return new Date().getTime() - date.getTime() > 0
     ? `${result} ago`
     : `in ${result}`;
+};
+
+export const dateFormat = (_date: Date | string): string => {
+  let date: Date = new Date(_date);
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  let hours = date.getHours();
+  var minutes = date.getMinutes();
+  let AmOrPm = hours >= 12 ? "PM" : "AM";
+  hours = hours % 12 || 12;
+  return `${
+    monthNames[date.getMonth()]
+  } ${date.getDate()}, ${date.getFullYear()} ${hours}:${minutes} ${AmOrPm}`;
 };

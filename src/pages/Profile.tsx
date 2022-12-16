@@ -85,16 +85,18 @@ const Profile = () => {
           <div className="text-2xl font-bold">{profile?.username}</div>
           <div className="py-4">Independent Artist of Generative Art</div>
         </div>
-        <div
-          onClick={() => toggleMark(_activeAddress?.address!, address!)}
-          className=" w-10 h-10 rounded-full hover:bg-gray-100 flex justify-center items-center"
-        >
-          {isBookmark ? (
-            <BsBookmarkFill className="font-bold" />
-          ) : (
-            <BsBookmark className="font-bold" />
-          )}
-        </div>
+        {_activeAddress?.address !== address && (
+          <div
+            onClick={() => toggleMark(_activeAddress?.address!, address!)}
+            className=" w-10 h-10 rounded-full hover:bg-gray-100 flex justify-center items-center"
+          >
+            {isBookmark ? (
+              <BsBookmarkFill className="font-bold" />
+            ) : (
+              <BsBookmark className="font-bold" />
+            )}
+          </div>
+        )}
       </div>
       {guest && (
         <div className="flex gap-4 pb-8">

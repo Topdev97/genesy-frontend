@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useTezosCollectStore } from "../store";
 import { IoLink } from "react-icons/io5";
 import user from "../assets/user.svg";
+import { dateFormat } from "../utils/utils";
 import { useParams } from "react-router-dom";
 import { I_NFT, I_Log, I_PROFILE } from "../utils/interface";
 import { API_ENDPOINT, NFT_CONTRACT_ADDRESS } from "../utils/constants";
@@ -135,7 +136,7 @@ const Asset = () => {
       );
       setPeers(peer.data);
       let res = await axios.get(`${API_ENDPOINT}/nfts/log/${tokenId}`);
-      setLogs(res.data);
+      setLogs(res.data?.reverse());
       let _price = await getTezosPrice();
       // setPrice((_nftItems.price || 0) * _price);
       setNftItem(_nftItems);
@@ -353,7 +354,7 @@ const Asset = () => {
         <div className="flex flex-col gap-4">
           {logs?.map((item, index) => (
             <div key={index} className="flex gap-8">
-              <div>{item?.timestamp?.toString()}</div>
+              <div>{dateFormat(item?.timestamp)}</div>
               <div>{item?.text}</div>
             </div>
           ))}

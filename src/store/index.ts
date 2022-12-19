@@ -210,39 +210,39 @@ export const useTezosCollectStore = create<ITezosState>((set, get) => ({
     const _marketPlaceContract = get().marketPlaceContract;
     const _nftContract = get().nftContract;
     // let _txOp: any;
-    await _marketPlaceContract?.methods
-      .list_for_sale(defaultAmount * 10 ** 6, tokenId)
+    // await _marketPlaceContract?.methods
+    //   .list_for_sale(defaultAmount * 10 ** 6, tokenId)
+    //   .send();
+
+    // if (!includingOperator) {
+    await Tezos.wallet
+      .batch()
+      .withContractCall(
+        // @ts-ignore
+        _nftContract.methods.update_operators([
+          {
+            add_operator: {
+              owner: get().activeAddress,
+              operator: MARKETPLACE_CONTRACT_ADDRESS,
+              token_id: tokenId,
+            },
+          },
+        ])
+      )
+      .withContractCall(
+        // @ts-ignore
+        _marketPlaceContract?.methods.list_for_sale(
+          defaultAmount * 10 ** 6,
+          tokenId
+        )
+      )
       .send();
 
-    if (!includingOperator) {
-      await Tezos.wallet
-        .batch()
-        .withContractCall(
-          // @ts-ignore
-          _nftContract.methods.update_operators([
-            {
-              add_operator: {
-                owner: get().activeAddress,
-                operator: MARKETPLACE_CONTRACT_ADDRESS,
-                token_id: tokenId,
-              },
-            },
-          ])
-        )
-        .withContractCall(
-          // @ts-ignore
-          _marketPlaceContract?.methods.list_for_sale(
-            defaultAmount * 10 ** 6,
-            tokenId
-          )
-        )
-        .send();
-    } else
-      await _marketPlaceContract?.methods
-        .list_for_sale(defaultAmount * 10 ** 6, tokenId)
-        .send();
+    // } else
+    // await _marketPlaceContract?.methods
+    //   .list_for_sale(defaultAmount * 10 ** 6, tokenId)
+    //   .send();
 
-    // get().setListForSaleModalVisible(false);
     // get().setCurrentTransaction({
     //   txHash: _txOp.opHash,
     //   txStatus: "TX_SUBMIT",

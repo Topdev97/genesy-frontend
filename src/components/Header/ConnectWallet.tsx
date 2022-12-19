@@ -24,7 +24,10 @@ const ConnectWallet = () => {
     });
     const _activeAddress = await TEZOS_COLLECT_WALLET.getPKH();
     setActiveAddress(_activeAddress);
-
+    localStorage.setItem(
+      "activeAddress",
+      JSON.stringify({ address: _activeAddress })
+    );
     try {
       let res = await fetchProfile(_activeAddress);
       if (res?.wallet) {

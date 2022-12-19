@@ -37,7 +37,7 @@ const CollectCard = ({ nft, profile }: ICollectProps) => {
             />
           </LinkWithSearchParams>
         </div>
-        <div className="nft-price text-end">| {nft?.price} TZ</div>
+        <div className="nft-price text-end">| {nft?.lastSoldAmount} TZ</div>
       </div>
     </div>
   );

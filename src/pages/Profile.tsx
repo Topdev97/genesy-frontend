@@ -4,14 +4,17 @@ import LinkWithSearchParams from "../components/LinkWithSearchParams";
 import { BsTwitter, BsBookmark, BsBookmarkFill } from "react-icons/bs";
 import { I_PROFILE } from "../utils/interface";
 import { useTezosCollectStore } from "../store";
-
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import { useParams } from "react-router-dom";
+
 const Profile = () => {
   const [isBookmark, setIsBookmark] = useState<boolean>(false);
   const [profile, setProfile] = useState<I_PROFILE | null>(null);
   const [wallet, setWallet] = useState<I_PROFILE | null>(null);
   const [tabLength, setTabLength] = useState<number>(0);
   const { address } = useParams();
+  const [loading, setLoading] = useState<boolean>(false);
   const [guest, setGuest] = useState<boolean>(true);
   const { fetchProfile, activeAddress, toggleBookmark } =
     useTezosCollectStore();
@@ -59,8 +62,10 @@ const Profile = () => {
     };
     fetchBookmark();
   }, [isBookmark]);
-  useState(() => {
+
+  useEffect(() => {
     const fetchUser = async () => {
+      setLoading(true);
       let user = await fetchProfile(address!);
       let walletData = await fetchProfile(_activeAddress?.address!);
       setProfile(user);
@@ -75,15 +80,48 @@ const Profile = () => {
       } else {
         setIsBookmark(false);
       }
+      setLoading(false);
     };
     fetchUser();
-  });
-  return (
+  }, []);
+
+  return loading ? (
+    <div className="max-w-[1024px] mx-auto py-24 sm:px-8 lg:px-0">
+      <Skeleton count={3} width={300} />
+      <div className="flex gap-4 mb-4">
+        <Skeleton width={70} height={40} />
+        <Skeleton width={70} height={40} />
+      </div>
+      <Skeleton height={35} />
+      <div className="flex justify-end">
+        <Skeleton width={200} />
+      </div>
+      <div className="flex justify-between mt-4">
+        {[1, 2, 3].map((item) => (
+          <div className="w-[300px]">
+            <div className="flex items-center gap-4">
+              <Skeleton width={40} height={40} />
+              <Skeleton width={80} height={28} />
+            </div>
+            <div className="flex justify-between">
+              <Skeleton width={100} />
+              <Skeleton width={100} />
+            </div>
+            <Skeleton width={300} height={300} />
+          </div>
+        ))}
+      </div>
+    </div>
+  ) : (
     <div className="max-w-[1024px] mx-auto py-24 sm:px-8 lg:px-0">
       <div className="flex justify-between">
         <div>
-          <div className="text-2xl font-bold">{profile?.username}</div>
-          <div className="py-4">Independent Artist of Generative Art</div>
+          <div className="text-2xl font-bold">
+            {loading ? <Skeleton /> : profile?.username}
+          </div>
+          <div className="py-4">
+            {loading ? <Skeleton /> : profile?.description}
+          </div>
         </div>
         {_activeAddress?.address !== address && (
           <div

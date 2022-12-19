@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-// import CollectCard from "../components/Market/CollectCard";
-// import test from "../assets/1.png";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import { useTezosCollectStore } from "../store";
 import { IoLink } from "react-icons/io5";
 import user from "../assets/user.svg";
@@ -37,6 +37,7 @@ const Asset = () => {
     fetchProfile,
   } = useTezosCollectStore();
   const [profile, setProfile] = useState<I_PROFILE | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   const [logs, setLogs] = useState<I_Log[]>([]);
   const [isPeers, setIsPeers] = useState<boolean>(false);
   const [peers, setPeers] = useState<any>(null);
@@ -127,6 +128,7 @@ const Asset = () => {
 
   useEffect(() => {
     const loadNftItem = async () => {
+      setLoading(true);
       const { data: _nftItems }: { data: I_NFT } = await axios.get(
         `${API_ENDPOINT}/nfts/${tokenId}`
       );
@@ -140,10 +142,58 @@ const Asset = () => {
       let _price = await getTezosPrice();
       // setPrice((_nftItems.price || 0) * _price);
       setNftItem(_nftItems);
+      setLoading(false);
     };
     loadNftItem();
   }, [tokenId, marketState]);
-  return (
+  return loading ? (
+    <div className="max-w-[1024px] mx-auto py-24 sm:px-8 lg:px-0">
+      <div className="flex justify-between gap-24">
+        <div className="w-1/2">
+          <Skeleton height={460} />
+        </div>
+        <div className="w-1/2 flex flex-col justify-between">
+          <Skeleton height={35} />
+          <div className="my-4">
+            <Skeleton height={35} width={150} />
+            <Skeleton height={35} />
+          </div>
+          <div className="my-4">
+            <Skeleton height={35} width={150} />
+            <Skeleton height={35} />
+          </div>
+          <div className="my-4">
+            <Skeleton height={35} width={150} />
+            <Skeleton height={35} />
+          </div>
+          <div className="my-8">
+            <Skeleton height={50} width={200} />
+          </div>
+        </div>
+      </div>
+      <div>
+        <Skeleton height={40} width={200} />
+        <div className="pt-4">
+          <Skeleton count={3} height={20} width={350} />
+        </div>
+        <div className="pt-4">
+          <Skeleton height={30} width={350} />
+        </div>
+        <div className="pt-4">
+          <Skeleton height={30} width={350} />
+        </div>
+        <div className="pt-4">
+          <Skeleton height={30} width={250} />
+        </div>
+      </div>
+      <div className="pt-8">
+        <Skeleton height={40} width={200} />
+        <div className="pt-4">
+          <Skeleton count={3} height={20} width={350} />
+        </div>
+      </div>
+    </div>
+  ) : (
     <div className="max-w-[1024px] mx-auto py-24 sm:px-8 lg:px-0">
       <div className="flex gap-24">
         <img src={nftItem.imageLink} alt="test" className="w-1/2" />

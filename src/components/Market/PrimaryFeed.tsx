@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import CollectCard from "./CollectCard";
 import { FaSort } from "react-icons/fa";
-import LinkWithSearchParams from "../LinkWithSearchParams";
 import { API_ENDPOINT } from "../../utils/constants";
 import { I_NFT } from "../../utils/interface";
 import axios from "axios";
@@ -67,17 +66,10 @@ const PrimaryFeed = () => {
             ?.filter((word, index) => index % 2 == 0)
             ?.map((item, index) => (
               <div className="flex w-full" key={index}>
-                <LinkWithSearchParams
-                  to={{
-                    pathname: `/assets/${item.tokenId}`,
-                  }}
-                  className="w-full"
-                >
-                  <CollectCard
-                    nft={item}
-                    profile={findProfileById(item.artist)}
-                  />
-                </LinkWithSearchParams>
+                <CollectCard
+                  nft={item}
+                  profile={findProfileById(item.artist)}
+                />
               </div>
             ))}
         </div>
@@ -86,17 +78,10 @@ const PrimaryFeed = () => {
             ?.filter((word, index) => index % 2 == 1)
             ?.map((item, index) => (
               <div className="flex w-full" key={index}>
-                <LinkWithSearchParams
-                  to={{
-                    pathname: `/assets/${item.tokenId}`,
-                  }}
-                  className="w-full"
-                >
-                  <CollectCard
-                    nft={item}
-                    profile={findProfileById(item.artist)}
-                  />
-                </LinkWithSearchParams>
+                <CollectCard
+                  nft={item}
+                  profile={findProfileById(item.artist)}
+                />
               </div>
             ))}
         </div>

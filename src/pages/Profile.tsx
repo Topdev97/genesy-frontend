@@ -98,7 +98,7 @@ const Profile = () => {
       </div>
       <div className="flex justify-between mt-4">
         {[1, 2, 3].map((item) => (
-          <div className="w-[300px]">
+          <div className="w-[300px]" key={item}>
             <div className="flex items-center gap-4">
               <Skeleton width={40} height={40} />
               <Skeleton width={80} height={28} />
@@ -115,10 +115,17 @@ const Profile = () => {
   ) : (
     <div className="max-w-[1024px] mx-auto py-24 sm:px-8 lg:px-0">
       <div className="flex justify-between">
-        <div>
+        <div className="mb-6">
           <div className="text-2xl font-bold">{profile?.username}</div>
           <div className="pt-2">{profile?.description}</div>
-          <div className="pb-8 pt-2">{profile?.twitter}</div>
+          <a
+            href={profile?.twitter}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="cursor-pointer underline"
+          >
+            {profile?.twitter}
+          </a>
         </div>
         {_activeAddress?.address !== address && (
           <div

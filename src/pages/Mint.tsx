@@ -31,11 +31,10 @@ const Mint = () => {
   const [isLoad, setIsLoad] = useState<boolean>(false);
   const onSubmit = (e: any) => {
     e.preventDefault();
-    setIsLoad(true);
     if (
       name === "" ||
       description === "" ||
-      parseInt(royalties) > 15 ||
+      parseInt(royalties) > 10 ||
       parseInt(royalties) < 0 ||
       !/^-?\d+$/.test(royalties) ||
       file === null
@@ -43,6 +42,7 @@ const Mint = () => {
       setError("Some Error Occurred. Please check entered details.");
       return;
     }
+    setIsLoad(true);
     (async () => {
       try {
         const metadata = await client.store({
@@ -140,7 +140,7 @@ const Mint = () => {
           </div>
         ) : null}
       </div>
-      <div className="flex flex-col py-4 gap-2">
+      <div className="flex flex-col py-4 gap-2 relative">
         <div>ROYALTIES*</div>
         <input
           type="text"
@@ -151,7 +151,13 @@ const Mint = () => {
           className="outline-none border-b border-black"
           placeholder="You can set a value between 0 and 15%"
         />
+        {parseInt(royalties) > 10 && (
+          <div className="text-red-700 text-sm top-20 absolute">
+            As common practice, please enter a value between 0 and 10%!
+          </div>
+        )}
       </div>
+
       <div className="flex flex-col py-4 gap-2">
         <div>UPLOAD ART</div>
         <div className="flex">

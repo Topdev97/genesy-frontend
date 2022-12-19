@@ -83,7 +83,7 @@ const Profile = () => {
       setLoading(false);
     };
     fetchUser();
-  }, []);
+  }, [address]);
 
   return loading ? (
     <div className="max-w-[1024px] mx-auto py-24 sm:px-8 lg:px-0">
@@ -116,12 +116,9 @@ const Profile = () => {
     <div className="max-w-[1024px] mx-auto py-24 sm:px-8 lg:px-0">
       <div className="flex justify-between">
         <div>
-          <div className="text-2xl font-bold">
-            {loading ? <Skeleton /> : profile?.username}
-          </div>
-          <div className="py-4">
-            {loading ? <Skeleton /> : profile?.description}
-          </div>
+          <div className="text-2xl font-bold">{profile?.username}</div>
+          <div className="pt-2">{profile?.description}</div>
+          <div className="pb-8 pt-2">{profile?.twitter}</div>
         </div>
         {_activeAddress?.address !== address && (
           <div

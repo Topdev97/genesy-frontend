@@ -12,7 +12,7 @@ const Menu = (props: AppProps) => {
   const SignOut = () => {
     props.onDisconnectWallet();
     props.setIsMenu(false);
-    localStorage.removeItem("activeAddress");
+    // localStorage.removeItem("activeAddress");
     navigate("/home/primary");
   };
   return (

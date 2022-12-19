@@ -10,7 +10,7 @@ const CollectCard = ({ nft, profile }: ICollectProps) => {
     <div className="flex flex-col py-4 cursor-pointer w-full">
       <LinkWithSearchParams
         to={{
-          pathname: `/profile/${profile?.wallet}`,
+          pathname: `/profile/${profile?.wallet}/created`,
         }}
       >
         <div className="flex gap-4 items-center pt-2">

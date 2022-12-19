@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   Tezos,
   TEZOS_COLLECT_NETWORK,
@@ -18,6 +18,18 @@ const ConnectWallet = () => {
     (store: { setActiveAddress: any }) => store.setActiveAddress
   );
 
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    function handleClickOutside(event: any) {
+      if (ref.current && !ref.current.contains(event.target)) {
+        setIsMenu(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [ref]);
   const onConnectWallet = async () => {
     await TEZOS_COLLECT_WALLET.requestPermissions({
       network: TEZOS_COLLECT_NETWORK,
@@ -75,7 +87,7 @@ const ConnectWallet = () => {
       Sync
     </button>
   ) : (
-    <div className="relative flex items-center">
+    <div className="relative flex items-center" ref={ref}>
       <button onClick={() => setIsMenu(!isMenu)} className="">
         <img
           src={profile?.avatarLink ? profile?.avatarLink : user}

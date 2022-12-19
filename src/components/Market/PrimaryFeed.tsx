@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import CollectCard from "./CollectCard";
 import { FaSort } from "react-icons/fa";
 import { API_ENDPOINT } from "../../utils/constants";
@@ -8,12 +8,16 @@ import { useTezosCollectStore } from "../../store";
 interface propsType {
   setIsControl: React.Dispatch<React.SetStateAction<boolean>>;
   setOrderBy: React.Dispatch<React.SetStateAction<number>>;
+  orderBy: number;
 }
+
 const SortBoard = (props: propsType) => {
   return (
-    <div className="absolute top-8 bg-white  w-32 right-0 menu-shadow">
+    <div className="absolute top-8 bg-white  w-32 right-0 menu-shadow ">
       <div
-        className="px-4 py-2 hover:bg-gray-200"
+        className={`${
+          props.orderBy == 0 ? "bg-gray-600" : ""
+        } px-4 py-2 hover:bg-gray-400`}
         onClick={() => {
           props.setOrderBy(0);
           props.setIsControl(false);
@@ -22,7 +26,9 @@ const SortBoard = (props: propsType) => {
         Chronogical
       </div>
       <div
-        className="px-4 py-2 hover:bg-gray-200"
+        className={`${
+          props.orderBy == 1 ? "bg-gray-600" : ""
+        } px-4 py-2 hover:bg-gray-400`}
         onClick={() => {
           props.setOrderBy(1);
           props.setIsControl(false);
@@ -34,9 +40,22 @@ const SortBoard = (props: propsType) => {
   );
 };
 const PrimaryFeed = () => {
-  const { findProfileById } = useTezosCollectStore();
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    function handleClickOutside(event: any) {
+      if (ref.current && !ref.current.contains(event.target)) {
+        setIsControl(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [ref]);
+
+  const { findProfileById, profile } = useTezosCollectStore();
   const [nftItems, setNftItems] = useState<I_NFT[]>([]);
-  const [orderBy, setOrderBy] = useState<number>(0);
+  const [orderBy, setOrderBy] = useState<number>(profile?.feedOrder);
   const [isControl, setIsControl] = useState<boolean>(false);
 
   useEffect(() => {
@@ -51,13 +70,19 @@ const PrimaryFeed = () => {
 
   return (
     <div>
-      <div className="flex justify-end relative mt-2">
-        <FaSort
+      <div className="flex justify-end relative mt-2" ref={ref}>
+        <button
           className="hover:cursor-pointer"
           onClick={() => setIsControl(!isControl)}
-        />
+        >
+          <FaSort />
+        </button>
         {isControl && (
-          <SortBoard setIsControl={setIsControl} setOrderBy={setOrderBy} />
+          <SortBoard
+            setIsControl={setIsControl}
+            setOrderBy={setOrderBy}
+            orderBy={orderBy}
+          />
         )}
       </div>
       <div className="flex gap-36">

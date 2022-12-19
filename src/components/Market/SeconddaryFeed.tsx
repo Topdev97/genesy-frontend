@@ -8,7 +8,6 @@ const SeconddaryFeed = () => {
   useEffect(() => {
     const loadItems = async () => {
       const res = await axios.get(`${API_ENDPOINT}/nfts/market`);
-      console.log("res.data", res.data);
       setNftItems(res.data);
     };
     loadItems();

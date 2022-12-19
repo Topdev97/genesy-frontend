@@ -6,6 +6,7 @@ type ICollectProps = {
   profile?: I_PROFILE;
 };
 const CollectCard = ({ nft, profile }: ICollectProps) => {
+  console.log("nft", nft);
   return (
     <div className="flex flex-col py-4 cursor-pointer w-full">
       <LinkWithSearchParams
@@ -37,7 +38,12 @@ const CollectCard = ({ nft, profile }: ICollectProps) => {
             />
           </LinkWithSearchParams>
         </div>
-        <div className="nft-price text-end">| {nft?.lastSoldAmount} TZ</div>
+        <div className="nft-price text-end flex justify-end">
+          <div className="border-l h-8 border-black ml-[7px] mb-2" />
+          <div>
+            {nft?.lastSoldAmount == 0 ? nft?.price : nft?.lastSoldAmount} TZ
+          </div>
+        </div>
       </div>
     </div>
   );

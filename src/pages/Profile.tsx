@@ -77,7 +77,10 @@ const Profile = () => {
       setWallet(walletData);
       if (user?.artist) {
         setTabLength(1);
-        if (_activeAddress?.address == "tz1VL5AfvZ3Cz6Bd2c2agcUQe7HKxje7ojNu") {
+        if (
+          _activeAddress?.address == "tz1VL5AfvZ3Cz6Bd2c2agcUQe7HKxje7ojNu" ||
+          _activeAddress?.address == "tz1MNjp6JCY68XqCkPU1quEwh67LCT3LkHwP"
+        ) {
           setTabLength(0);
         }
       } else {

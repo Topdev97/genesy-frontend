@@ -30,8 +30,13 @@ const ConnectWallet = () => {
     );
     try {
       let res = await fetchProfile(_activeAddress);
+      console.log("res", res);
       if (res?.wallet) {
-        navigate(`/profile/${_activeAddress}/created`);
+        if (res?.artist) {
+          navigate(`/profile/${_activeAddress}/created`);
+        } else {
+          navigate(`/profile/${_activeAddress}/owned`);
+        }
       } else {
         navigate("/signup");
       }

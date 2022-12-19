@@ -134,7 +134,7 @@ const Asset = () => {
       );
       console.log("_nftItems", _nftItems);
       let peer = await axios.get(
-        `${API_ENDPOINT}/nfts/peers/${_nftItems?.artist}/${_nftItems?.artist}`
+        `${API_ENDPOINT}/nfts/peers/${_nftItems?.artist}/${activeAddress}`
       );
       setPeers(peer.data);
       let res = await axios.get(`${API_ENDPOINT}/nfts/log/${tokenId}`);

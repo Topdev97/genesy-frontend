@@ -24,6 +24,10 @@ const Profile = () => {
   const TAB_LIST = useMemo(
     () => [
       {
+        path: `/profile/${address}/dashboard`,
+        text: "DASHBOARD",
+      },
+      {
         path: `/profile/${address}/created`,
         text: "CREATED",
       },
@@ -67,13 +71,17 @@ const Profile = () => {
     const fetchUser = async () => {
       setLoading(true);
       let user = await fetchProfile(address!);
+      console.log("user", user);
       let walletData = await fetchProfile(_activeAddress?.address!);
       setProfile(user);
       setWallet(walletData);
       if (user?.artist) {
-        setTabLength(0);
-      } else {
         setTabLength(1);
+        if (_activeAddress?.address == "tz1VL5AfvZ3Cz6Bd2c2agcUQe7HKxje7ojNu") {
+          setTabLength(0);
+        }
+      } else {
+        setTabLength(2);
       }
       if (walletData?.friends?.includes(address!)) {
         setIsBookmark(true);

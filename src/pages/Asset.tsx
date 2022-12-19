@@ -17,9 +17,16 @@ const PeersBoard = ({ peers }: any) => {
     <div className="absolute top-20 bg-white  w-60 left-0 menu-shadow py-6 px-10 ">
       <div className="overflow-y-auto max-h-52">
         {peers?.map((item: any, index: any) => (
-          <div key={index} className="flex items-center gap-4 my-2">
-            <img src={item?.avatarLink} alt="avatar" className="w-8 h-8" />
-            <div className="text-ellipsis">{item?.username}</div>
+          <div key={index}>
+            <LinkWithSearchParams
+              to={{
+                pathname: `/profile/${item?.wallet}`,
+              }}
+              className="flex items-center gap-4 my-2"
+            >
+              <img src={item?.avatarLink} alt="avatar" className="w-8 h-8" />
+              <div className="text-ellipsis">{item?.username}</div>
+            </LinkWithSearchParams>
           </div>
         ))}
       </div>
@@ -221,21 +228,27 @@ const Asset = () => {
           {peers?.length! > 0 && (
             <div className="relative">
               <div>Collector's Circle</div>
-              <div
-                className="flex gap-2  my-4 items-center  hover:cursor-pointer"
-                onClick={() => setIsPeers(!isPeers)}
-              >
+              <div className="flex gap-2  my-4 items-center  hover:cursor-pointer">
                 {peers?.slice(0, 3)?.map((item: any, index: any) => (
                   <div key={index}>
-                    <img
-                      src={item?.avatarLink}
-                      alt="avartar"
-                      className="w-8 h-8"
-                    />
+                    <LinkWithSearchParams
+                      to={{
+                        pathname: `/profile/${item?.wallet}`,
+                      }}
+                    >
+                      <img
+                        src={item?.avatarLink}
+                        alt="avartar"
+                        className="w-8 h-8"
+                      />
+                    </LinkWithSearchParams>
                   </div>
                 ))}
                 {peers?.length! > 3 && (
-                  <div className="font-bold text-2xl ">
+                  <div
+                    className="font-bold text-2xl "
+                    onClick={() => setIsPeers(!isPeers)}
+                  >
                     + {peers?.length! - 3} others
                   </div>
                 )}

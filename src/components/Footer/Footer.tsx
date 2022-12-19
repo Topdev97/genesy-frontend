@@ -11,7 +11,9 @@ const Footer = () => {
               pathname: "/",
             }}
           >
-            <div className="text-xl border-r-8 border-white pr-4 ">GENESY</div>
+            <div className="text-xl border-r-8 border-white pr-4 w-24">
+              GENESY
+            </div>
           </LinkWithSearchParams>
           <div className="text-sm">
             &#169;{new Date().getFullYear()} Genesys Terms and conditions
@@ -30,9 +32,14 @@ const Footer = () => {
           </div>
           <div className="flex flex-col gap-4">
             <div>FOLLOW US</div>
-            <div className="flex justify-end">
+            <a
+              href="https://twitter.com/Genesyxyz"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex justify-end"
+            >
               <FiTwitter />
-            </div>
+            </a>
           </div>
         </div>
       </div>

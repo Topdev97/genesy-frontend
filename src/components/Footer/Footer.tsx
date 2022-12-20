@@ -16,7 +16,13 @@ const Footer = () => {
             </div>
           </LinkWithSearchParams>
           <div className="text-sm">
-            &#169;{new Date().getFullYear()} Genesys Terms and conditions
+            <LinkWithSearchParams
+              to={{
+                pathname: "/faq",
+              }}
+            >
+              &#169;{new Date().getFullYear()} Genesys Terms and conditions
+            </LinkWithSearchParams>
           </div>
         </div>
         <div className="flex flex-col justify-between text-right text-sm">

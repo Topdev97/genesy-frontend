@@ -5,6 +5,7 @@ import { API_ENDPOINT } from "../../utils/constants";
 import { I_NFT } from "../../utils/interface";
 import axios from "axios";
 import { useTezosCollectStore } from "../../store";
+
 interface propsType {
   setIsControl: React.Dispatch<React.SetStateAction<boolean>>;
   setOrderBy: React.Dispatch<React.SetStateAction<number>>;
@@ -98,7 +99,7 @@ const PrimaryFeed = () => {
               </div>
             ))}
         </div>
-        <div className="flex flex-col w-1/2 items-end justify-center gap-10">
+        <div className="flex flex-col w-1/2 items-end mt-[25%] gap-10">
           {nftItems
             ?.filter((word, index) => index % 2 == 1)
             ?.map((item, index) => (

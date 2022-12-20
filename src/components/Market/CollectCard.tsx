@@ -1,6 +1,8 @@
 import { I_NFT, I_PROFILE } from "../../utils/interface";
 import { dateDifFromNow } from "../../utils/utils";
 import LinkWithSearchParams from "../LinkWithSearchParams";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+
 type ICollectProps = {
   nft?: I_NFT;
   profile?: I_PROFILE;
@@ -15,7 +17,11 @@ const CollectCard = ({ nft, profile }: ICollectProps) => {
         }}
       >
         <div className="flex gap-4 items-center pt-2">
-          <img src={profile?.avatarLink} alt="avatar" className="w-6 h-6" />
+          <LazyLoadImage
+            src={profile?.avatarLink}
+            alt="avatar"
+            className="w-6 h-6"
+          />
           <div className="dark:text-red-500 font-bold">{profile?.username}</div>
         </div>
       </LinkWithSearchParams>
@@ -31,7 +37,7 @@ const CollectCard = ({ nft, profile }: ICollectProps) => {
             }}
             className="w-full"
           >
-            <img
+            <LazyLoadImage
               src={nft?.imageLink}
               alt="test"
               className="primary-nft w-full"

@@ -71,6 +71,11 @@ const Asset = () => {
         lastSoldAt: new Date(),
         lastSoldAmount: nftItem?.price!,
       });
+      await axios.put(
+        `${API_ENDPOINT}/profiles/itemSale/${
+          nftItem.artistObj?.wallet
+        }/${nftItem?.price!}`
+      );
       await axios.post(`${API_ENDPOINT}/nfts/log/${tokenId}`, log);
       setMarketState(false);
     } catch (error) {

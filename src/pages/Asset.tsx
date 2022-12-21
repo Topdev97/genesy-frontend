@@ -119,7 +119,7 @@ const Asset = () => {
         },
         {
           text: `${nftItem.name}`,
-          link: `${nftItem.tokenId}`,
+          link: "",
         },
       ],
     };
@@ -151,7 +151,7 @@ const Asset = () => {
         },
         {
           text: `${nftItem.name}`,
-          link: `${nftItem.tokenId}`,
+          link: "",
         },
         {
           text: "for",

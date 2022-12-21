@@ -8,7 +8,6 @@ type ICollectProps = {
   profile?: I_PROFILE;
 };
 const CollectCard = ({ nft, profile }: ICollectProps) => {
-  console.log("nft", nft);
   return (
     <div className="flex flex-col py-4 cursor-pointer w-full">
       <LinkWithSearchParams

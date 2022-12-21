@@ -58,9 +58,30 @@ const Asset = () => {
     owner: "",
   });
   const onBuyForSale = async () => {
-    let log: I_Log = {
+    let log: any = {
       timestamp: new Date(),
-      text: `${profile?.username} bought ${nftItem.ownerObj?.username} for ${salePrice}XTZ`,
+      content: [
+        {
+          text: `${profile?.username}`,
+          link: `${profile?.wallet}`,
+        },
+        {
+          text: "bought from",
+          link: "",
+        },
+        {
+          text: `${nftItem.ownerObj?.username}`,
+          link: `${nftItem.ownerObj?.wallet}`,
+        },
+        {
+          text: "for",
+          link: "",
+        },
+        {
+          text: `${nftItem.price} XTZ`,
+          link: "",
+        },
+      ],
     };
     try {
       setMarketState(true);
@@ -85,9 +106,22 @@ const Asset = () => {
   };
 
   const onCancelForSale = async () => {
-    let log: I_Log = {
+    let log: any = {
       timestamp: new Date(),
-      text: `${nftItem.ownerObj?.username} canceled ${nftItem.name}`,
+      content: [
+        {
+          text: `${nftItem.ownerObj?.username}`,
+          link: `${nftItem.ownerObj?.wallet}`,
+        },
+        {
+          text: "canceled",
+          link: "",
+        },
+        {
+          text: `${nftItem.name}`,
+          link: `${nftItem.tokenId}`,
+        },
+      ],
     };
     try {
       setMarketState(true);
@@ -104,9 +138,30 @@ const Asset = () => {
   };
 
   const onListForSale = async () => {
-    let log: I_Log = {
+    let log: any = {
       timestamp: new Date(),
-      text: `${nftItem.ownerObj?.username} listed ${nftItem.name} for ${salePrice}XTZ`,
+      content: [
+        {
+          text: `${nftItem.ownerObj?.username}`,
+          link: `${nftItem.ownerObj?.wallet}`,
+        },
+        {
+          text: "listed",
+          link: "",
+        },
+        {
+          text: `${nftItem.name}`,
+          link: `${nftItem.tokenId}`,
+        },
+        {
+          text: "for",
+          link: "",
+        },
+        {
+          text: `${salePrice} XTZ`,
+          link: "",
+        },
+      ],
     };
     let includingOperator = false;
     if (parseFloat(salePrice) > 0) {
@@ -423,7 +478,24 @@ const Asset = () => {
           {logs?.map((item, index) => (
             <div key={index} className="flex gap-8">
               <div>{dateFormat(item?.timestamp)}</div>
-              <div>{item?.text}</div>
+              <div className="flex gap-2">
+                {item.content?.map((content, index) => (
+                  <div key={index}>
+                    {content.link.length > 0 ? (
+                      <LinkWithSearchParams
+                        to={{
+                          pathname: `/profile/${content?.link}`,
+                        }}
+                        className="font-bold"
+                      >
+                        {content?.text}
+                      </LinkWithSearchParams>
+                    ) : (
+                      <span>{content?.text}</span>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           ))}
         </div>

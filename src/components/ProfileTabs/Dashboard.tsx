@@ -1,21 +1,32 @@
-import CollectCard from "../Market/CollectCard";
-import { useState, useEffect } from "react";
-import LinkWithSearchParams from "../LinkWithSearchParams";
 import { I_PROFILE } from "../../utils/interface";
 import { useTezosCollectStore } from "../../store";
 import axios from "axios";
 import { API_ENDPOINT } from "../../utils/constants";
-import { useParams } from "react-router-dom";
 
 const Dashboard = () => {
   const profile = JSON.parse(localStorage.getItem("profiles") || "[]")?.filter(
     (item: I_PROFILE) => item?.artist
   );
+
+  const { fetchProfiles } = useTezosCollectStore();
+
   const updateProfile = async (e: any, index: number) => {
+    // let payload = JSON.parse(localStorage.getItem("profiles") || "[]")?.map(
+    //   (item: I_PROFILE, i: number) => {
+    //     if (item?.wallet == profile[index]?.wallet) {
+    //       item.verified = e.target.checked;
+    //     }
+    //     return item;
+    //   }
+    // );
+    // localStorage.setItem("profiles", JSON.stringify(payload));
     let res = await axios.put(
       `${API_ENDPOINT}/profiles/${profile[index]?.wallet}`,
       { verified: e.target.checked }
     );
+
+    // localStorage.setItem("profiles", JSON.stringify(profiles.data));
+    fetchProfiles();
   };
 
   return (
@@ -38,6 +49,7 @@ const Dashboard = () => {
                 type="checkbox"
                 name="curated"
                 id="curated"
+                checked={user.verified}
                 onChange={(e) => updateProfile(e, index)}
               />
             </div>

@@ -71,7 +71,16 @@ const Mint = () => {
         };
         let logs: I_Log = {
           timestamp: new Date(),
-          text: `${profile?.username} minted`,
+          content: [
+            {
+              text: `${profile?.username}`,
+              link: `${profile?.wallet}`,
+            },
+            {
+              text: "minted",
+              link: "",
+            },
+          ],
         };
         let test = await nftMint(parseInt(royalties), metadata);
         await Promise.all([

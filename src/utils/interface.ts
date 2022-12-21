@@ -37,9 +37,13 @@ interface I_PROFILE {
   volumeWeek: number;
   friends?: string[];
 }
+interface I_CONTENT {
+  text: string;
+  link: string;
+}
 interface I_Log {
   timestamp: Date;
-  text: string;
+  content: I_CONTENT[];
 }
 
 export type { I_NFT, I_PROFILE, I_Log };

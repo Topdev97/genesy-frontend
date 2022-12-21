@@ -62,7 +62,7 @@ const PrimaryFeed = () => {
   useEffect(() => {
     const loadItems = async () => {
       const { data: _nftItems }: { data: I_NFT[] } = await axios.get(
-        `${API_ENDPOINT}/nfts/primary/${orderBy}`
+        `${API_ENDPOINT}/nfts/primary/${orderBy}/0/10`
       );
       setNftItems(_nftItems);
     };

@@ -8,7 +8,7 @@ const Dashboard = () => {
     (item: I_PROFILE) => item?.artist
   );
 
-  const { fetchProfiles } = useTezosCollectStore();
+  const { fetchProfiles, fetchProfile, activeAddress } = useTezosCollectStore();
 
   const updateProfile = async (e: any, index: number) => {
     // let payload = JSON.parse(localStorage.getItem("profiles") || "[]")?.map(
@@ -22,9 +22,9 @@ const Dashboard = () => {
     // localStorage.setItem("profiles", JSON.stringify(payload));
     let res = await axios.put(
       `${API_ENDPOINT}/profiles/${profile[index]?.wallet}`,
-      { verified: e.target.checked }
+      { verified: e.target.checked, feedOrder: e.target.checked ? 1 : 0 }
     );
-
+    fetchProfile(activeAddress);
     // localStorage.setItem("profiles", JSON.stringify(profiles.data));
     fetchProfiles();
   };

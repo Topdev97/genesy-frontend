@@ -335,8 +335,8 @@ const Asset = () => {
               </div>
             </div>
           </div>
-          {activeAddress == nftItem.owner ? (
-            nftItem.price == 0 || nftItem.price == null ? (
+          {activeAddress === nftItem.owner ? (
+            nftItem.price === 0 || nftItem.price === null ? (
               <div>
                 <div>
                   <div>
@@ -413,7 +413,7 @@ const Asset = () => {
                 </div>
               </div>
             )
-          ) : nftItem.price == 0 ? (
+          ) : nftItem.price === 0 ? (
             <></>
           ) : (
             <div>

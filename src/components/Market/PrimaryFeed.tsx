@@ -56,8 +56,11 @@ const PrimaryFeed = () => {
 
   const { findProfileById, profile } = useTezosCollectStore();
   const [nftItems, setNftItems] = useState<I_NFT[]>([]);
-  const [orderBy, setOrderBy] = useState<number>(profile?.feedOrder);
+  const [orderBy, setOrderBy] = useState<number>(0);
   const [isControl, setIsControl] = useState<boolean>(false);
+  useEffect(() => {
+    setOrderBy(profile?.feedOrder);
+  }, [profile]);
 
   useEffect(() => {
     const loadItems = async () => {
@@ -74,7 +77,10 @@ const PrimaryFeed = () => {
       <div className="flex justify-end relative mt-2" ref={ref}>
         <button
           className="hover:cursor-pointer"
-          onClick={() => setIsControl(!isControl)}
+          onClick={() => {
+            setIsControl(!isControl);
+            console.log("profile", profile);
+          }}
         >
           <FaSort />
         </button>

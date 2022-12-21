@@ -5,7 +5,7 @@ import { API_ENDPOINT } from "../../utils/constants";
 import { I_NFT } from "../../utils/interface";
 import axios from "axios";
 import { useTezosCollectStore } from "../../store";
-
+import InfiniteScroll from "react-infinite-scroll-component";
 interface propsType {
   setIsControl: React.Dispatch<React.SetStateAction<boolean>>;
   setOrderBy: React.Dispatch<React.SetStateAction<number>>;
@@ -40,8 +40,11 @@ const SortBoard = (props: propsType) => {
     </div>
   );
 };
+
 const PrimaryFeed = () => {
   const ref = useRef<HTMLDivElement>(null);
+
+  const { findProfileById, profile, profileReady } = useTezosCollectStore();
   useEffect(() => {
     function handleClickOutside(event: any) {
       if (ref.current && !ref.current.contains(event.target)) {
@@ -53,24 +56,43 @@ const PrimaryFeed = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [ref]);
-
-  const { findProfileById, profile } = useTezosCollectStore();
-  const [nftItems, setNftItems] = useState<I_NFT[]>([]);
-  const [orderBy, setOrderBy] = useState<number>(0);
-  const [isControl, setIsControl] = useState<boolean>(false);
+  const [orderBy, setOrderBy] = useState<number>(profile.feedOrder);
+  const [currentPage, setCurrentPage] = useState<number | null>(null);
+  const [hasMoreItems, setHasMoreItems] = useState<boolean>(true);
   useEffect(() => {
-    setOrderBy(profile?.feedOrder);
-  }, [profile]);
-
-  useEffect(() => {
-    const loadItems = async () => {
+    const fetchItem = async () => {
       const { data: _nftItems }: { data: I_NFT[] } = await axios.get(
-        `${API_ENDPOINT}/nfts/primary/${orderBy}/0/10`
+        `${API_ENDPOINT}/nfts/primary/${orderBy}/0/5`
       );
       setNftItems(_nftItems);
+      setCurrentPage(0);
+      if (_nftItems.length == 0) {
+        setHasMoreItems(false);
+      } else {
+        setHasMoreItems(true);
+      }
     };
-    loadItems();
-  }, [orderBy]);
+    if (profileReady) {
+      console.log("profileReady", profileReady);
+      fetchItem();
+    }
+  }, [orderBy, profileReady]);
+  const fetchMoreData = async () => {
+    if (profileReady) {
+      console.log("profileReady", profileReady);
+      setCurrentPage(currentPage! + 1);
+      const { data: _nftItems }: { data: I_NFT[] } = await axios.get(
+        `${API_ENDPOINT}/nfts/primary/${orderBy}/${currentPage! + 1}/5`
+      );
+      if (_nftItems.length == 0) {
+        setHasMoreItems(false);
+      }
+      setNftItems([...nftItems, ..._nftItems]);
+    }
+  };
+
+  const [nftItems, setNftItems] = useState<I_NFT[]>([]);
+  const [isControl, setIsControl] = useState<boolean>(false);
 
   return (
     <div>
@@ -92,32 +114,39 @@ const PrimaryFeed = () => {
           />
         )}
       </div>
-      <div className="flex gap-36">
-        <div className="flex flex-col w-1/2 gap-10">
-          {nftItems
-            ?.filter((word, index) => index % 2 == 0)
-            ?.map((item, index) => (
-              <div className="flex w-full" key={index}>
-                <CollectCard
-                  nft={item}
-                  profile={findProfileById(item.artist)}
-                />
-              </div>
-            ))}
+      <InfiniteScroll
+        dataLength={nftItems.length}
+        next={fetchMoreData}
+        hasMore={hasMoreItems}
+        loader={<h4>Loading...</h4>}
+      >
+        <div className="flex gap-36">
+          <div className="flex flex-col w-1/2 gap-10">
+            {nftItems
+              ?.filter((word, index) => index % 2 == 0)
+              ?.map((item, index) => (
+                <div className="flex w-full" key={index}>
+                  <CollectCard
+                    nft={item}
+                    profile={findProfileById(item.artist)}
+                  />
+                </div>
+              ))}
+          </div>
+          <div className="flex flex-col w-1/2 items-end mt-[25%] gap-10">
+            {nftItems
+              ?.filter((word, index) => index % 2 == 1)
+              ?.map((item, index) => (
+                <div className="flex w-full" key={index}>
+                  <CollectCard
+                    nft={item}
+                    profile={findProfileById(item.artist)}
+                  />
+                </div>
+              ))}
+          </div>
         </div>
-        <div className="flex flex-col w-1/2 items-end mt-[25%] gap-10">
-          {nftItems
-            ?.filter((word, index) => index % 2 == 1)
-            ?.map((item, index) => (
-              <div className="flex w-full" key={index}>
-                <CollectCard
-                  nft={item}
-                  profile={findProfileById(item.artist)}
-                />
-              </div>
-            ))}
-        </div>
-      </div>
+      </InfiniteScroll>
     </div>
   );
 };

@@ -54,6 +54,7 @@ interface ITezosState {
   };
   bookmarkedNames: string[];
   toggleBookmark: { (_wallet: string, _friend: string): void };
+  profileReady: boolean;
 }
 
 export const useTezosCollectStore = create<ITezosState>((set, get) => ({
@@ -304,10 +305,16 @@ export const useTezosCollectStore = create<ITezosState>((set, get) => ({
     verified: false,
     volumeWeek: 0,
   },
+  profileReady: false,
 
   fetchProfile: async (_address: string) => {
     let profile: I_PROFILE;
     let res = await axios.get(`${API_ENDPOINT}/profiles/${_address}`);
+    let profileReady = true;
+    set((state: any) => ({
+      ...state,
+      profileReady,
+    }));
 
     profile = {
       ...res.data,

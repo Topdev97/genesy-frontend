@@ -21,8 +21,7 @@ const Dashboard = () => {
     // );
     // localStorage.setItem("profiles", JSON.stringify(payload));
     let res = await axios.put(
-      `${API_ENDPOINT}/profiles/${profile[index]?.wallet}`,
-      { verified: e.target.checked, feedOrder: e.target.checked ? 1 : 0 }
+      `${API_ENDPOINT}/profiles/toggleVerified/${profile[index]?.wallet}`
     );
     fetchProfile(activeAddress);
     // localStorage.setItem("profiles", JSON.stringify(profiles.data));

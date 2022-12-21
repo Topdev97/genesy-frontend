@@ -18,12 +18,14 @@
     "axios": "^0.27.2",
     "buffer": "^6.0.3",
     "nft.storage": "^7.0.0",
+    "parse-link-header": "^2.0.0",
     "react": "^18.2.0",
     "react-app-rewired": "^2.2.1",
     "react-avatar": "^5.0.3",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.0",
     "react-icons": "^4.6.0",
+    "react-infinite-scroll-component": "^6.1.0",
     "react-lazy-load-image-component": "^1.5.6",
     "react-loading-skeleton": "^3.1.0",
     "react-router-dom": "^6.4.3",
@@ -57,6 +59,8 @@
     ]
   },
   "devDependencies": {
+    "@types/parse-link-header": "^2.0.0",
+    "@types/react-infinite-scroller": "^1.2.3",
     "@types/react-lazy-load-image-component": "^1.5.2",
     "autoprefixer": "^10.4.13",
     "os-browserify": "^0.3.0",

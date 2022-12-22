@@ -265,16 +265,19 @@ const Asset = () => {
       <div className="flex gap-24">
         <img src={nftItem.imageLink} alt="test" className="w-1/2" />
         <div className="w-1/2 flex flex-col gap-4 justify-between">
-          <div className="text-3xl font-bold">{nftItem.name}</div>
+          <div className="text-3xl font-normal">{nftItem.name}</div>
           <div>
-            <div>__ CREATED BY</div>
+            <div className="flex gap-2">
+              <div className="border-b-2 border-black w-5"></div>
+              <div>CREATED BY</div>
+            </div>
             <div className="flex gap-2 items-center my-4">
               <img
                 src={nftItem.artistObj?.avatarLink}
                 alt="user"
                 className="w-6 h-6"
               />
-              <div className="text-2xl font-bold">
+              <div className="text-2xl font-normal">
                 <LinkWithSearchParams
                   to={{
                     pathname: `/profile/${nftItem?.artistObj?.wallet}`,
@@ -306,7 +309,7 @@ const Asset = () => {
                 ))}
                 {peers?.length! > 3 && (
                   <div
-                    className="font-bold text-2xl "
+                    className="font-normal text-2xl "
                     onClick={() => setIsPeers(!isPeers)}
                   >
                     + {peers?.length! - 3} others
@@ -317,14 +320,17 @@ const Asset = () => {
             </div>
           )}
           <div>
-            <div>__ COLLECTED BY</div>
+            <div className="flex gap-2">
+              <div className="border-b-2 border-black w-5"></div>
+              <div>COLLECTED BY</div>
+            </div>
             <div className="flex gap-2 items-center  my-4">
               <img
                 src={nftItem.ownerObj?.avatarLink}
                 alt="user"
                 className="w-6 h-6"
               />
-              <div className="text-2xl font-bold">
+              <div className="text-2xl font-normal">
                 <LinkWithSearchParams
                   to={{
                     pathname: `/profile/${nftItem?.ownerObj?.wallet}`,
@@ -382,7 +388,10 @@ const Asset = () => {
               <div>
                 <div>
                   <div>
-                    <div>__ PRICE</div>
+                    <div className="flex gap-2">
+                      <div className="border-b-2 border-black w-5"></div>
+                      <div>PRICE</div>
+                    </div>
                     <div className="flex gap-2 items-center  my-4">
                       <div className="">
                         <span className="text-2xl font-bold">
@@ -418,7 +427,11 @@ const Asset = () => {
           ) : (
             <div>
               <div>
-                <div>__ PRICE</div>
+                <div className="flex gap-2">
+                  <div className="border-b-2 border-black w-5"></div>
+                  <div>PRICE</div>
+                </div>
+
                 <div className="flex gap-2 items-center  my-4">
                   <div className="">
                     <span className="text-2xl font-bold">
@@ -439,7 +452,10 @@ const Asset = () => {
         </div>
       </div>
       <div>
-        <div className="text-2xl font-bold py-8">__ Description</div>
+        <div className="flex gap-2 text-2xl font-normal py-8">
+          <div className="border-b-2 border-black w-5"></div>
+          <div>Description</div>
+        </div>
         <div className="py-4">{nftItem.description}</div>
         <div className="flex gap-4 py-2">
           <div>ROYALTIES</div>
@@ -473,7 +489,10 @@ const Asset = () => {
         </div>
       </div>
       <div>
-        <div className="text-2xl font-bold py-8">__ History</div>
+        <div className="flex gap-2 text-2xl font-normal py-8">
+          <div className="border-b-2 border-black w-5"></div>
+          <div>History</div>
+        </div>
         <div className="flex flex-col gap-4">
           {logs?.map((item, index) => (
             <div key={index} className="flex gap-8">

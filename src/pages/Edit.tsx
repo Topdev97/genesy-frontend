@@ -148,7 +148,7 @@ const Edit = () => {
         </div>
 
         <div className="flex flex-col py-4 gap-2">
-          <div>UPLOAD ART</div>
+          <div>UPLOAD IMAGE</div>
           <div className="flex">
             <ImageDropZone
               imageObject={imageObject}

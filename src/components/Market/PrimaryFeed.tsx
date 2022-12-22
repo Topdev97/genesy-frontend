@@ -17,8 +17,8 @@ const SortBoard = (props: propsType) => {
     <div className="absolute top-8 bg-white  w-32 right-0 menu-shadow ">
       <div
         className={`${
-          props.orderBy == 0 ? "bg-gray-600" : ""
-        } px-4 py-2 hover:bg-gray-400`}
+          props.orderBy == 0 ? "bg-gray-200" : ""
+        } px-4 py-2 hover:bg-gray-300`}
         onClick={() => {
           props.setOrderBy(0);
           props.setIsControl(false);
@@ -28,8 +28,8 @@ const SortBoard = (props: propsType) => {
       </div>
       <div
         className={`${
-          props.orderBy == 1 ? "bg-gray-600" : ""
-        } px-4 py-2 hover:bg-gray-400`}
+          props.orderBy == 1 ? "bg-gray-200" : ""
+        } px-4 py-2 hover:bg-gray-300`}
         onClick={() => {
           props.setOrderBy(1);
           props.setIsControl(false);

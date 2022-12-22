@@ -277,11 +277,12 @@ const Asset = () => {
                 alt="user"
                 className="w-6 h-6"
               />
-              <div className="text-2xl font-normal">
+              <div className="font-normal">
                 <LinkWithSearchParams
                   to={{
                     pathname: `/profile/${nftItem?.artistObj?.wallet}`,
                   }}
+                  className="text-xl"
                 >
                   {nftItem.artistObj?.username}
                 </LinkWithSearchParams>
@@ -330,11 +331,12 @@ const Asset = () => {
                 alt="user"
                 className="w-6 h-6"
               />
-              <div className="text-2xl font-normal">
+              <div className="font-normal">
                 <LinkWithSearchParams
                   to={{
                     pathname: `/profile/${nftItem?.ownerObj?.wallet}`,
                   }}
+                  className="text-xl"
                 >
                   {nftItem.ownerObj?.username}
                 </LinkWithSearchParams>

@@ -60,3 +60,7 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+.itemNft {
+  width: calc(100% - 20px);
+}

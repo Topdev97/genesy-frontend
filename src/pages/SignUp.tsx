@@ -127,7 +127,7 @@ const SignUp = () => {
         </div>
 
         <div className="flex flex-col py-4 gap-2">
-          <div>FEED ORDER*</div>
+          <div>UPLOAD IMAGE</div>
           <div className="flex">
             <ImageDropZone
               imageObject={imageObject}

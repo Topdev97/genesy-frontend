@@ -25,10 +25,12 @@ const CollectCard = ({ nft, profile }: ICollectProps) => {
         </div>
       </LinkWithSearchParams>
       <div className="flex text-sm w-full">
-        <div className="w-full">
-          <div className="flex justify-between  my-3">
-            <div>{nft?.name}</div>
-            <div>{dateDifFromNow(nft?.mintedAt || new Date())}</div>
+        <div className="itemNft">
+          <div className="flex justify-between  my-3 gap-4">
+            <div className="truncate">{nft?.name}</div>
+            <div className="truncate">
+              {dateDifFromNow(nft?.mintedAt || new Date())}
+            </div>
           </div>
           <LinkWithSearchParams
             to={{

@@ -29,7 +29,7 @@ const CollectCard = ({ nft, profile }: ICollectProps) => {
           <div className="flex justify-between  my-3 gap-4">
             <div className="truncate">{nft?.name}</div>
             <div className="truncate">
-              {dateDifFromNow(nft?.mintedAt || new Date())}
+              {dateDifFromNow(nft?.lastSoldAt || new Date())}
             </div>
           </div>
           <LinkWithSearchParams

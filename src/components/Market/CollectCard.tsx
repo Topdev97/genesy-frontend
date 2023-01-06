@@ -8,6 +8,7 @@ type ICollectProps = {
   profile?: I_PROFILE;
 };
 const CollectCard = ({ nft, profile }: ICollectProps) => {
+  console.log("nft", nft);
   return (
     <div className="flex flex-col py-4 cursor-pointer w-full">
       <LinkWithSearchParams
@@ -29,7 +30,10 @@ const CollectCard = ({ nft, profile }: ICollectProps) => {
           <div className="flex justify-between  my-3 gap-4">
             <div className="truncate">{nft?.name}</div>
             <div className="truncate">
-              {dateDifFromNow(nft?.lastSoldAt || new Date())}
+              {dateDifFromNow(
+                (nft?.lastSoldAmount == 0 ? nft?.mintedAt : nft?.lastSoldAt) ||
+                  new Date()
+              )}
             </div>
           </div>
           <LinkWithSearchParams

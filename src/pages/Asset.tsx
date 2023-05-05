@@ -3,13 +3,16 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useTezosCollectStore } from "../store";
 import { IoLink } from "react-icons/io5";
-import user from "../assets/user.svg";
 import { dateFormat } from "../utils/utils";
 import { useParams } from "react-router-dom";
 import { I_NFT, I_Log, I_PROFILE } from "../utils/interface";
-import { API_ENDPOINT, NFT_CONTRACT_ADDRESS } from "../utils/constants";
+import {
+  API_ENDPOINT,
+  IMAGE_CDN,
+  NFT_CONTRACT_ADDRESS,
+} from "../utils/constants";
 import axios from "axios";
-import { getTezosPrice } from "../utils/price";
+// import { getTezosPrice } from "../utils/price";
 import spinner from "../assets/spinner.svg";
 import LinkWithSearchParams from "../components/LinkWithSearchParams";
 const PeersBoard = ({ peers }: any) => {
@@ -24,7 +27,11 @@ const PeersBoard = ({ peers }: any) => {
               }}
               className="flex items-center gap-4 my-2"
             >
-              <img src={item?.avatarLink} alt="avatar" className="w-8 h-8" />
+              <img
+                src={`${IMAGE_CDN}/width=32,format=webp,onerror=redirect/${item?.avatarLink}`}
+                alt="avatar"
+                className="w-8 h-8"
+              />
               <div className="text-ellipsis">{item?.username}</div>
             </LinkWithSearchParams>
           </div>
@@ -206,13 +213,13 @@ const Asset = () => {
       setPeers(peer.data);
       let res = await axios.get(`${API_ENDPOINT}/nfts/log/${tokenId}`);
       setLogs(res.data?.reverse());
-      let _price = await getTezosPrice();
+      // let _price = await getTezosPrice();
       // setPrice((_nftItems.price || 0) * _price);
       setNftItem(_nftItems);
       setLoading(false);
     };
     loadNftItem();
-  }, [tokenId, marketState]);
+  }, [tokenId, marketState, activeAddress]);
   return loading ? (
     <div className="max-w-[1024px] mx-auto py-24 sm:px-8 lg:px-0">
       <div className="flex justify-between gap-24">
@@ -263,7 +270,11 @@ const Asset = () => {
   ) : (
     <div className="max-w-[1024px] mx-auto py-24 sm:px-8 lg:px-0">
       <div className="flex gap-24">
-        <img src={nftItem.imageLink} alt="test" className="w-1/2" />
+        <img
+          src={`${IMAGE_CDN}/width=500,format=webp,onerror=redirect/${nftItem.imageLink}`}
+          alt="test"
+          className="w-1/2"
+        />
         <div className="w-1/2 flex flex-col gap-4 justify-between">
           <div className="text-3xl font-normal">{nftItem.name}</div>
           <div>
@@ -273,7 +284,7 @@ const Asset = () => {
             </div>
             <div className="flex gap-2 items-center my-4">
               <img
-                src={nftItem.artistObj?.avatarLink}
+                src={`${IMAGE_CDN}/width=24,format=webp,onerror=redirect/${nftItem.artistObj?.avatarLink}`}
                 alt="user"
                 className="w-6 h-6"
               />

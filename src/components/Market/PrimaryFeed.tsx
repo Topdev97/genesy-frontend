@@ -17,7 +17,7 @@ const SortBoard = (props: propsType) => {
     <div className="absolute top-8 bg-white  w-32 right-0 menu-shadow ">
       <div
         className={`${
-          props.orderBy == 0 ? "bg-gray-200" : ""
+          props.orderBy === 0 ? "bg-gray-200" : ""
         } px-4 py-2 hover:bg-gray-300`}
         onClick={() => {
           props.setOrderBy(0);
@@ -28,7 +28,7 @@ const SortBoard = (props: propsType) => {
       </div>
       <div
         className={`${
-          props.orderBy == 1 ? "bg-gray-200" : ""
+          props.orderBy === 1 ? "bg-gray-200" : ""
         } px-4 py-2 hover:bg-gray-300`}
         onClick={() => {
           props.setOrderBy(1);
@@ -66,7 +66,7 @@ const PrimaryFeed = () => {
       );
       setNftItems(_nftItems);
       setCurrentPage(0);
-      if (_nftItems.length == 0) {
+      if (_nftItems.length === 0) {
         setHasMoreItems(false);
       } else {
         setHasMoreItems(true);
@@ -84,7 +84,7 @@ const PrimaryFeed = () => {
       const { data: _nftItems }: { data: I_NFT[] } = await axios.get(
         `${API_ENDPOINT}/nfts/primary/${orderBy}/${currentPage! + 1}/5`
       );
-      if (_nftItems.length == 0) {
+      if (_nftItems.length === 0) {
         setHasMoreItems(false);
       }
       setNftItems([...nftItems, ..._nftItems]);
@@ -123,7 +123,7 @@ const PrimaryFeed = () => {
         <div className="flex gap-36">
           <div className="flex flex-col w-1/2 gap-10">
             {nftItems
-              ?.filter((word, index) => index % 2 == 0)
+              ?.filter((word, index) => index % 2 === 0)
               ?.map((item, index) => (
                 <div className="flex w-full" key={index}>
                   <CollectCard
@@ -135,7 +135,7 @@ const PrimaryFeed = () => {
           </div>
           <div className="flex flex-col w-1/2 items-end mt-[25%] gap-10">
             {nftItems
-              ?.filter((word, index) => index % 2 == 1)
+              ?.filter((word, index) => index % 2 === 1)
               ?.map((item, index) => (
                 <div className="flex w-full" key={index}>
                   <CollectCard
